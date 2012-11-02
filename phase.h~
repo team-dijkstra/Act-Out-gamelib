@@ -1,0 +1,10 @@
+#ifndef PHASE_H
+#define PHASE_H
+
+#include <string>
+
+class Phase{
+   virtual string name() =0;
+};
+
+#endif
