@@ -1,12 +1,14 @@
-#ifndef ___GAME_H
-#define ___GAME_H
+#ifndef GAME_H
+#define GAME_H
 
 class Game {
-   List<Player> systemPlayers() =0;
-   List<Player> players() =0;
-   SetupGame(List<PlayerNames>) =0;
-   Player winner() =0;
-   Player currentTurn() =0;
-   GameMap currentGame() =0;
+   virtaul List<Player> systemPlayers() =0;
+   virtual List<Player> players() =0;
+   virtual SetupGame(List<PlayerNames>) =0;
+   virtual Player winner() =0;
+   virtual Player currentTurn() =0;
+   virtual GameMap currentGame() =0;
    
 };
+
+#endif

@@ -1,5 +1,5 @@
-#ifndef ___UNIT_H
-#define ___UNIT_H
+#ifndef UNIT_H
+#define UNIT_H
 
 class Unit {
    //accessors
@@ -13,3 +13,5 @@ class Unit {
    virtual List<Action> actions =0;
    
 };
+
+#endif
