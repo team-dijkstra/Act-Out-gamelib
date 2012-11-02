@@ -1,16 +1,25 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include <string>
+#include <vector>
+
+class Territory;
+class Action;
+
 class Unit {
+  public:
+   ~Unit();
+   
    //accessors
-   virtual int increase (Unit u) =0;
-   virtual int decrease (Unit u) =0;
+   virtual int increase (Unit* u) const =0;
+   virtual int decrease (Unit* u) const =0;
 
    //mutators
    virtual int numUnits() =0;
-   virtual Territory whereAt() =0;
-   virtual String name() =0;
-   virtual List<Action> actions =0;
+   virtual Territory* whereAt() =0;
+   virtual std::string name() =0;
+   virtual std::vector<Action> actions =0;
    
 };
 
