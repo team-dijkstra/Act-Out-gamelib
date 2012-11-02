@@ -14,7 +14,7 @@ class Game {
    ~Game();
 
    //accessors
-   virtaul std::vector<Player> systemPlayers() const =0;
+   virtual std::vector<Player> systemPlayers() const =0;
    virtual std::vector<Player> players() const =0;
    virtual Player* winner() const =0;
    virtual Player* currentTurn() const =0;
