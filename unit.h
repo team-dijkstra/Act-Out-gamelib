@@ -9,8 +9,8 @@ class Action;
 
 class Unit {
   public:
-   ~Unit();
-   
+   virtual ~Unit() {}
+
    //accessors
    virtual int increase (Unit* u) const =0;
    virtual int decrease (Unit* u) const =0;
