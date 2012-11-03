@@ -8,7 +8,7 @@ class Phase;
 
 class Action {
   public:
-   ~Action();
+   virtual ~Action() {}
 
    //accessors
    virtual std::string name() const =0;
