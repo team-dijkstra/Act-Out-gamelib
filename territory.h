@@ -9,7 +9,7 @@ class Filter;
 
 class Territory {
   public:
-   ~Territory();
+   virtual ~Territory() {}
 
    //accessors
    virtual Player* owner() const =0;
