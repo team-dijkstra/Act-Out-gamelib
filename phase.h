@@ -5,6 +5,7 @@
 
 class Phase{
   public:
+   virtual ~Phase() {}
    virtual std::string name() const =0;
 };
 
