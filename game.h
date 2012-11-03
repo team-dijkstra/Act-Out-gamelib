@@ -11,7 +11,7 @@ typedef string PlayerName;
 
 class Game {
   public:
-   ~Game();
+   virtual ~Game() {}
 
    //accessors
    virtual std::vector<Player> systemPlayers() const =0;
