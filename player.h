@@ -30,6 +30,8 @@ class Player {
    /// \return the valid actions that this player can perform given
    ///         this filter.
    virtual std::vector<Action> validActions(Filter * f) const =0;
+   //perhaps this should be:
+   //virtual std::vector<Action> validActions(Phase * p) const =0; //?
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
