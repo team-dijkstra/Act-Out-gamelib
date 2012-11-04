@@ -16,7 +16,7 @@ class Action {
 
    //mutators
    virtual void do(int nUnits,Territory* T) =0;
-   
+    
 };
 
 #endif
