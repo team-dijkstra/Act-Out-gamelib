@@ -1,0 +1,10 @@
+language: cpp
+compiler: gcc
+install:
+    - sudo apt-add-repository "deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/"
+    - sudo apt-get -q update
+    - sudo apt-get -q install cppunit valgrind cppcheck sonar
+
+script: make testrunner
+test_script: make test
+
