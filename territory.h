@@ -25,7 +25,7 @@ class Territory {
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   virtual std::vector<Unit> units(Filter* f) const =0;
+   virtual std::vector<Unit*> units(Filter* f) const =0;
 
    //mutators
    /// \param[in] reference to Player object 

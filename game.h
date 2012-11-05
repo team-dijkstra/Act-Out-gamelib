@@ -21,10 +21,10 @@ class Game {
 
    //accessors
    /// \return all the system Players
-   virtual std::vector<Player> systemPlayers() const =0;
+   virtual std::vector<Player*> systemPlayers() const =0;
 
    /// \return all the regular Players
-   virtual std::vector<Player> players() const =0;
+   virtual std::vector<Player*> players() const =0;
 
    /// \return if the game has winner and who it is
    virtual Player* winner() const =0;

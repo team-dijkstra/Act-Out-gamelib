@@ -49,7 +49,7 @@ class Unit {
    virtual std::string name() =0;
 
    /// \return all the possible actions that this unit can perform
-   virtual std::vector<Action> actions =0;
+   virtual std::vector<Action*> actions =0;
    
 };
 

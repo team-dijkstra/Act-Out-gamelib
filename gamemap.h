@@ -34,13 +34,13 @@ class GameMap {
    //
    /// \param reference to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
-   virtual std::vector<Territory> adjacencies(Territory *) const =0;
+   virtual std::vector<Territory*> adjacencies(Territory *) const =0;
 
    /// Finds all Territories that are owned by the specified Player
    //
    /// \param reference to a Player object
    /// \return all Territories owned by the given player
-   virtual std::vector<Territory> players(Player *) const =0;
+   virtual std::vector<Territory*> players(Player *) const =0;
 
    //mutators
    /// Traverses all territories and performs the specified operation
@@ -50,7 +50,7 @@ class GameMap {
    /// \param Territory to start with
    //
    /// \return a list of Territories which have been operated on
-   virtual std::vector<Territory> traverse(Operation * op, Territory * start) =0;
+   virtual std::vector<Territory*> traverse(Operation * op, Territory * start) =0;
    
 };
 

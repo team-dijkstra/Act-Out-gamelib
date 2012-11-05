@@ -11,7 +11,7 @@
 
 class Phase;
 class Action;
-class Filter;
+class Operation;
 
 /// Player Interface Class specified the Player Behaviours
 class Player {
@@ -25,13 +25,11 @@ class Player {
    virtual std::string name() const =0;
 
    /// \return the remaining phases in this players current turn
-   virtual std::vector<Phase> remainingPhases() const =0;
+   virtual std::vector<Phase*> remainingPhases() const =0;
 
    /// \return the valid actions that this player can perform given
    ///         this filter.
-   virtual std::vector<Action> validActions(Filter * f) const =0;
-   //perhaps this should be:
-   //virtual std::vector<Action> validActions(Phase * p) const =0; //?
+   virtual std::vector<Action*> validActions(Operation * op) const =0;
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
