@@ -3,8 +3,7 @@
  */
 
 #include <cppunit/ui/text/TestRunner.h>
-//#include "TestTile.h"
-//#include "TestBoard.h"
+//need to include a header file
 
 int main() {
 	CppUnit::TextUi::TestRunner runner;

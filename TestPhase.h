@@ -2,8 +2,8 @@
  * cpsc 2720 - Project - Phase Test cases
  */
 
-#ifndef __TESTBOARD_H
-#define __TESTBOARD_H
+#ifndef TESTPHASE_H
+#define TESTPHASE_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
