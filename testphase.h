@@ -8,7 +8,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <sstream>
-#include "concretephase.h"
+#include "ConcretePhase.h"
 
 
 /// Class containing the test cases for ConcretePhase. The ConcretePhase
