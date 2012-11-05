@@ -5,10 +5,11 @@
 #include "phase.h"
 #include "action.h"
 #include "operation.h"
+#include "game.h"
 
 class ConcretePlayer {
   public:
-   ConcretePlayer(string nm, );
+   ConcretePlayer(std::string nm, Game * g);
    ~ConcretePlayer() {}
     //accessors
    /// \return true if the player is alive (i.e. still in the

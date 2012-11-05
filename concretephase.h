@@ -5,7 +5,7 @@
 
 class Phase{
   public:
-   Phase();
+   Phase(std::string name);
    ~Phase() {}
 
    //accessor
