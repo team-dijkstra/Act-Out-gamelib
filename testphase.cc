@@ -2,8 +2,6 @@
  * cpsc 2720 - Project - Phase Test cases
  */
 
-#ifndef TESTPHASE_H
-#define TESTPHASE_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -45,4 +43,5 @@ class TestPhase : public CppUnit::TestFixture {
 
 };
 
-#endif
+CPPUNIT_TEST_SUITE_REGISTRATION(TestPhase);
+
