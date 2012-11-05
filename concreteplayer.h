@@ -2,10 +2,11 @@
 #define CONCRETE_PLAYER_H
 
 #include "player.h"
-#include "phase.h"
-#include "action.h"
-#include "operation.h"
-#include "game.h"
+
+class Phase;
+class Action;
+class Operation;
+class Game;
 
 class ConcretePlayer {
   public:
