@@ -11,10 +11,9 @@
 
 class Player;
 class Territory;
+class Operation;
 
 typedef string TerritoryName;
-typedef string operation; // <-unsure what operations there are, will define opeations later
-typedef string check; // <-unsure what checks there should be, will define opeations later
 
 /// The GameMap interface class.
 //
@@ -51,7 +50,7 @@ class GameMap {
    /// \param Territory to start with
    //
    /// \return a list of Territories which have been operated on
-   virtual std::vector<Territory> traverse(operation, check, Territory * start) =0;
+   virtual std::vector<Territory> traverse(Operation * op, Territory * start) =0;
    
 };
 
