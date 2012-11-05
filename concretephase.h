@@ -3,15 +3,17 @@
 
 #include "phase.h"
 
-class ConcretePhase{
+class ConcretePhase : public Phase{
   public:
-   Phase(std::string name);
-   ~Phase() {}
+   ConcretePhase(const std::string & nm);
+   ~ConcretePhase() {}
 
    //accessor
    /// \returns the name of the Phase
    virtual std::string name() const;
 
   private:
-   std::string name;
+   std::string phasename;
 };
+
+#endif

@@ -5,8 +5,8 @@ CXXFLAGS := -Wall -Wextra -ansi -pedantic -std=c++0x -x c++ -O3 -g
 LDFLAGS :=
 TARGETS := nuclient nuserver testrunner
 nuclient_OBJS :=
-nuserver_OBJS :=
-testrunner_OBJS := $(patsubst %.cc,%.o,$(wildcard test*.cc))
+nuserver_OBJS := $(patsubst %.cc,%.o,$(filter-out test%,$(wildcard *.cc))) 
+testrunner_OBJS := $(patsubst %.cc,%.o,$(wildcard test*.cc)) $(nuserver_OBJS)
 testrunner_LIBS := dl cppunit
 
 # functions
@@ -33,7 +33,7 @@ test: testrunner
 	./testrunner
 
 clean:
-	rm -rf *.o $(TARGETS)
+	rm -rf *.o *.d $(TARGETS)
 
 ifneq ($(MAKECMDGOALS),clean)
 include $(wildcard *.d)

@@ -2,9 +2,9 @@
 
 using namespace std;
 
-ConcretePhase::ConcretePhase (string nm): name(nm) {}
+ConcretePhase::ConcretePhase (const string & nm): phasename(nm) {}
 
 string ConcretePhase::name() const
 {
-   return name;
+   return phasename;
 }
