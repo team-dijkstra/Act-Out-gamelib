@@ -3,22 +3,22 @@
 //
 /// Specified behaviour of game units
 
-#ifndef UNIT_H
-#define UNIT_H
+#ifndef FAKEUNIT_H
+#define FAKEUNIT_H
 
-#include <string>
-#include <vector>
+#include "unit.h"
 
 class Territory;
 class Action;
 
 ///An interface to specify the behaviour of the game units
-class Unit {
+class FakeUnit {
   public:
-   virtual ~Unit() {}
+   FakeUnit(int nunit, Territory * t, std::vector<Action*> uActs);
+   ~FakeUnit() {}
 
    //mutators
-   /// Increases the numUnits in this Unit
+   /// Increases the numUnits in this FakeUnit
    //
    /// \param a Unit object
    //
@@ -26,9 +26,9 @@ class Unit {
    ///       numUnits in the passed object.
    /// \return the current numUnits in this object after increase
    ///         method is performed
-   virtual int increase (Unit* u) =0;
+   int increase (Unit* u);
 
-   /// Decreases the numUnits in this Unit
+   /// Decreases the numUnits in this FakeUnit
    //
    /// \param a Unit object
    //
@@ -36,20 +36,27 @@ class Unit {
    ///       numUnits in the passed object.
    /// \return the current numUnits in this object after decrease
    ///         method is performed
-   virtual int decrease (Unit* u) =0;
+   int decrease (Unit* u);
 
    //accessors
    /// \return the current numUnits in this object
-   virtual int numUnits() const =0;
+   int numUnits() const;
 
-   /// \return the Territory where this Unit is located
-   virtual Territory* whereAt() const =0;
+   /// \return the Territory where this FakeUnit is located
+   Territory* whereAt() const;
 
    /// \return the type name of this object
-   virtual std::string name() const =0;
+   std::string name() const;
 
    /// \return all the possible actions that this unit can perform
-   virtual std::vector<Action*> actions() const =0;
+   std::vector<Action*> actions() const;
+
+  private:
+   int nUnits;
+   Territory * tWhere;
+   std::string uName;
+   std::vector<Action*> uActions;
+   
    
 };
 

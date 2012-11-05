@@ -8,7 +8,7 @@ class Action;
 class Operation;
 class Game;
 
-class ConcretePlayer {
+class ConcretePlayer : public Player {
   public:
    ConcretePlayer(std::string nm, Game * g);
    ~ConcretePlayer() {}
