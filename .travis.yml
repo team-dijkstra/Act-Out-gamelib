@@ -1,9 +1,8 @@
 language: cpp
 compiler: gcc
 install:
-    - sudo apt-get -q update
-    - sudo apt-get -q install libcppunit-dev valgrind cppcheck 
+    - sudo apt-get -qq update
+    - sudo apt-get -qq install libcppunit-dev valgrind cppcheck 
 
-script: make testrunner
-test_script: make test
+script: make testrunner && make test
 
