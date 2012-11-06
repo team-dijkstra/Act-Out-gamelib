@@ -30,7 +30,7 @@ class Action {
    /// \param T -- the territory to act on.
    //
    /// \post preforms Action on the specified territory using specifiec number of units
-   virtual void do(int nUnits,Territory* T) =0;
+   virtual void doaction(int nUnits,Territory* T) =0;
     
 };
 
