@@ -65,11 +65,13 @@ $(foreach t,$(TARGETS),$(eval $(call rule_t,$t,$($t_OBJS),$$(call link,$($t_LIBS
 
 %.valgrind: %
 	valgrind --xml-file=$@.err.xml --log-file=$@.log --tool=memcheck $<
-	touch $@
+	@if [ $$CI ]; then cat $@.log; fi
+	@touch $@
 
 %.cppcheck: %
-	cppcheck --template=gcc --xml-version=2 --enable all . > $@.log.xml
-	touch $@
+	cppcheck --template=gcc --xml-version=2 --enable=all . > $@.log.xml
+	@if [ $$CI ]; then cat $@.log.xml; fi
+	@touch $@
 
 check: $(call available_checks,testrunner,$(CHECKS)) ;
 
