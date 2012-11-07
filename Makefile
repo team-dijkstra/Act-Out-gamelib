@@ -18,7 +18,7 @@ compile = $(CC) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(*).d
 link = $(CC) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 .DEFAULT_GOAL := all
-.PHONY: all depend test clean
+.PHONY: all depend test check clean
 
 all: $(TARGETS)
 
@@ -28,7 +28,12 @@ $(foreach t,$(TARGETS),$(eval $(call rule_t,$t,$($t_OBJS),$$(call link,$($t_LIBS
 %.o: %.cc
 	$(compile)
 
-# todo 
+%.valgrind: %
+	valgrind --xml-file=$@.err.xml --log-file=$@.log --tool=memcheck $<
+	touch $@
+
+check: testrunner.valgrind ;
+
 test: testrunner
 	./testrunner
 

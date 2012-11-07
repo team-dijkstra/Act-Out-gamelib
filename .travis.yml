@@ -4,5 +4,5 @@ install:
     - sudo apt-get -qq update
     - sudo apt-get -qq install libcppunit-dev valgrind cppcheck 
 
-script: make testrunner && make test
+script: make testrunner && make check 
 
