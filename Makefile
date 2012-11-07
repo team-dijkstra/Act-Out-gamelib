@@ -64,7 +64,7 @@ $(foreach t,$(TARGETS),$(eval $(call rule_t,$t,$($t_OBJS),$$(call link,$($t_LIBS
 	$(compile)
 
 %.valgrind: %
-	valgrind --xml-file=$@.err.xml --log-file=$@.log --tool=memcheck $<
+	valgrind --xml-file=$@.err.xml --log-file=$@.log --tool=memcheck ./$<
 	@if [ $$CI ]; then cat $@.log; fi
 	@touch $@
 
