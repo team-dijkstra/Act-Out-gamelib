@@ -5,8 +5,8 @@
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include "fakeunit.h"
-#include "faketerritory.h"
+#include "fk_fakeunit.h"
+#include "fk_faketerritory.h"
 
 
 /// Class containing the test cases for ConcreteFakeUnit. The ConcreteFakeUnit
