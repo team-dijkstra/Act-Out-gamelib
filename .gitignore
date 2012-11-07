@@ -1,3 +1,8 @@
+# binaries
+testrunner
+nuclient
+nuserver
+
 # Build files
 *.d
 

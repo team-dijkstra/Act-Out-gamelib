@@ -3,20 +3,41 @@
 
 using namespace std;
 
-FakeUnit::FakeUnit(int nunit, Territory * t,  vector<Action*> uActs):nUnits(nunit), tWhere(t), uActions(uActs){
-   uName = "FakeUnit";
-   
+FakeUnit::FakeUnit(int nunit, Territory * t,  vector<Action*> uActs):nUnits(nunit), tWhere(t), uActions(uActs)
+{
+   uName = "FakeUnit";   
 }
 
-int FakeUnit:: increase (Unit* u){}
+int FakeUnit:: increase (Unit* u)
+{
+   nUnits += u->numUnits();
+   return nUnits;
+}
 
-int FakeUnit::decrease (Unit* u){}
+int FakeUnit::decrease (Unit* u)
+{
+   int tdec = u->numUnits();
+   nUnits = (tdec > nUnits ? 0 : nUnits - tdec);
+   return nUnits;
+}
 
-int FakeUnit::numUnits() const{}
+int FakeUnit::numUnits() const
+{
+   return nUnits;
+}
 
-Territory* FakeUnit::whereAt() const{}
+Territory* FakeUnit::whereAt() const
+{
+   return tWhere;
+}
 
-std::string FakeUnit::name() const{}
+std::string FakeUnit::name() const
+{
+   return uName;
+}
 
-std::vector<Action*> FakeUnit::actions() const{}
+std::vector<Action*> FakeUnit::actions() const
+{
+   return uActions;
+}
 

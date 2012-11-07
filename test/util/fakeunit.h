@@ -56,8 +56,7 @@ class FakeUnit {
    Territory * tWhere;
    std::string uName;
    std::vector<Action*> uActions;
-   
-   
+
 };
 
 #endif
