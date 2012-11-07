@@ -4,9 +4,9 @@
 using namespace std;
 
 //FakeUnit::FakeUnit(int nunit, Territory * t,  vector<Action*> uActs):nUnits(nunit), tWhere(t), uActions(uActs)
-FakeUnit::FakeUnit(int nunit, Territory * t):nUnits(nunit), tWhere(t)
+FakeUnit::FakeUnit(int nunit, Territory * t, string s):nUnits(nunit), tWhere(t), uName(s)
 {
-   uName = "FakeUnit";   
+   //uName = "FakeUnit";   
 }
 
 int FakeUnit:: increase (Unit* u)

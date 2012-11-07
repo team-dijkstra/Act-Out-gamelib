@@ -8,9 +8,9 @@ class FilterByAllUnitTypes : public Filter {
   public:
    FilterByAllUnitTypes(Unit *);
    ~FilterByAllUnitTypes(){}
-   //mutators
-   bool operator()(Unit *);
-   std::string name();
+   //accessors
+   bool operator()(Unit *) const;
+   std::string name() const;
 
   private:
    std::string fName;

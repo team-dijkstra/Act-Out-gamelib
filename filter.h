@@ -10,10 +10,9 @@ class Unit;
 class Filter {
   public:
    ~Filter(){}
-   //mutators
-   virtual bool operator()(Unit *) =0;
    //accessor
-   virtual std::string name() =0;
+   virtual bool operator()(Unit *) const =0;
+   virtual std::string name() const =0;
 
 };
 

@@ -7,12 +7,10 @@ class FilterByUnitType : public Filter {
   public:
    FilterByUnitType(Unit * u);
    ~FilterByUnitType(){}
-   //mutators
-   bool operator()(Unit *);
-
    //accessor
-   std::string name();
-
+   std::string name() const;
+   bool operator()(Unit *) const;
+   
   private:
    Unit * unitType;
    std::string fName;
