@@ -12,9 +12,10 @@ class Territory;
 class Action;
 
 ///An interface to specify the behaviour of the game units
-class FakeUnit {
+class FakeUnit : public Unit{
   public:
-   FakeUnit(int nunit, Territory * t, std::vector<Action*> uActs);
+//   FakeUnit(int nunit, Territory * t, std::vector<Action*> uActs);
+   FakeUnit(int nunit, Territory * t);
    ~FakeUnit() {}
 
    //mutators

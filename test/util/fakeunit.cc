@@ -3,7 +3,8 @@
 
 using namespace std;
 
-FakeUnit::FakeUnit(int nunit, Territory * t,  vector<Action*> uActs):nUnits(nunit), tWhere(t), uActions(uActs)
+//FakeUnit::FakeUnit(int nunit, Territory * t,  vector<Action*> uActs):nUnits(nunit), tWhere(t), uActions(uActs)
+FakeUnit::FakeUnit(int nunit, Territory * t):nUnits(nunit), tWhere(t)
 {
    uName = "FakeUnit";   
 }
