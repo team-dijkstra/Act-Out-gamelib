@@ -15,7 +15,7 @@ class Action;
 class FakeUnit : public Unit{
   public:
 //   FakeUnit(int nunit, Territory * t, std::vector<Action*> uActs);
-   FakeUnit(int nunit, Territory * t);
+   FakeUnit(int nunit, Territory * t, std::string s="FakeUnit");
    ~FakeUnit() {}
 
    //mutators

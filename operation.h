@@ -7,7 +7,7 @@ class Operation {
   public:
    virtual ~Operation {}
    //mutators
-   virtual bool doaction(Territory) =0; 
+   virtual bool operator()(Territory *) =0; 
    
 };
 
