@@ -9,7 +9,9 @@ nuserver_OBJS := $(patsubst %.cc,%.o,$(filter-out test%,$(wildcard *.cc)))
 testrunner_OBJS := $(patsubst %.cc,%.o,$(wildcard test*.cc)) $(nuserver_OBJS)
 testrunner_LIBS := dl cppunit
 
-CHECKS := cppcheck valgrind
+CHECKS := cppunit cppcheck valgrind
+ASSUME_CHECKS := cppunit
+PATHS = $(call unpack,$(PATH) $(cclibdir))
 
 # functions
 
@@ -19,6 +21,11 @@ space +=
 define unpack
 $(subst :,$(space),$1)
 endef
+
+define eq
+$(filter $1,$2)
+endef
+
 #
 # $1 - the file to find
 # $2 - the list of paths to search
@@ -26,7 +33,7 @@ endef
 # returns the set of paths the file was found on, nothing otherwise.
 #
 define path_find 
-$(strip $(foreach path,$2,$(wildcard $(path)/$1)))
+$(strip $(foreach path,$2,$(wildcard $(path)/*$1*)))
 endef
 
 #
@@ -36,11 +43,12 @@ endef
 #
 # $1 - the name of the program to add checks to.
 # $2 - the list of checks to add to the specified program.
+# $3 - a list of paths to search
 #
 define available_checks 
 $(strip $(foreach check,$2,\
-$(if $(call path_find,$(check),\
-$(call unpack,$(PATH))),$1.$(check),\
+$(if $(call path_find,$(check),$3),\
+$1.$(check),\
 $(warning $(check) not available. check skipped.))))
 endef
 
@@ -48,6 +56,8 @@ define rule_t
 $1: $2
 	$3
 endef
+
+cclibdir := $(patsubst =%,%,$(word 6,$(shell $(CC) -print-search-dirs)))
 
 compile = $(CC) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(*).d
 link = $(CC) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
@@ -63,6 +73,11 @@ $(foreach t,$(TARGETS),$(eval $(call rule_t,$t,$($t_OBJS),$$(call link,$($t_LIBS
 %.o: %.cc
 	$(compile)
 
+%.cppunit: %
+	./$< > $@.log
+	@if [ $$CI ]; then cat $@.log; fi
+	@touch $@
+
 %.valgrind: %
 	valgrind --xml-file=$@.err.xml --log-file=$@.log --tool=memcheck ./$<
 	@if [ $$CI ]; then cat $@.log; fi
@@ -73,13 +88,18 @@ $(foreach t,$(TARGETS),$(eval $(call rule_t,$t,$($t_OBJS),$$(call link,$($t_LIBS
 	@if [ $$CI ]; then cat $@.log.xml; fi
 	@touch $@
 
-check: $(call available_checks,testrunner,$(CHECKS)) ;
+ifeq ($(MAKECMDGOALS),check)
+check: $(call available_checks,testrunner,$(CHECKS),$(PATHS)) ;
+endif
 
-test: testrunner
-	./testrunner
+test: testrunner.cppunit
+	@echo Testing ran successfully.
 
 clean:
-	rm -rf *~ *.o *.d $(TARGETS) $(patsubst %,*.%*,$(CHECKS))
+	rm -rf *~ *.o $(TARGETS) 
+
+clean-all: clean
+	rm -rf *.d $(patsubst %,*.%*,$(CHECKS))
 
 ifneq ($(MAKECMDGOALS),clean)
 include $(wildcard *.d)
