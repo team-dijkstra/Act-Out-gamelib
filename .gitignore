@@ -1,3 +1,10 @@
+#directories
+.msdir
+log
+bin
+obj
+doc
+
 # binaries
 testrunner
 nuclient

@@ -69,7 +69,7 @@ endef
 # the library path searched by the compiler
 cclibpath := $(patsubst =%,%,$(word 6,$(shell $(CXX) -print-search-dirs)))
 
-compile = $(CXX) $(patsubst %,-I%,$(INCLUDE)) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)
+compile = $(CXX) $(addprefix -I,$(INCLUDE)) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)
 link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 # install search paths
@@ -105,7 +105,7 @@ $(MSDIR)/%.valgrind: % | $(MSDIR) $(LOGDIR)
 
 # TODO: does cppcheck actually need to build? or does it just use the source?
 $(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
-	cppcheck --template=gcc --xml-version=2 --enable=all . > $(LOGDIR)/$(@F).log.xml
+	cppcheck $(addprefix -I ,$(INCLUDE)) --template gcc --xml-version=2 --error-exitcode=1 --inline-suppr --enable=all . > $(LOGDIR)/$(@F).log.xml
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
 	@touch $@
 
