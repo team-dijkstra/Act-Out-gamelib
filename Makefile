@@ -17,7 +17,7 @@ testutil_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard test/util/*.cc)))
 testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard test/*.cc))) $(testutil_OBJS) $(nuserver_OBJS)
 testrunner_LIBS := dl cppunit
 
-check_PROGS := cppunit cppcheck valgrind
+check_PROGS := cppunit cppcheck valgrind cppncss
 
 # functions
 
@@ -105,9 +105,14 @@ $(MSDIR)/%.valgrind: % | $(MSDIR) $(LOGDIR)
 
 # TODO: does cppcheck actually need to build? or does it just use the source?
 $(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
-	cppcheck $(addprefix -I ,$(INCLUDE)) --template gcc --xml-version=2 --error-exitcode=1 --inline-suppr --enable=all . > $(LOGDIR)/$(@F).log.xml
+	cppcheck $(addprefix -I ,$(INCLUDE)) --template gcc --xml-version=2 --error-exitcode=1 --inline-suppr --enable=all . 2> $(LOGDIR)/$(@F).log.xml
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
 	@touch $@
+
+$(MSDIR)/%.cppncss: % | $(MSDIR) $(LOGDIR)
+	cppncss -xml -f=$(LOGDIR)/$(@F).log.xml src include test test/util
+	@ if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
+	@ touch $@
 
 ifeq ($(MAKECMDGOALS),check)
 check: $(addprefix $(MSDIR)/testrunner.,$(call available_checks,$(check_PROGS),$(call unpack,$(PATH)))) ;

@@ -2,7 +2,10 @@ language: cpp
 compiler: gcc
 install:
     - sudo apt-get -qq update
-    - sudo apt-get -qq install libcppunit-dev valgrind cppcheck 
+    - sudo apt-get -qq install libcppunit-dev valgrind cppcheck
+    - curl -L -o /tmp/cppncss.tar.gz http://sourceforge.net/projects/cppncss/files/cppncss/1.0.3/cppncss-1.0.3.tar.gz
+    - tar -C /tmp -xzf /tmp/cppncss.tar.gz
 
-script: make && make check 
-
+script: make && make -k check 
+env:
+    - PATH=$PATH:/tmp/cppncss-1.0.3/bin
