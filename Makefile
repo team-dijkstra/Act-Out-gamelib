@@ -1,6 +1,6 @@
 
 # config variables
-CC := g++
+CXX := g++
 INCLUDE := include test test/util
 CXXFLAGS := -Wall -Wextra -ansi -pedantic -std=c++0x -x c++ -O3 -g
 LDFLAGS :=
@@ -10,15 +10,14 @@ DOCDIR := doc
 MSDIR := .msdir
 LOGDIR := log
 
-PROGS := nuclient nuserver testrunner
+PROGS := testrunner # nuclient nuserver
 nuclient_OBJS :=
 nuserver_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard src/*.cc)))
 testutil_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard test/util/*.cc)))
 testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard test/*.cc))) $(testutil_OBJS) $(nuserver_OBJS)
 testrunner_LIBS := dl cppunit
 
-check_PROGS := cppcheck valgrind
-check_LIBS := cppunit
+check_PROGS := cppunit cppcheck valgrind
 
 # functions
 
@@ -44,7 +43,7 @@ endef
 # returns the set of paths the file was found on, nothing otherwise.
 #
 define path_find 
-$(strip $(foreach path,$2,$(wildcard $(path)*$1*)))
+$(strip $(foreach path,$2,$(wildcard $(abspath $(path))/*$1*)))
 endef
 
 #
@@ -67,21 +66,23 @@ $1: $2
 	$3
 endef
 
-cclibdir := $(abspath $(patsubst =%,%,$(word 6,$(shell $(CC) -print-search-dirs))))
+# the library path searched by the compiler
+cclibpath := $(patsubst =%,%,$(word 6,$(shell $(CXX) -print-search-dirs)))
 
-compile = $(CC) $(patsubst %,-I%,$(INCLUDE)) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)
-link = $(CC) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
+compile = $(CXX) $(patsubst %,-I%,$(INCLUDE)) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)
+link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 # install search paths
 vpath %.cc src:test:test/util
 vpath %.o $(OBJDIR)
+vpath %.d $(OBJDIR)
 $(foreach milestone,$(check_PROGS),$(eval vpath %.$(milestone) $(MSDIR)))
-$(foreach t,$(PROGS),$(eval vpath $t $(BINDIR)))
+vpath % $(BINDIR)
 
 .DEFAULT_GOAL := all
-.PHONY: all depend test check clean
+.PHONY: all depend test check clean clean-all
 
-all: $(PROGS)
+all: $(addprefix $(BINDIR)/,$(PROGS))
 
 # generate target link rules
 $(foreach t,$(PROGS),$(eval $(call rule_t,$(BINDIR)/$t,$(addprefix $(OBJDIR)/,$($t_OBJS)) | $(BINDIR),$$(call link,$($t_LIBS)))))
@@ -93,26 +94,27 @@ $(OBJDIR)/%.o: %.cc | $(OBJDIR)
 	$(compile)
 
 $(MSDIR)/%.cppunit: % | $(MSDIR) $(LOGDIR)
-	./$< > $(LOGDIR)/$(@F).log
+	$< > $(LOGDIR)/$(@F).log
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
 	@touch $@
 
 $(MSDIR)/%.valgrind: % | $(MSDIR) $(LOGDIR)
-	valgrind --xml-file=$(LOGDIR)/$(@F).err.xml --log-file=$(LOGDIR)/$(@F).log --tool=memcheck ./$<
+	valgrind --xml-file=$(LOGDIR)/$(@F).err.xml --log-file=$(LOGDIR)/$(@F).log --tool=memcheck $<
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
 	@touch $@
 
+# TODO: does cppcheck actually need to build? or does it just use the source?
 $(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
 	cppcheck --template=gcc --xml-version=2 --enable=all . > $(LOGDIR)/$(@F).log.xml
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
 	@touch $@
 
 ifeq ($(MAKECMDGOALS),check)
-check: $(addprefix $(MSDIR)/testrunner.,$(call available_checks,$(check_PROGS),$(call unpack,$(PATH))) $(call available_checks,$(check_LIBS),$(call unpack,$(cclibdir)))) ;
+check: $(addprefix $(MSDIR)/testrunner.,$(call available_checks,$(check_PROGS),$(call unpack,$(PATH)))) ;
 endif
 
 test: $(MSDIR)/testrunner.cppunit
-	@echo Testing ran successfully.
+	@echo Testing ran successfully. See the logs in the $(LOGDIR) directory.
 
 clean:
 	rm -rf *~ $(OBJDIR)/*.o $(BINDIR)/*
