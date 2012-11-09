@@ -3,7 +3,7 @@
 make -q check
 STATUS=$?
 
-if [ $STATUS ]; then
+if [ $STATUS -eq 0 ]; then
     echo "[POLICY] Looks good."
 else
     echo "[POLICY] Always run 'make check' before committing."
