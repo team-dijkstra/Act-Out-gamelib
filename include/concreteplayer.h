@@ -5,7 +5,7 @@
 
 class Phase;
 class Action;
-class Operation;
+class TerritoryOperation;
 class Game;
 
 class ConcretePlayer : public Player {
@@ -26,7 +26,7 @@ class ConcretePlayer : public Player {
 
    /// \return the valid actions that this player can perform given
    ///         this filter.
-   std::vector<Action*> validActions(Operation * op) const;
+   std::vector<Action*> validActions(TerritoryOperation * op) const;
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached

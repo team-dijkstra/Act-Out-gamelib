@@ -11,7 +11,7 @@
 
 class Phase;
 class Action;
-class Operation;
+class TerritoryOperation;
 
 /// Player Interface Class specified the Player Behaviours
 class Player {
@@ -29,7 +29,7 @@ class Player {
 
    /// \return the valid actions that this player can perform given
    ///         this filter.
-   virtual std::vector<Action*> validActions(Operation * op) const =0;
+   virtual std::vector<Action*> validActions(TerritoryOperation * op) const =0;
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
