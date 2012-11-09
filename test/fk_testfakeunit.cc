@@ -49,6 +49,10 @@ public:
    void tearDown() {
       delete fakeUnitA;
       delete fakeUnitB;
+      delete fakeUnitC;
+      delete t1;
+      delete t2;
+      
    }
 
    /// \test ensure that the fakeUnit names are correctly reported

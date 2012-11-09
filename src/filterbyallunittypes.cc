@@ -1,9 +1,8 @@
 #include "filterbyallunittypes.h"
 #include "unit.h"
 
-FilterByAllUnitTypes::FilterByAllUnitTypes( Unit * u ) : unitType(u)
+FilterByAllUnitTypes::FilterByAllUnitTypes( Unit * u ) : unitType(u), fName("AllUnits")
 {
-   fName = "AllUnits";
 }
 
 bool FilterByAllUnitTypes::operator()(Unit * unit) const
