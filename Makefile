@@ -9,6 +9,8 @@ BINDIR := bin
 DOCDIR := doc
 MSDIR := .msdir
 LOGDIR := log
+# defines what <error> severity attibutes will trigger a build error.
+CPPCHECK_SEVERITY_ERR := error warning style
 
 PROGS := testrunner # nuclient nuserver
 nuclient_OBJS :=
@@ -19,6 +21,8 @@ testrunner_LIBS := dl cppunit
 
 check_PROGS := cppunit cppcheck valgrind cppncss
 
+# add scripts to the path
+export PATH := $(PATH):$(realpath scripts)
 # functions
 
 space :=
@@ -105,8 +109,9 @@ $(MSDIR)/%.valgrind: % | $(MSDIR) $(LOGDIR)
 
 # TODO: does cppcheck actually need to build? or does it just use the source?
 $(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
-	cppcheck $(addprefix -I ,$(INCLUDE)) --template gcc --xml-version=2 --error-exitcode=0 --inline-suppr --enable=all . 2> $(LOGDIR)/$(@F).log.xml
+	cppcheck $(addprefix -I ,$(INCLUDE)) -i test --template gcc --xml-version=2 --error-exitcode=0 --inline-suppr --enable=all . 2> $(LOGDIR)/$(@F).log.xml
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
+	@cppcheck-severity $(LOGDIR)/$(@F).log.xml $(CPPCHECK_SEVERITY_ERR)
 	@touch $@
 
 $(MSDIR)/%.cppncss: % | $(MSDIR) $(LOGDIR)
@@ -124,8 +129,13 @@ test: $(MSDIR)/testrunner.cppunit
 clean:
 	rm -rf *~ $(OBJDIR)/*.o $(BINDIR)/*
 
-clean-all: clean
-	rm -rf $(OBJDIR)/*.d $(MSDIR)/* $(LOGDIR)/* $(DOCDIR)/*
+# TODO: this could use a better name
+clean-commit: clean
+	rm -rf $(OBJDIR)/*.d $(DOCDIR)/* 
+
+clean-all: clean-commit
+	rm -rf $(MSDIR)/* $(LOGDIR)/*
+
 
 ifneq ($(MAKECMDGOALS),clean)
 include $(wildcard $(OBJDIR)/*.d)

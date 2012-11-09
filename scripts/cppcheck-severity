@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+LOGFILE=$1
+shift
+GREPEXPR="severity=\\("`echo $* | sed 's/^ *//; s/ *$//; s/\b/"/g; s/  */\\\\|/g'`"\\)"
+
+! grep -e $GREPEXPR $LOGFILE > /dev/null 2>&1
+
