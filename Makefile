@@ -105,7 +105,7 @@ $(MSDIR)/%.valgrind: % | $(MSDIR) $(LOGDIR)
 
 # TODO: does cppcheck actually need to build? or does it just use the source?
 $(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
-	cppcheck $(addprefix -I ,$(INCLUDE)) --template gcc --xml-version=2 --error-exitcode=1 --inline-suppr --enable=all . 2> $(LOGDIR)/$(@F).log.xml
+	cppcheck $(addprefix -I ,$(INCLUDE)) --template gcc --xml-version=2 --error-exitcode=0 --inline-suppr --enable=all . 2> $(LOGDIR)/$(@F).log.xml
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
 	@touch $@
 
