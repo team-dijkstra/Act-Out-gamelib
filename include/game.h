@@ -12,7 +12,7 @@
 class Player;
 class GameMap;
 
-typedef string PlayerName;
+typedef std::string PlayerName;
 
 /// Game Interface class specifies the bahavior of the game object
 class Game {
