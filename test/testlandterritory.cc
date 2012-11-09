@@ -15,6 +15,7 @@ class TestTerritory : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestTerritory);
    CPPUNIT_TEST(territoryname_should_be_as_constructed);
    CPPUNIT_TEST(territoryowner_should_be_as_constructed);
+   CPPUNIT_TEST(territory_owner_should_be_changed_by_mutator);
    CPPUNIT_TEST_SUITE_END();
    
 private:
@@ -54,7 +55,10 @@ public:
       CPPUNIT_ASSERT(territoryB->owner() == ply2);
    }
 
-   
+   void territory_owner_should_be_changed_by_mutator()  {
+      territoryA->owner(ply2);
+      CPPUNIT_ASSERT(territoryA->owner() == ply2);
+   }
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestTerritory);

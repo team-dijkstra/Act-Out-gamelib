@@ -17,8 +17,11 @@ std::string LandTerritory::name() const
    return tName;
 }
 
+/// \todo  build factoryunit in constructor...
 std::vector<Unit*> LandTerritory::units(Filter* f) const
 {}
 
-void LandTerritory::owner(Player*)
-{}
+void LandTerritory::owner(Player* p)
+{
+   tOwner = p;
+}
