@@ -8,10 +8,14 @@ LandTerritory::LandTerritory(std::string nm, Player* own = NULL):tName(nm), tOwn
 {}
 
 Player* LandTerritory::owner() const
-{}
+{
+   return tOwner;
+}
 
 std::string LandTerritory::name() const
-{}
+{
+   return tName;
+}
 
 std::vector<Unit*> LandTerritory::units(Filter* f) const
 {}

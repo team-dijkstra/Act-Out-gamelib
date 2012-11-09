@@ -43,14 +43,15 @@ public:
 
    /// \test ensure that the territory names are correctly reported
    void territoryname_should_be_as_constructed()  {
-      //CPPUNIT_ASSERT(territoryA->name() == "Spain");
-      //CPPUNIT_ASSERT(territoryB->name() == "Canada");
+      std::string a="Spain", b="Canada";
+      CPPUNIT_ASSERT(territoryA->name() == a);
+      CPPUNIT_ASSERT(territoryB->name() == b);
    }
 
    /// \test ensure that the territory players are correct
    void territoryowner_should_be_as_constructed()  {
-      //CPPUNIT_ASSERT(territoryA->owner() == ply1);
-      //CPPUNIT_ASSERT(territoryB->owner() == ply2);
+      CPPUNIT_ASSERT(territoryA->owner() == ply1);
+      CPPUNIT_ASSERT(territoryB->owner() == ply2);
    }
 
    
