@@ -12,7 +12,7 @@
 /// An interface class to represent a Territory 
 class FakeTerritory : public Territory{
   public:
-   FakeTerritory(std::string & n):tName(n){}
+  FakeTerritory(std::string & n, Player * own = NULL):tName(n), tOwner(own){}
    ~FakeTerritory() {}
 
    //accessors

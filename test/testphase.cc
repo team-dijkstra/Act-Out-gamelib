@@ -23,6 +23,8 @@ class TestPhase : public CppUnit::TestFixture {
   public:
    // initialization for the test phase
    void setUp() {
+      delete phaseA;
+      delete phaseB;
       phaseA = new ConcretePhase(std::string("Marshal Forces"));
       phaseB = new ConcretePhase(std::string("Attack"));
    }
