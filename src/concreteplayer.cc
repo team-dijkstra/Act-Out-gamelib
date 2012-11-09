@@ -1,4 +1,8 @@
 #include "concreteplayer.h"
+#include "action.h"
+#include "phase.h"
+#include "territoryoperation.h"
+#include "game.h"
 
 ConcretePlayer::ConcretePlayer(std::string nm):pName(nm),isAlive(true)
 {}
@@ -17,9 +21,9 @@ std::vector<Phase*> ConcretePlayer::remainingPhases() const{}
 
 /// \return the valid actions that this player can perform given
 ///         this filter.
-std::vector<Action*> ConcretePlayer::validActions(Operation * op) const{}
+std::vector<Action*> ConcretePlayer::validActions(TerritoryOperation * op) const{}
 
 //Mutator
-/// \post moves to the next phase, it the last phase is reached
+/// \post moves to the next phase, if the last phase is reached
 ///       reset to the first phase
 void ConcretePlayer::nextPhase(){}
