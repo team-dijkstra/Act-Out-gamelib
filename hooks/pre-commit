@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+make -q check
+STATUS = $?
+
+if [ $STATUS ]; then
+    echo "[POLICY] Looks good."
+else
+    echo "[POLICY] Always run 'make check' before committing."
+    echo "[POLICY] To skip this check, use '--no-verify' (not recommended)."
+fi
+
+return $STATUS
