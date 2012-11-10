@@ -9,10 +9,16 @@ int BuilderUnit::increase (Unit* u){}
 
 int BuilderUnit::decrease (Unit* u){}
 
-int BuilderUnit::numUnits() const{}
+int BuilderUnit::numUnits() const{
+   return nUnits;
+}
 
-Territory* BuilderUnit::whereAt() const{}
+Territory* BuilderUnit::whereAt() const{
+   return uTerritory;
+}
 
-std::string BuilderUnit::name() const{}
+std::string BuilderUnit::name() const{
+   return uName;
+}
 
 std::vector<Action*> BuilderUnit::actions() const{}
