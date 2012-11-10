@@ -59,6 +59,13 @@ public:
       territoryA->owner(ply2);
       CPPUNIT_ASSERT(territoryA->owner() == ply2);
    }
+
+   /// \todo add test for units() function
+   void territory_unit_should_return_a_vector()  {
+      //   territoryA->owner(ply2);
+      //CPPUNIT_ASSERT(territoryA->owner() == ply2);
+   }
+   
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestTerritory);
