@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
 
-make -q check
-STATUS=$?
+# ensures that 'make check' has been run.
+function ensure_check {
+    
+    make -q check
+    local STATUS=$?
 
-if [ $STATUS -eq 0 ]; then
-    echo "[POLICY] Looks good."
-else
-    echo "[POLICY] Always run 'make check' before committing."
-    echo "[POLICY] To skip this check, use '--no-verify' (not recommended)."
-fi
+    if [ $STATUS -eq 0 ]; then
+        echo "[POLICY] Looks good."
+    else
+        echo "[POLICY] Always run 'make check' before committing."
+        echo "[POLICY] To skip this check, use '--no-verify' (not recommended)."
+    fi
 
-exit $STATUS
+    exit $STATUS
+}
+
+ensure_check
+
