@@ -2,12 +2,18 @@
 #include "territory.h"
 #include "action.h"
 
-BuilderUnit::BuilderUnit(int nunit, Territory * t): nUnits(nunit), uTerritory(t), uName("BuilderUnit")
+BuilderUnit::BuilderUnit(Territory * t, int nunit=1):  uTerritory(t), nUnits(nunit), uName("BuilderUnit")
 {}
 
-int BuilderUnit::increase (Unit* u){}
+int BuilderUnit::increase (Unit* u)
+{
+   return numUnits();
+}
 
-int BuilderUnit::decrease (Unit* u){}
+int BuilderUnit::decrease (Unit* u)
+{
+   return numUnits();
+}
 
 int BuilderUnit::numUnits() const{
    return nUnits;

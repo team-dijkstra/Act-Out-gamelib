@@ -13,8 +13,10 @@ class FilterByAllUnitTypes : public Filter {
    std::string name() const;
 
   private:
-   std::string fName;
+
    Unit * unitType;
+   std::string fName;
+   
 };
 
 #endif

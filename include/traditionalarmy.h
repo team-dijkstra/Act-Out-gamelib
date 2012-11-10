@@ -3,16 +3,16 @@
 //
 /// Specified behaviour of game units
 
-#ifndef BUILDER_UNIT_H
-#define BUILDER_UNIT_H
+#ifndef TRADITIONAL_ARMY_H
+#define TRADITIONAL_ARMY_H
 
 #include "unit.h"
 
 ///An interface to specify the behaviour of the game units
-class BuilderUnit : public Unit {
+class TraditionalArmy : public Unit {
   public:
-   BuilderUnit(Territory *, int );
-   ~BuilderUnit() {}
+  TraditionalArmy(int, Territory * );
+   ~TraditionalArmy() {}
 
    //mutators
    /// Increases the numUnits in this Unit
@@ -49,9 +49,8 @@ class BuilderUnit : public Unit {
    std::vector<Action*> actions() const;
 
   private:
-
-   Territory * uTerritory;
    int nUnits;
+   Territory * uTerritory;
    std::string uName;
    std::vector<Action*> uActions;
    

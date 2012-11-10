@@ -30,9 +30,9 @@ class LandTerritory : public Territory{
    void owner(Player*);
 
   private:
-
-   Player * tOwner;
+   
    std::string tName;
+   Player * tOwner;
    std::vector<Unit*> tUnits;
    
 };

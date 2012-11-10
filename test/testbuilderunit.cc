@@ -37,8 +37,8 @@ class TestUnit : public CppUnit::TestFixture {
       p2 = new ConcretePlayer(std::string("player2"));
       t1 = new LandTerritory(std::string("Spain"),p1);
       t2 = new LandTerritory(std::string("Canada"),p2);
-      unitA = new BuilderUnit(1,t1);
-      unitB = new BuilderUnit(3,t2);
+      unitA = new BuilderUnit(t1, 1);
+      unitB = new BuilderUnit(t2,3);
    }
 
    // frees memory for the units
