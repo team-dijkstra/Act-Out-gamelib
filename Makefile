@@ -70,6 +70,22 @@ $1: $2
 	$3
 endef
 
+#
+# Creates links to all files in directory $1, in directory $2, that don't
+# already exist in directory $2
+#
+# $1 - the name of the source directory.
+# $2 - the name of the destination directory.
+#
+define create-links
+$(foreach hook,\
+$(filter-out $(shell ls $2),$(shell ls $1)),\
+$(shell ln -s -t $2 $(realpath $1/$(hook)))$(info installed $(hook) hook.)) 
+endef
+
+# automagically install git-hooks.
+$(call create-links,hooks,.git/hooks)
+
 # the library path searched by the compiler
 cclibpath := $(patsubst =%,%,$(word 6,$(shell $(CXX) -print-search-dirs)))
 
