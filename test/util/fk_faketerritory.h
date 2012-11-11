@@ -24,12 +24,13 @@ class FakeTerritory : public Territory{
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   std::vector<Unit*> units(Filter* f) const{}
+   unitContainer units(Filter* f) const{}
 
    //mutators
    /// \param[in] reference to Player object 
    /// \post sets Territory owner to the passed Player object
    void owner(Player*){}
+   void addUnit(Unit*){}
 
   private:
    std::string tName;

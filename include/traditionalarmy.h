@@ -11,7 +11,7 @@
 ///An interface to specify the behaviour of the game units
 class TraditionalArmy : public Unit {
   public:
-  TraditionalArmy(int, Territory * );
+   TraditionalArmy(Territory *, int nunit=1);
    ~TraditionalArmy() {}
 
    //mutators

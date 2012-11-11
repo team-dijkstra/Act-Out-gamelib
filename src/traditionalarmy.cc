@@ -2,7 +2,7 @@
 #include "territory.h"
 #include "action.h"
 
-TraditionalArmy::TraditionalArmy(int nunit, Territory * t): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
+TraditionalArmy::TraditionalArmy(Territory * t, int nunit): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {}
 
 /// \todo implement increase units

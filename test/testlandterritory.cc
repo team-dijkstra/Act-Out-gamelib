@@ -10,6 +10,7 @@
 #include "filterbyallunittypes.h"
 #include "builderunit.h"
 #include "traditionalarmy.h"
+#include <map>
 
 
 /// Class containing the test cases for LandTerritory. The LandTerritory
@@ -20,6 +21,7 @@ class TestTerritory : public CppUnit::TestFixture {
    CPPUNIT_TEST(territoryowner_should_be_as_constructed);
    CPPUNIT_TEST(territory_owner_should_be_changed_by_mutator);
    CPPUNIT_TEST(territory_unit_should_return_a_vector);
+   CPPUNIT_TEST(territory_should_not_add_new_unit_of_existing_unit_type);
    CPPUNIT_TEST_SUITE_END();
    
 private:
@@ -67,13 +69,27 @@ public:
    /// \todo add test for different types of units in units() function
    void territory_unit_should_return_a_vector()  {
       
-      std::vector<Unit*> a;
+      Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
 	 
       Filter * fi = new FilterByAllUnitTypes(u) ;
       a = territoryA->units(fi);
       //   territoryA->owner(ply2);
       CPPUNIT_ASSERT(a.size() != 0);
+   }
+
+   void territory_should_not_add_new_unit_of_existing_unit_type(){
+      Territory::unitContainer a;
+      Unit * u = new BuilderUnit(territoryA,1);
+      Unit * u2 = new BuilderUnit(territoryA,1);
+      Filter * fi = new FilterByAllUnitTypes(u) ;
+      territoryA->addUnit(u2);
+      a = territoryA->units(fi);
+      Territory::unitContainer::iterator it;
+      it = a.find("BuilderUnit");
+      CPPUNIT_ASSERT(a.size() != 2);
+      CPPUNIT_ASSERT(it->second->numUnits() == 2);
+      
    }
    
 };

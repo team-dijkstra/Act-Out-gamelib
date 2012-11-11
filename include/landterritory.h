@@ -5,6 +5,7 @@
 #ifndef LAND_TERRITORY_H
 #define LAND_TERRITORY_H
 
+#include <map>
 #include "territory.h"
 
 /// An interface class to represent a Territory 
@@ -22,18 +23,21 @@ class LandTerritory : public Territory{
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   std::vector<Unit*> units(Filter* f) const;
+   unitContainer units(Filter* f) const;
 
    //mutators
    /// \param[in] reference to Player object 
    /// \post sets Territory owner to the passed Player object
    void owner(Player*);
 
+   /// \todo possible better method
+   void addUnit(Unit *);
+
   private:
    
    std::string tName;
    Player * tOwner;
-   std::vector<Unit*> tUnits;
+   unitContainer tUnits;
    
 };
 

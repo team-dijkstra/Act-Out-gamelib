@@ -8,7 +8,8 @@
 LandTerritory::LandTerritory(std::string nm, Player* own = NULL):tName(nm), tOwner(own)
 {
    Unit * tmp = new BuilderUnit(this,1);
-   tUnits.push_back(tmp);
+   std::string s=tmp->name();
+   tUnits[s]=tmp;
 }
 
 Player* LandTerritory::owner() const
@@ -23,7 +24,7 @@ std::string LandTerritory::name() const
 
 /// \todo  build factoryunit in constructor...
 /// \todo  use filter to restrict units returned
-std::vector<Unit*> LandTerritory::units(Filter* f) const
+LandTerritory::unitContainer LandTerritory::units(Filter* f) const
 {
    return tUnits;
 }
@@ -31,4 +32,15 @@ std::vector<Unit*> LandTerritory::units(Filter* f) const
 void LandTerritory::owner(Player* p)
 {
    tOwner = p;
+}
+
+void LandTerritory::addUnit(Unit * u)
+{
+   unitContainer::iterator it;
+   std::string s=u->name();
+   it=tUnits.find(s);
+   if(it==tUnits.end())
+      tUnits[u->name()]=u;
+   else
+      it->second->increase(u);
 }

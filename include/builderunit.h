@@ -11,7 +11,7 @@
 ///An interface to specify the behaviour of the game units
 class BuilderUnit : public Unit {
   public:
-   BuilderUnit(Territory *, int );
+   BuilderUnit(Territory *, int nunit=1);
    ~BuilderUnit() {}
 
    //mutators

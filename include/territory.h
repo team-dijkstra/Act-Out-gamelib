@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class Player;
 class Filter;
@@ -15,6 +16,9 @@ class Unit;
 /// An interface class to represent a Territory 
 class Territory {
   public:
+
+   typedef std::map<std::string, Unit*> unitContainer;
+   
    virtual ~Territory() {}
 
    //accessors
@@ -26,13 +30,13 @@ class Territory {
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   virtual std::vector<Unit*> units(Filter* f) const =0;
+   virtual unitContainer units(Filter* f) const =0;
 
    //mutators
    /// \param[in] reference to Player object 
    /// \post sets Territory owner to the passed Player object
    virtual void owner(Player*) =0;
-   
+   virtual void addUnit(Unit*) =0;
 };
 
 #endif
