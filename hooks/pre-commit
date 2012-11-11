@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-base_dir="$(dirname $0)/.."
+base_dir=$(dirname $(dirname `readlink -f $0`))
 source "$base_dir/scripts/util.bash"
 
 # ensures that 'make check' has been run.
