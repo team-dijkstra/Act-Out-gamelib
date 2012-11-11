@@ -1,0 +1,7 @@
+
+@INCLUDE            = $(basedir)/Doxyfile
+
+INPUT               = test test/util
+OUTPUT_DIRECTORY    = $(DOCDIR)/test
+GENERATE_TAGFILE    = $(DOCDIR)/test/tagfile
+TAGFILES            = $(DOCDIR)/src/tagfile=../../src/html

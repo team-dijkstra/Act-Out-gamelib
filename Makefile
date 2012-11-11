@@ -1,5 +1,7 @@
 
-# config variables
+PROJECT_NAME := Act-Out!
+
+# user config variables
 CXX := g++
 INCLUDE := include test test/util
 CXXFLAGS := -Wall -Wextra -ansi -pedantic -std=c++0x -x c++ -O3 -g
@@ -12,12 +14,19 @@ LOGDIR := log
 # defines what <error> severity attibutes will trigger a build error.
 CPPCHECK_SEVERITY_ERR := error warning style
 
-PROGS := testrunner # nuclient nuserver
-nuclient_OBJS :=
-nuserver_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard src/*.cc)))
-testutil_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard test/util/*.cc)))
-testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(wildcard test/*.cc))) $(testutil_OBJS) $(nuserver_OBJS)
+PROGS := testrunner 
+LIBS := actout
+actout_SRC := $(wildcard src/*.cc)
+testutil_SRC := $(wildcard test/util/*.cc)
+test_SRC := $(wildcard test/*.cc)
+actout_OBJS := $(patsubst %.cc,%.o,$(notdir $(actout_SRC)))
+testutil_OBJS := $(patsubst %.cc,%.o,$(notdir $(testutil_SRC)))
+testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(test_SRC))) $(testutil_OBJS) $(actout_OBJS)
 testrunner_LIBS := dl cppunit
+
+# computed config variables
+have_dot := $(if $(shell which dot),YES,NO)
+basedir := $(abspath .)
 
 check_PROGS := cppunit cppcheck valgrind cppncss
 
@@ -132,12 +141,25 @@ $(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
 
 $(MSDIR)/%.cppncss: % | $(MSDIR) $(LOGDIR)
 	cppncss -xml -f=$(LOGDIR)/$(@F).log.xml src include test test/util
-	@ if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
-	@ touch $@
+	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
+	@touch $@
+
+$(MSDIR)/%.doxygen: %/Doxyfile Doxyfile | $(MSDIR) $(LOGDIR) $(DOCDIR)
+	doxygen $< > $(LOGDIR)/$(@F).log
+	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
+	@touch $@
 
 ifeq ($(MAKECMDGOALS),check)
 check: $(addprefix $(MSDIR)/testrunner.,$(call available_checks,$(check_PROGS),$(call unpack,$(PATH)))) ;
 endif
+
+# variable exports needed for doxygen
+export basedir have_dot DOCDIR INCLUDE PROJECT_NAME
+
+$(MSDIR)/test.doxygen: $(MSDIR)/src.doxygen $(test_SRC) $(testutil_SRC) $(wildcard test/*.h) $(wildcard test/util/*.h)
+$(MSDIR)/src.doxygen: $(actout_SRC) $(wildcard include/*.h)
+docs: $(MSDIR)/src.doxygen $(MSDIR)/test.doxygen
+	@echo Documentation was built successfully. See the logs in $(LOGDIR) directory.
 
 test: $(MSDIR)/testrunner.cppunit
 	@echo Testing ran successfully. See the logs in the $(LOGDIR) directory.
