@@ -9,3 +9,6 @@ install:
 script: make && make -k check 
 env:
     - PATH=$PATH:/tmp/cppncss-1.0.3/bin
+branches:
+    only:
+        - master
