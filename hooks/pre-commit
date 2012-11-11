@@ -1,20 +1,46 @@
 #!/usr/bin/env bash
 
+base_dir="$(dirname $0)/.."
+source "$base_dir/scripts/util.bash"
+
 # ensures that 'make check' has been run.
 function ensure_check {
     
-    make -q check
-    local STATUS=$?
-
-    if [ $STATUS -eq 0 ]; then
-        echo "[POLICY] Looks good."
-    else
+    make -q check > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
         echo "[POLICY] Always run 'make check' before committing."
         echo "[POLICY] To skip this check, use '--no-verify' (not recommended)."
+        exit 1
     fi
+}
 
-    exit $STATUS
+# ensure that changed files are properly licenced.
+function ensure_license {
+
+    local preamble="$base_dir/misc/lgpl.preamble"
+
+    # get the list of files staged to be commited.
+    # TODO: is there really no better way to do this?
+    local changed=`git status -s | grep '^[A-Z] ' | sed 's/^ *[A-Z] *//'`
+
+    # limit check to source files.
+    changed=`echo $changed | grep '\.\(cc\|h\)$'`
+    
+    for file in $changed; do
+       
+        contains-block $file $preamble
+        if [ $? -ne 0 ]; then
+            echo "[POLICY] changed file '$file' does not include the licence"
+            echo "[POLICY] preamble. please insert the contents of '$preamble'"
+            echo "[POLICY] verbatim at the top of the file in a block comment."
+            exit 1
+        fi
+    done
 }
 
 ensure_check
+ensure_license
+echo "[POLICY] everyhing looks good."
+
+exit 0
 
