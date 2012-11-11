@@ -17,18 +17,18 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef FILTER_H
-#define FILTER_H
+#ifndef UNITOPERATION_H
+#define UNITOPERATION_H
 
-#include "filter.h"
+#include "unitoperation.h"
 #include <string>
 
 class Unit;
 
 
-class Filter {
+class UnitOperation {
   public:
-   ~Filter(){}
+   ~UnitOperation(){}
    //accessor
    virtual bool operator()(Unit *) const =0;
    virtual std::string name() const =0;

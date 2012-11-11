@@ -44,7 +44,7 @@ class ConcretePlayer : public Player {
    std::vector<Phase*> remainingPhases() const;
 
    /// \return the valid actions that this player can perform given
-   ///         this filter.
+   ///         this unitoperation.
    std::vector<Action*> validActions(TerritoryOperation * op) const;
 
    //Mutator

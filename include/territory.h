@@ -29,7 +29,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 
 class Player;
-class Filter;
+class UnitOperation;
 class Unit;
 
 /// An interface class to represent a Territory 
@@ -49,7 +49,7 @@ class Territory {
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   virtual unitContainer units(Filter* f) const =0;
+   virtual unitContainer units(UnitOperation* f) const =0;
 
    //mutators
    /// \param[in] reference to Player object 

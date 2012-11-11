@@ -39,7 +39,7 @@ std::string ConcretePlayer::name() const{
 std::vector<Phase*> ConcretePlayer::remainingPhases() const{}
 
 /// \return the valid actions that this player can perform given
-///         this filter.
+///         this unitoperation.
 std::vector<Action*> ConcretePlayer::validActions(TerritoryOperation * op) const{}
 
 //Mutator

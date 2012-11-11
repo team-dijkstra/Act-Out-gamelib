@@ -43,7 +43,7 @@ class FakeTerritory : public Territory{
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   unitContainer units(Filter* f) const{}
+   unitContainer units(UnitOperation* f) const{}
 
    //mutators
    /// \param[in] reference to Player object 

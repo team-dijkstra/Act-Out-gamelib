@@ -19,7 +19,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "landterritory.h"
 #include "player.h"
-#include "filter.h"
+#include "unitoperation.h"
 #include "unit.h"
 #include "builderunit.h"
 
@@ -42,8 +42,8 @@ std::string LandTerritory::name() const
 }
 
 /// \todo  build factoryunit in constructor...
-/// \todo  use filter to restrict units returned
-LandTerritory::unitContainer LandTerritory::units(Filter* f) const
+/// \todo  use unitoperation to restrict units returned
+LandTerritory::unitContainer LandTerritory::units(UnitOperation* f) const
 {
    return tUnits;
 }

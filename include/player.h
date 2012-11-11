@@ -47,7 +47,7 @@ class Player {
    virtual std::vector<Phase*> remainingPhases() const =0;
 
    /// \return the valid actions that this player can perform given
-   ///         this filter.
+   ///         this unitoperation.
    virtual std::vector<Action*> validActions(TerritoryOperation * op) const =0;
 
    //Mutator

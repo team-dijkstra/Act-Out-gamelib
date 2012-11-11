@@ -91,7 +91,7 @@ public:
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
 	 
-      Filter * fi = new FilterByAllUnitTypes(u) ;
+      UnitOperation * fi = new FilterByAllUnitTypes(u) ;
       a = territoryA->units(fi);
       //   territoryA->owner(ply2);
       CPPUNIT_ASSERT(a.size() != 0);
@@ -101,7 +101,7 @@ public:
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
       Unit * u2 = new BuilderUnit(territoryA,1);
-      Filter * fi = new FilterByAllUnitTypes(u) ;
+      UnitOperation * fi = new FilterByAllUnitTypes(u) ;
       territoryA->addUnit(u2);
       a = territoryA->units(fi);
       Territory::unitContainer::iterator it;

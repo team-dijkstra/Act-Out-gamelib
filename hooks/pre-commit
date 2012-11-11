@@ -21,7 +21,7 @@ function ensure_license {
 
     # get the list of files staged to be commited.
     # TODO: is there really no better way to do this?
-    local changed=`git status -s | grep '^[A-Z] ' | sed 's/^ *[A-Z] *//'`
+    local changed=`git status -s | grep '^[A-Z] ' | sed 's/^[A-Z] *//; s/^.* -> //'`
 
     # limit check to source files.
     changed=`echo $changed | grep '\.\(cc\|h\)$'`

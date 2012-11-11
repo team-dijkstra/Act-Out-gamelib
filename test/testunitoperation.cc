@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 /*
- * cpsc 2720 - Project - Filter Test cases
+ * cpsc 2720 - Project - UnitOperation Test cases
  */
 
 
@@ -30,19 +30,19 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "fk_faketerritory.h"
 
 
-/// Class containing the test cases for ConcreteFilter. The ConcreteFilter
-/// is exercised through its interface Filter.
-class TestFilter : public CppUnit::TestFixture {
-   CPPUNIT_TEST_SUITE(TestFilter);
+/// Class containing the test cases for Concrete UnitOperation implementations.
+/// The implementation is exercised through its interface UnitOperation.
+class TestUnitOperation : public CppUnit::TestFixture {
+   CPPUNIT_TEST_SUITE(TestUnitOperation);
    CPPUNIT_TEST(filtername_should_be_as_constructed);
    CPPUNIT_TEST(filter_operator_should_be_return_properly);
    CPPUNIT_TEST_SUITE_END();
    
   private:
    // different filters used in testing
-   Filter * filterAll;
-   Filter * filterFakeUnit1;
-   Filter * filterFakeUnit2;
+   UnitOperation * filterAll;
+   UnitOperation * filterFakeUnit1;
+   UnitOperation * filterFakeUnit2;
    Unit * u1;
    Unit * u2;
    Territory * t;
@@ -88,5 +88,5 @@ class TestFilter : public CppUnit::TestFixture {
 
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestFilter);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestUnitOperation);
 

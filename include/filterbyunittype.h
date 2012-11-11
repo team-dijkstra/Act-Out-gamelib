@@ -20,9 +20,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef FILTERBYUNITTYPE_H
 #define FILTERBYUNITTYPE_H
 
-#include "filter.h"
+#include "unitoperation.h"
 
-class FilterByUnitType : public Filter {
+class FilterByUnitType : public UnitOperation {
   public:
    FilterByUnitType(Unit * u);
    ~FilterByUnitType(){}
