@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+basedir=$(dirname $0)/..
+
+source "$basedir/scripts/util.bash"
+
+preamble="$basedir/misc/lgpl.preamble"
+
+for file in $*; do
+    prepend-block $file '/*' $preamble '*/'
+done
+
