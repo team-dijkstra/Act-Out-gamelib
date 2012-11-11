@@ -1,5 +1,7 @@
 
 PROJECT_NAME := Act-Out!
+PROJECT_VERSION := $(shell git describe)
+PROJECT_BRIEF := A turn based strategy game library
 
 # user config variables
 CXX := g++
@@ -154,7 +156,7 @@ check: $(addprefix $(MSDIR)/testrunner.,$(call available_checks,$(check_PROGS),$
 endif
 
 # variable exports needed for doxygen
-export basedir have_dot DOCDIR INCLUDE PROJECT_NAME
+export basedir have_dot DOCDIR INCLUDE PROJECT_NAME PROJECT_VERSION PROJECT_BRIEF
 
 $(MSDIR)/test.doxygen: $(MSDIR)/src.doxygen $(test_SRC) $(testutil_SRC) $(wildcard test/*.h) $(wildcard test/util/*.h)
 $(MSDIR)/src.doxygen: $(actout_SRC) $(wildcard include/*.h)
