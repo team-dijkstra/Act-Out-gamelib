@@ -24,7 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include "concretephase.h"
+#include "defaultphase.h"
 
 
 /// Class containing the test cases for DefaultPhase. The DefaultPhase

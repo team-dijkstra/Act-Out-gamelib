@@ -25,7 +25,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "builderunit.h"
-#include "concreteplayer.h"
+#include "defaultplayer.h"
 #include "landterritory.h"
 
 

@@ -26,7 +26,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/extensions/HelperMacros.h>
 #include "traditionalarmy.h"
 #include "landterritory.h"
-#include "concreteplayer.h"
+#include "defaultplayer.h"
 
 
 /// Class containing the test cases for TraditionalArmyUnit. The TraditionalArmyUnit

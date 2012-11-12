@@ -24,7 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include "concreteplayer.h"
+#include "defaultplayer.h"
 
 
 /// Class containing the test cases for DefaultPlayer. The DefaultPlayer
