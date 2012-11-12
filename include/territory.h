@@ -47,8 +47,8 @@ class Territory {
    /// \return a string, the name of the Territory
    virtual std::string name() const =0;
 
-   /// \param[in] 
-   /// \return a vector of Units that are on this Territory 
+   /// \param[in] f -- Unit operations for filtering the units returned
+   /// \return a container of Units that are on this Territory 
    virtual unitContainer units(UnitOperation* f) const =0;
 
    //mutators
