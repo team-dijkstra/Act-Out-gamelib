@@ -24,7 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "builderunit.h"
 
 /// \todo Change Player * own=NULL to unclaimed
-LandTerritory::LandTerritory(std::string nm, Player* own = NULL):tName(nm), tOwner(own)
+LandTerritory::LandTerritory(std::string nm, Player* own):tName(nm), tOwner(own)
 {
    Unit * tmp = new BuilderUnit(this,1);
    std::string s=tmp->name();

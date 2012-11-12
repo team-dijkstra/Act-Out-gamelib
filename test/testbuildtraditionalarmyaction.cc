@@ -26,7 +26,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/extensions/HelperMacros.h>
 #include "buildtraditionalarmyaction.h"
 #include "defaultphase.h"
-
+#include "landterritory.h"
+#include "filterbyallunittypes.h"
+#include "traditionalarmy.h"
 
 /// Class containing the test cases for BuildTraditionalArmyAction. The BuildTraditionalArmyAction
 /// is exercised through its interface Action.
@@ -34,6 +36,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestAction);
    CPPUNIT_TEST(actionname_should_be_as_constructed);
    CPPUNIT_TEST(actionphase_should_be_as_constructed);
+   CPPUNIT_TEST(action_doaction_should_properly_add_units_to_territory);
    CPPUNIT_TEST_SUITE_END();
    
   private:
@@ -42,14 +45,18 @@ class TestAction : public CppUnit::TestFixture {
    Action * actionB;
    Phase * p1;
    Phase * p2;
+   Phase * p3;
+   Territory * t1;
    
   public:
    // initialization for the test action
    void setUp() {
+      t1 = new LandTerritory(std::string("Spain"));
       p1 = new DefaultPhase(std::string("phase one"));
       p2 = new DefaultPhase(std::string("phase two"));
-      delete actionA;
-      delete actionB;
+      p3 = new DefaultPhase(std::string("phase three"));
+      //delete actionA;
+      //delete actionB;
       actionA = new BuildTraditionalArmyAction(p1);
       actionB = new BuildTraditionalArmyAction(p2);
    }
@@ -60,6 +67,8 @@ class TestAction : public CppUnit::TestFixture {
       delete actionB;
       delete p1;
       delete p2;
+      delete p3;
+      delete t1;
    }
 
    /// \test ensure that the action names are correctly reported
@@ -71,7 +80,33 @@ class TestAction : public CppUnit::TestFixture {
    /// \test ensure that the action phases are correct
    void actionphase_should_be_as_constructed()  {
       CPPUNIT_ASSERT(actionA->applicable(p1) == true);
+      CPPUNIT_ASSERT(actionB->applicable(p1) == false);
       CPPUNIT_ASSERT(actionB->applicable(p2) == true);
+   }
+
+   /// \test that doaction() adds units as appropriate
+   void action_doaction_should_properly_add_units_to_territory()  {
+      Territory::unitContainer myc;
+      Territory::unitContainer::iterator myit;
+      
+      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myit = myc.find("TraditionalArmy");
+      CPPUNIT_ASSERT(myit == myc.end());
+
+      actionA->doaction(1,t1);
+      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myit = myc.find("TraditionalArmy");
+      CPPUNIT_ASSERT(myit != myc.end());
+      int numberOfUnits = myit->second->numUnits();
+      CPPUNIT_ASSERT(numberOfUnits == 1);
+      
+      actionA->doaction(1,t1);
+      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myit = myc.find("TraditionalArmy");
+      numberOfUnits = myit->second->numUnits();
+      CPPUNIT_ASSERT(numberOfUnits == 2);
+
+      //CPPUNIT_ASSERT(actionB->applicable(p3) == true);
    }
 
    

@@ -30,7 +30,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// An interface class to represent a Territory 
 class LandTerritory : public Territory{
   public:
-   LandTerritory(std::string nm, Player* own);
+   LandTerritory(std::string nm, Player* own = NULL);
    ~LandTerritory() {}
 
    //accessors
