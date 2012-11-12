@@ -17,15 +17,15 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef CONCRETE_PHASE_H
-#define CONCRETE_PHASE_H
+#ifndef DEFAULT_PHASE_H
+#define DEFAULT_PHASE_H
 
 #include "phase.h"
 
-class ConcretePhase : public Phase{
+class DefaultPhase : public Phase{
   public:
-   ConcretePhase(const std::string & nm);
-   ~ConcretePhase() {}
+   DefaultPhase(const std::string & nm);
+   ~DefaultPhase() {}
 
    //accessor
    /// \returns the name of the Phase

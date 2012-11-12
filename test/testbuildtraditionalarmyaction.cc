@@ -46,8 +46,8 @@ class TestAction : public CppUnit::TestFixture {
   public:
    // initialization for the test action
    void setUp() {
-      p1 = new ConcretePhase(std::string("phase one"));
-      p2 = new ConcretePhase(std::string("phase two"));
+      p1 = new DefaultPhase(std::string("phase one"));
+      p2 = new DefaultPhase(std::string("phase two"));
       delete actionA;
       delete actionB;
       actionA = new BuildTraditionalArmyAction(p1);

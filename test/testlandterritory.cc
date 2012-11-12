@@ -53,8 +53,8 @@ private:
 public:
    // initialization for the test territory
    void setUp() {
-      ply1 = new ConcretePlayer(std::string("player1"));
-      ply2 = new ConcretePlayer(std::string("player2"));
+      ply1 = new DefaultPlayer(std::string("player1"));
+      ply2 = new DefaultPlayer(std::string("player2"));
       territoryA = new LandTerritory(std::string("Spain"), ply1);
       territoryB = new LandTerritory(std::string("Canada"), ply2);
    }

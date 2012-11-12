@@ -28,7 +28,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "fk_faketerritory.h"
 
 
-/// Class containing the test cases for ConcreteFakeUnit. The ConcreteFakeUnit
+/// Class containing the test cases for DefaultFakeUnit. The DefaultFakeUnit
 /// is exercised through its interface FakeUnit.
 class TestFakeUnit : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestFakeUnit);

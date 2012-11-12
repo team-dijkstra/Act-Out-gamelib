@@ -30,7 +30,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "fk_faketerritory.h"
 
 
-/// Class containing the test cases for Concrete UnitOperation implementations.
+/// Class containing the test cases for Default UnitOperation implementations.
 /// The implementation is exercised through its interface UnitOperation.
 class TestUnitOperation : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestUnitOperation);

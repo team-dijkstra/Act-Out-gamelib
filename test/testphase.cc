@@ -27,7 +27,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "concretephase.h"
 
 
-/// Class containing the test cases for ConcretePhase. The ConcretePhase
+/// Class containing the test cases for DefaultPhase. The DefaultPhase
 /// is exercised through its interface Phase.
 class TestPhase : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestPhase);
@@ -44,8 +44,8 @@ class TestPhase : public CppUnit::TestFixture {
    void setUp() {
       delete phaseA;
       delete phaseB;
-      phaseA = new ConcretePhase(std::string("Marshal Forces"));
-      phaseB = new ConcretePhase(std::string("Attack"));
+      phaseA = new DefaultPhase(std::string("Marshal Forces"));
+      phaseB = new DefaultPhase(std::string("Attack"));
    }
 
    // frees memory for the phases

@@ -27,7 +27,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "concreteplayer.h"
 
 
-/// Class containing the test cases for ConcretePlayer. The ConcretePlayer
+/// Class containing the test cases for DefaultPlayer. The DefaultPlayer
 /// is exercised through its interface Player.
 class TestPlayer : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestPlayer);
@@ -43,8 +43,8 @@ class TestPlayer : public CppUnit::TestFixture {
   public:
    // initialization for the test player
    void setUp() {
-      playerA = new ConcretePlayer(std::string("Player1"));
-      playerB = new ConcretePlayer(std::string("Player2"));
+      playerA = new DefaultPlayer(std::string("Player1"));
+      playerB = new DefaultPlayer(std::string("Player2"));
    }
 
    // frees memory for the players

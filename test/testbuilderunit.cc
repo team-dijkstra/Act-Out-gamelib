@@ -52,8 +52,8 @@ class TestUnit : public CppUnit::TestFixture {
    void setUp() {
       delete unitA;
       delete unitB;
-      p1 = new ConcretePlayer(std::string("player1"));
-      p2 = new ConcretePlayer(std::string("player2"));
+      p1 = new DefaultPlayer(std::string("player1"));
+      p2 = new DefaultPlayer(std::string("player2"));
       t1 = new LandTerritory(std::string("Spain"),p1);
       t2 = new LandTerritory(std::string("Canada"),p2);
       unitA = new BuilderUnit(t1, 1);

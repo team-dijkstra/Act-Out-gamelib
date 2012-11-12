@@ -23,26 +23,26 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territoryoperation.h"
 #include "game.h"
 
-ConcretePlayer::ConcretePlayer(std::string nm):pName(nm),isAlive(true)
+DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
 {}
 
-bool ConcretePlayer::alive() const{
+bool DefaultPlayer::alive() const{
    return isAlive;
 }
 
 /// \return the name of the player
-std::string ConcretePlayer::name() const{
+std::string DefaultPlayer::name() const{
    return pName;
 }
 
 /// \return the remaining phases in this players current turn
-std::vector<Phase*> ConcretePlayer::remainingPhases() const{}
+std::vector<Phase*> DefaultPlayer::remainingPhases() const{}
 
 /// \return the valid actions that this player can perform given
 ///         this unitoperation.
-std::vector<Action*> ConcretePlayer::validActions(TerritoryOperation * op) const{}
+std::vector<Action*> DefaultPlayer::validActions(TerritoryOperation * op) const{}
 
 //Mutator
 /// \post moves to the next phase, if the last phase is reached
 ///       reset to the first phase
-void ConcretePlayer::nextPhase(){}
+void DefaultPlayer::nextPhase(){}

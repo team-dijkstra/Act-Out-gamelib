@@ -48,8 +48,8 @@ class TestUnit : public CppUnit::TestFixture {
   public:
    // initialization for the test unit
    void setUp() {
-      p1 = new ConcretePlayer(std::string("player1"));
-      p2 = new ConcretePlayer(std::string("player2"));
+      p1 = new DefaultPlayer(std::string("player1"));
+      p2 = new DefaultPlayer(std::string("player2"));
       t1 = new LandTerritory(std::string("Spain"),p1);
       t2 = new LandTerritory(std::string("Italy"),p2);
       unitA = new TraditionalArmy(t1);

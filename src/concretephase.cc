@@ -21,9 +21,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-ConcretePhase::ConcretePhase (const string & nm): phasename(nm) {}
+DefaultPhase::DefaultPhase (const string & nm): phasename(nm) {}
 
-string ConcretePhase::name() const
+string DefaultPhase::name() const
 {
    return phasename;
 }

@@ -17,8 +17,8 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef CONCRETE_PLAYER_H
-#define CONCRETE_PLAYER_H
+#ifndef DEFAULT_PLAYER_H
+#define DEFAULT_PLAYER_H
 
 #include "player.h"
 
@@ -27,11 +27,11 @@ class Action;
 class TerritoryOperation;
 class Game;
 
-class ConcretePlayer : public Player {
+class DefaultPlayer : public Player {
   public:
-//   ConcretePlayer(std::string nm, Game * g);
-   ConcretePlayer(std::string nm);
-   ~ConcretePlayer() {}
+//   DefaultPlayer(std::string nm, Game * g);
+   DefaultPlayer(std::string nm);
+   ~DefaultPlayer() {}
    //accessors
    /// \return true if the player is alive (i.e. still in the
    ///         game, false otherwise
