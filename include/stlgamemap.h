@@ -18,7 +18,11 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 /// \file
+<<<<<<< HEAD
 /// \brief Interface file for StlGameMap Class -- stlgamemap.h
+=======
+/// \brief Interface file for StlGameMap Class -- concretegamemap.h
+>>>>>>> addresses #13. initial commit of attempt to implement the GameMap in terms of the stl.
 //
 /// StlGameMap interface, specifies behaviour for game maps
 
