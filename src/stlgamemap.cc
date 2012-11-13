@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 Act-Out! game library - implements generic game logic.
 Copyright (C) 2012 Rio Lowry, Chris Pinter, Matt Voroney
@@ -91,6 +92,7 @@ GameMap::TerritoryList StlGameMap::adjacencies(Territory *) const {
 }
 
 
+<<<<<<< HEAD
 GameMap::TerritoryList StlGameMap::players(Player *) const {
    return TerritoryList(); 
 }

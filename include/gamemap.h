@@ -62,7 +62,8 @@ class GameMap {
    /// Finds the specified Territory
    //
    /// \param tname -- string representing the TerritoryName
-   /// \return the specified Territory
+   /// \return the specified Territory, or a sentinel if not found.
+   /// \see StlGameMap::end the sentinel node of this class.
    virtual Territory* find(TerritoryName) const =0;
 
    /// Finds all Territories that are adjacent to the specified Territory
@@ -85,7 +86,7 @@ class GameMap {
    ///
    /// \param predicate A functor to decide membership in the output list.
    ///
-   /// \return the list of TerritoryList selected by the supplied predicate.
+   /// \return the list of territories selected by the supplied predicate.
    virtual TerritoryList filter(TerritoryOperation * predicate) const =0;
 
    //mutators
