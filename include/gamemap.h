@@ -76,7 +76,7 @@ class GameMap {
    ///
    /// \param predicate A functor to decide membership in the output list.
    ///
-   /// \return the list of territories selected by the supplied predicate.
+   /// \return the list of TerritoryList selected by the supplied predicate.
    virtual TerritoryList filter(TerritoryOperation * predicate) const =0;
 
    //mutators
