@@ -86,6 +86,15 @@ Territory* StlGameMap::begin() const {
     return (territories.begin())->first;
 }
 
+#include "territory.h"
+#include "stlgamemap.h"
+
+StlGameMap::StlGameMap(const TerritoryList & tl, const TerritoryConnections & c) {
+    /// \todo build graph.
+}
+
+StlGameMap::~StlGameMap() {}
+
 Territory* StlGameMap::find(TerritoryName) const {
    return NULL; 
 }

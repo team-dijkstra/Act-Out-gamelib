@@ -35,7 +35,6 @@ class TestStlGameMap : public TestGameMap {
    ) {
       return new StlGameMap(tal);
    }
-
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestStlGameMap);
