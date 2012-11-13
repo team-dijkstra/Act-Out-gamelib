@@ -45,6 +45,8 @@ class FakeTerritory : public Territory{
    //destructor
    
    virtual ~FakeTerritory() {delete tOwner;}
+   FakeTerritory(const char * n, Player * own = NULL)
+      :tName(std::string(n)), tOwner(own){}
 
    //accessors
    

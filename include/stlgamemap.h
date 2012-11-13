@@ -34,14 +34,16 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
-typedef std::map<Territory*, Territory*> TerritoryConnections;
 
 /// \copydoc
 class StlGameMap : public GameMap {
   public:
-
+   typedef GameMap::TerritoryList TerritoryList;
+   typedef GameMap::Adjacency Adjacency;
+   typedef GameMap::AdjacencyList AdjacencyList;
+   
    /// Constructor
-   StlGameMap(const TerritoryList & tl, const TerritoryConnections & c);
+   StlGameMap(const AdjacencyList & adjacent);
    ~StlGameMap(); 
 
    //accessors

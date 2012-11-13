@@ -21,7 +21,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "stlgamemap.h"
 
-StlGameMap::StlGameMap(const TerritoryList & tl, const TerritoryConnections & c) {
+StlGameMap::StlGameMap(const AdjacencyList & tal) {
     /// \todo build graph.
 }
 
@@ -32,12 +32,12 @@ Territory* StlGameMap::find(TerritoryName) const {
 }
 
 
-TerritoryList StlGameMap::adjacencies(Territory *) const {
+GameMap::TerritoryList StlGameMap::adjacencies(Territory *) const {
    return TerritoryList();
 }
 
 
-TerritoryList StlGameMap::players(Player *) const {
+GameMap::TerritoryList StlGameMap::players(Player *) const {
    return TerritoryList(); 
 }
 
@@ -47,7 +47,7 @@ void StlGameMap::traverse(TerritoryOperation * op, Territory * start) {
 }
 
 
-TerritoryList StlGameMap::filter(TerritoryOperation * op) const {
+GameMap::TerritoryList StlGameMap::filter(TerritoryOperation * op) const {
    return TerritoryList(); 
 }
 

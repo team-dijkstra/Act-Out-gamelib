@@ -26,6 +26,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define GAMEMAP_H
 
 #include <vector>
+#include <utility>
 #include <string>
 
 class Player;
@@ -38,9 +39,14 @@ typedef std::string TerritoryName;
 /// The GameMap interface class.
 //
 /// This class is reponsible for representing the collection of Territories in the
-/// game, returning relevant information and performing operations on specified territories 
+/// game, returning relevant information and performing operations on specified TerritoryList 
 class GameMap {
   public:
+   
+   typedef std::vector<Territory*> TerritoryList;
+   typedef std::pair<Territory*, Territory*> Adjacency;
+   typedef std::vector<Adjacency> AdjacencyList;
+
    virtual ~GameMap() {}
 
    //accessors
@@ -70,11 +76,11 @@ class GameMap {
    ///
    /// \param predicate A functor to decide membership in the output list.
    ///
-   /// \return the list of territories selected by the supplied predicate.
+   /// \return the list of TerritoryList selected by the supplied predicate.
    virtual TerritoryList filter(TerritoryOperation * predicate) const =0;
 
    //mutators
-   /// Traverses all territories and performs the specified operation
+   /// Traverses all TerritoryList and performs the specified operation
    //
    /// \param op -- operation to be performed
    /// \param start -- Territory to start with

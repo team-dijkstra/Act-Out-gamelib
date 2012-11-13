@@ -21,19 +21,34 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * cpsc 2720 - Project - GameMap Test cases
  */
 
-
+#include <iterator>
+#include <utility>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "gamemap.h"
 #include "testgamemap.h"
+#include "fk_faketerritory.h"
 
-void TestGameMap::init(GameMap * gm) {
-   game_map = gm;
+void TestGameMap::setUp() {
+   GameMap::AdjacencyList tal;
+   std::back_insert_iterator<GameMap::AdjacencyList> it(tal);
+   *it = std::make_pair(new FakeTerritory("spain"), new FakeTerritory("italy")); 
+   game_map = createGameMap(tal);
+}
+
+void TestGameMap::tearDown() {
+   delete game_map;
+}
+
+GameMap* TestGameMap::createGameMap(const GameMap::AdjacencyList & tal) {
+    /// \todo throw an appropriate exception?
+    return NULL;
 }
 
 /// \test ensure that find works for non-existent elements.
 void TestGameMap::find_returns_marker_token_for_non_existent_items() {
-   CPPUNIT_FAIL("Test not implemented.");
+   Territory* temp = game_map->find("foobar");
+   CPPUNIT_ASSERT(NULL == temp);
 }
 
 /// \test ensure that find works for existent elements.

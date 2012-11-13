@@ -24,8 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-
-class GameMap;
+#include "gamemap.h"
 
 /// GameMap test suite.
 class TestGameMap : public CppUnit::TestFixture {
@@ -45,8 +44,17 @@ class TestGameMap : public CppUnit::TestFixture {
    GameMap * game_map;
   public:
 
-   /// \brief sets up state for generic tests in the parent class.
-   void init(GameMap * gm);
+   // Let doxygen skip ininteresting methods.
+   /// \cond
+   void setUp();
+   void tearDown();
+   /// \endcond
+
+   /// \brief factory method for creating GameMap objects. must be overridden
+   ///        for each concrete type.
+   virtual GameMap* createGameMap(
+      const GameMap::AdjacencyList & tal
+   );
 
    /// \test ensure that find works for non-existent elements.
    void find_returns_marker_token_for_non_existent_items();

@@ -27,23 +27,14 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class TestStlGameMap : public TestGameMap {
    CPPUNIT_TEST_SUB_SUITE(TestStlGameMap, TestGameMap);
    CPPUNIT_TEST_SUITE_END();
-  private:
-   StlGameMap * game_map;
   public:
 
-   // let doxygen skip unintresting methods.
-   /// \cond
-   void setUp() {
-      TerritoryList tl;
-      TerritoryConnections tc;
-      game_map = new StlGameMap(tl, tc);
-      init(game_map);
+   /// \brief factory method that creates an StlGameMap.
+   GameMap* createGameMap(
+      const GameMap::AdjacencyList & tal
+   ) {
+      return new StlGameMap(tal);
    }
-
-   void tearDown() {
-      delete game_map;
-   }
-   /// \endcond
 
 };
 
