@@ -33,8 +33,13 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
+<<<<<<< HEAD
 /// TerritoryName typedef is for clarity and code readability
 typedef std::string TerritoryName;
+=======
+typedef std::string TerritoryName;
+typedef std::vector<Territory*> TerritoryList;
+>>>>>>> addresses #13. initial commit of attempt to implement the GameMap in terms of the stl.
 
 /// The GameMap interface class.
 //
@@ -85,7 +90,7 @@ class GameMap {
    ///
    /// \param predicate A functor to decide membership in the output list.
    ///
-   /// \return the list of TerritoryList selected by the supplied predicate.
+   /// \return the list of territories selected by the supplied predicate.
    virtual TerritoryList filter(TerritoryOperation * predicate) const =0;
 
    //mutators

@@ -26,7 +26,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define STL_GAMEMAP_H
 
 #include <vector>
-//#include <map>
 #include <string>
 #include <utility>
 #include "gamemap.h"
@@ -51,6 +50,7 @@ class StlGameMap : public GameMap {
    /// \copydoc
    Territory* begin() const;
 
+   //accessors
    /// \copydoc 
    Territory* find(TerritoryName) const;
 
