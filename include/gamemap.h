@@ -33,13 +33,8 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
-<<<<<<< HEAD
 /// TerritoryName typedef is for clarity and code readability
 typedef std::string TerritoryName;
-=======
-typedef std::string TerritoryName;
-typedef std::vector<Territory*> TerritoryList;
->>>>>>> addresses #13. initial commit of attempt to implement the GameMap in terms of the stl.
 
 /// The GameMap interface class.
 //
@@ -51,7 +46,6 @@ class GameMap {
    typedef std::vector<Territory*> TerritoryList;
    typedef std::pair<Territory*, Territory*> Adjacency;
    typedef std::vector<Adjacency> AdjacencyList;
-
 
    virtual ~GameMap() {}
     
@@ -98,8 +92,6 @@ class GameMap {
    //
    /// \param op -- operation to be performed
    /// \param start -- Territory to start with
-   //
-   /// \return a list of Territories which have been operated on
    virtual void traverse(TerritoryOperation * op, Territory * start) =0;
 
 };
