@@ -52,9 +52,12 @@ class Territory {
    virtual unitContainer units(UnitOperation* f) const =0;
 
    //mutators
-   /// \param[in] reference to Player object 
+   /// \param[in] p -- pointer to Player object 
    /// \post sets Territory owner to the passed Player object
    virtual void owner(Player*) =0;
+
+   /// \param[in] u -- pointer to a Unit object
+   /// \post stores pointer in this territory's unitContainer
    virtual void addUnit(Unit*) =0;
 };
 

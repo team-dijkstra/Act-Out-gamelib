@@ -45,7 +45,7 @@ class LandTerritory : public Territory{
    unitContainer units(UnitOperation* f) const;
 
    //mutators
-   /// \param[in] reference to Player object 
+   /// \param[in] p -- pointer to Player object 
    /// \post sets Territory owner to the passed Player object
    void owner(Player*);
 

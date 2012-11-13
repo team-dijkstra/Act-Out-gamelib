@@ -46,9 +46,13 @@ class FakeTerritory : public Territory{
    unitContainer units(UnitOperation* f) const{}
 
    //mutators
-   /// \param[in] reference to Player object 
+   /// \param[in] p -- pointer to Player object 
    /// \post sets Territory owner to the passed Player object
    void owner(Player*){}
+
+   
+   /// \param[in] u -- pointer to a Unit object
+   /// \post stores pointer in this territory's unitContainer
    void addUnit(Unit*){}
 
   private:

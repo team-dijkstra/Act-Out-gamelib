@@ -51,13 +51,13 @@ class GameMap {
 
    /// Finds all Territories that are adjacent to the specified Territory
    //
-   /// \param reference to a Territory object
+   /// \param t -- pointer to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
    virtual std::vector<Territory*> adjacencies(Territory *) const =0;
 
    /// Finds all Territories that are owned by the specified Player
    //
-   /// \param reference to a Player object
+   /// \param p -- pointer to a Player object
    /// \return all Territories owned by the given player
    virtual std::vector<Territory*> players(Player *) const =0;
 
