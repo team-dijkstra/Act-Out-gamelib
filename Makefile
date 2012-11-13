@@ -31,6 +31,7 @@ have_dot := $(if $(shell which dot),YES,NO)
 basedir := $(abspath .)
 
 check_PROGS := cppunit cppcheck valgrind cppncss
+milestones := $(check_PROGS) doxygen latex
 
 # add scripts to the path
 export PATH := $(PATH):$(realpath scripts)
@@ -107,11 +108,11 @@ link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 vpath %.cc src:test:test/util
 vpath %.o $(OBJDIR)
 vpath %.d $(OBJDIR)
-$(foreach milestone,$(check_PROGS),$(eval vpath %.$(milestone) $(MSDIR)))
+$(foreach milestone,$(milestones),$(eval vpath %.$(milestone) $(MSDIR)))
 vpath % $(BINDIR)
 
 .DEFAULT_GOAL := all
-.PHONY: all depend test check clean clean-all
+.PHONY: all depend test check docs clean clean-commit clean-all
 
 all: $(addprefix $(BINDIR)/,$(PROGS))
 
@@ -151,6 +152,12 @@ $(MSDIR)/%.doxygen: %/Doxyfile Doxyfile | $(MSDIR) $(LOGDIR) $(DOCDIR)
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
 	@touch $@
 
+$(MSDIR)/%.latex: %.doxygen | $(MSDIR) $(LOGDIR) $(DOCDIR)
+	make -C $(DOCDIR)/$*/latex
+	@cp -f $(DOCDIR)/$*/latex/refman.log $(LOGDIR)/$*-manual.log
+	@ln -f -s $(DOCDIR)/$*/latex/refman.pdf $*-manual.pdf
+	@touch $@
+
 ifeq ($(MAKECMDGOALS),check)
 check: $(addprefix $(MSDIR)/testrunner.,$(call available_checks,$(check_PROGS),$(call unpack,$(PATH)))) ;
 endif
@@ -160,8 +167,12 @@ export basedir have_dot DOCDIR INCLUDE PROJECT_NAME PROJECT_VERSION PROJECT_BRIE
 
 $(MSDIR)/test.doxygen: $(MSDIR)/src.doxygen $(test_SRC) $(testutil_SRC) $(wildcard test/*.h) $(wildcard test/util/*.h)
 $(MSDIR)/src.doxygen: $(actout_SRC) $(wildcard include/*.h)
-docs: $(MSDIR)/src.doxygen $(MSDIR)/test.doxygen
-	@echo Documentation was built successfully. See the logs in $(LOGDIR) directory.
+
+html: $(MSDIR)/src.doxygen $(MSDIR)/test.doxygen
+	@echo HTML documentation was built successfully. See the logs in the $(LOGDIR) directory.
+
+latex: $(MSDIR)/src.latex $(MSDIR)/test.latex
+	@echo LaTeX documentation was built successfully. See the logs in the $(LOGDIR) directory.
 
 test: $(MSDIR)/testrunner.cppunit
 	@echo Testing ran successfully. See the logs in the $(LOGDIR) directory.
