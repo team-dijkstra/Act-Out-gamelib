@@ -30,10 +30,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 class Player;
 class Territory;
-class Operation;
+class TerritoryOperation;
 
 /// TerritoryName typedef is for clarity and code readability
-typedef string TerritoryName;
+typedef std::string TerritoryName;
 
 /// The GameMap interface class.
 //
@@ -48,19 +48,30 @@ class GameMap {
    //
    /// \param tname -- string representing the TerritoryName
    /// \return the specified Territory
-   virtual Territory find(TerritoryName tname) const =0;
+   virtual Territory* find(TerritoryName) const =0;
 
    /// Finds all Territories that are adjacent to the specified Territory
    //
    /// \param t -- pointer to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
-   virtual std::vector<Territory*> adjacencies(Territory * t) const =0;
+   virtual TerritoryList adjacencies(Territory *) const =0;
 
    /// Finds all Territories that are owned by the specified Player
    //
    /// \param p -- pointer to a Player object
    /// \return all Territories owned by the given player
-   virtual std::vector<Territory*> players(Player * p) const =0;
+   ///
+   /// \todo do we need this? if we do, it's badly named. using 'filter'
+   ///       method should be just as easy.
+   /// \depracated
+   virtual TerritoryList players(Player *) const =0;
+
+   /// Retrieves all Territories that match the specified predicate.
+   ///
+   /// \param predicate A functor to decide membership in the output list.
+   ///
+   /// \return the list of territories selected by the supplied predicate.
+   virtual TerritoryList filter(TerritoryOperation * predicate) const =0;
 
    //mutators
    /// Traverses all territories and performs the specified operation
@@ -69,8 +80,8 @@ class GameMap {
    /// \param start -- Territory to start with
    //
    /// \return a list of Territories which have been operated on
-   virtual std::vector<Territory*> traverse(Operation * op, Territory * start) =0;
-   
+   virtual void traverse(TerritoryOperation * op, Territory * start) =0;
+
 };
 
 #endif
