@@ -39,7 +39,7 @@ class TestTerritory : public CppUnit::TestFixture {
    CPPUNIT_TEST(territoryname_should_be_as_constructed);
    CPPUNIT_TEST(territoryowner_should_be_as_constructed);
    CPPUNIT_TEST(territory_owner_should_be_changed_by_mutator);
-   CPPUNIT_TEST(territory_unit_should_return_a_vector);
+   CPPUNIT_TEST(territory_unit_should_return_a_unitContainer);
    CPPUNIT_TEST(territory_should_not_add_new_unit_of_existing_unit_type);
    CPPUNIT_TEST_SUITE_END();
    
@@ -88,7 +88,7 @@ public:
    }
 
    /// \todo add test for different types of units in units() function
-   void territory_unit_should_return_a_vector()  {
+   void territory_unit_should_return_a_unitContainer()  {
       
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);

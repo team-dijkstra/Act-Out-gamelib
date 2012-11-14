@@ -31,7 +31,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class LandTerritory : public Territory{
   public:
    LandTerritory(std::string nm, Player* own = NULL);
-   ~LandTerritory() {}
+   ~LandTerritory();
 
    //accessors
    /// \return the Player object that currently owns this Territory
