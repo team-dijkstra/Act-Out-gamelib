@@ -116,8 +116,6 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
          ci2++;
       }
    }
-   
-
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestCompoundIteratorAdapter);
