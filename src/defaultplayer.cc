@@ -40,7 +40,7 @@ std::vector<Phase*> DefaultPlayer::remainingPhases() const{}
 
 /// \return the valid actions that this player can perform given
 ///         this unitoperation.
-std::vector<Action*> DefaultPlayer::validActions(TerritoryOperation * op) const{}
+std::vector<Action*> DefaultPlayer::actions(TerritoryOperation * op) const{}
 
 //Mutator
 /// \post moves to the next phase, if the last phase is reached

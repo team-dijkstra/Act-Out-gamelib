@@ -45,7 +45,7 @@ class DefaultPlayer : public Player {
 
    /// \return the valid actions that this player can perform given
    ///         this unitoperation.
-   std::vector<Action*> validActions(TerritoryOperation * op) const;
+   std::vector<Action*> actions(TerritoryOperation * op) const;
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
