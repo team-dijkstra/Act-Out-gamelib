@@ -23,7 +23,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "phase.h"
 
 class DefaultPhase : public Phase{
-  public:
+      public:
    DefaultPhase(const std::string & nm);
    ~DefaultPhase() {}
 

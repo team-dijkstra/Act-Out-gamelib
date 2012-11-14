@@ -50,6 +50,7 @@ private:
 
    
 public:
+   /// \cond SETUPTEARDOWNFAKETERRITORYTEST
    // initialization for the test fakeUnit
    void setUp() {
       std::string a,b;
@@ -63,7 +64,6 @@ public:
       fakeUnitC = new FakeUnit(10, t2);
 
    }
-
    // frees memory for the fakeUnits
    void tearDown() {
       delete fakeUnitA;
@@ -73,6 +73,7 @@ public:
       delete t2;
       
    }
+   /// \endcond
 
    /// \test ensure that the fakeUnit names are correctly reported
    void fakeTerritoryName_should_be_as_constructed()  {

@@ -40,6 +40,7 @@ class TestPhase : public CppUnit::TestFixture {
    Phase * phaseB;
    
   public:
+   /// \cond SETUPTEARDOWNPHASETEST
    // initialization for the test phase
    void setUp() {
       delete phaseA;
@@ -47,13 +48,13 @@ class TestPhase : public CppUnit::TestFixture {
       phaseA = new DefaultPhase(std::string("Marshal Forces"));
       phaseB = new DefaultPhase(std::string("Attack"));
    }
-
    // frees memory for the phases
    void tearDown() {
       delete phaseA;
       delete phaseB;
    }
-
+   /// \endcond
+   
    /// \test ensure that the phase names are correctly reported
    void phasename_should_be_as_constructed()  {
       CPPUNIT_ASSERT(phaseA->name() == "Marshal Forces");

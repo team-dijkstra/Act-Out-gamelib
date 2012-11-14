@@ -51,6 +51,7 @@ private:
    Player * ply2;
    
 public:
+   /// \cond SETUPTEARDOWNTERRITORYTEST
    // initialization for the test territory
    void setUp() {
       ply1 = new DefaultPlayer(std::string("player1"));
@@ -58,7 +59,6 @@ public:
       territoryA = new LandTerritory(std::string("Spain"), ply1);
       territoryB = new LandTerritory(std::string("Canada"), ply2);
    }
-
    // frees memory for the territorys
    void tearDown() {
       delete territoryA;
@@ -66,7 +66,9 @@ public:
       delete ply1;
       delete ply2;
    }
-
+   /// \endcond
+   
+   
    /// \test ensure that the territory names are correctly reported
    void territoryname_should_be_as_constructed()  {
       std::string a="Spain", b="Canada";

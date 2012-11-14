@@ -28,10 +28,14 @@ class BuildTraditionalArmyAction : public Action{
    ~BuildTraditionalArmyAction(){}
 
    //accessors
+   //! @copydoc Action::name()
    std::string name() const;
+
+   //! @copydoc Action::applicable()
    bool applicable(Phase* p) const;
 
    //mutators
+   //! @copydoc Action::doaction(int,Territory)
    void doaction(int nUnits, Territory* T);
 
   private:

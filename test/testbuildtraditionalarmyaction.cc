@@ -49,6 +49,7 @@ class TestAction : public CppUnit::TestFixture {
    Territory * t1;
    
   public:
+   /// \cond SETUPTEARDOWNACTIONTEST
    // initialization for the test action
    void setUp() {
       t1 = new LandTerritory(std::string("Spain"));
@@ -70,7 +71,8 @@ class TestAction : public CppUnit::TestFixture {
       delete p3;
       delete t1;
    }
-
+   /// \endcond
+   
    /// \test ensure that the action names are correctly reported
    void actionname_should_be_as_constructed()  {
       CPPUNIT_ASSERT(actionA->name() == "BuildTraditionalArmy");

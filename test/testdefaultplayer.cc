@@ -36,6 +36,7 @@ class TestPlayer : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE_END();
    
   private:
+   /// \cond SETUPTEARDOWNPLAYERTEST
    // different players used in testing
    Player * playerA;
    Player * playerB;
@@ -46,13 +47,14 @@ class TestPlayer : public CppUnit::TestFixture {
       playerA = new DefaultPlayer(std::string("Player1"));
       playerB = new DefaultPlayer(std::string("Player2"));
    }
-
    // frees memory for the players
    void tearDown() {
       delete playerA;
       delete playerB;
    }
-
+   /// \endcond
+   
+   
    /// \test ensure that the player names are correctly reported
    void playername_should_be_as_constructed()  {
       CPPUNIT_ASSERT(playerA->name() == "Player1");

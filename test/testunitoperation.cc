@@ -48,6 +48,7 @@ class TestUnitOperation : public CppUnit::TestFixture {
    Territory * t;
    
   public:
+   /// \cond SETUPTEARDOWNUNITOPERATIONTEST
    // initialization for the test filter
    void setUp() {
       std::string a = "terr1";
@@ -58,7 +59,6 @@ class TestUnitOperation : public CppUnit::TestFixture {
       filterFakeUnit1 = new FilterByUnitType(u1);
       filterFakeUnit2 = new FilterByUnitType(u2);
    }
-
    // frees memory for the filters
    void tearDown() {
       delete filterAll;
@@ -68,7 +68,8 @@ class TestUnitOperation : public CppUnit::TestFixture {
       delete u2;
       delete t;
    }
-
+   /// \endcond
+   
    /// \test ensure that the filter names are correctly reported
    void filtername_should_be_as_constructed()  {
       CPPUNIT_ASSERT(filterAll->name() == "AllUnits");

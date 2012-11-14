@@ -37,6 +37,7 @@ class TestUnit : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE_END();
    
   private:
+
    // different units used in testing
    Unit * unitA;
    Unit * unitB;
@@ -46,6 +47,7 @@ class TestUnit : public CppUnit::TestFixture {
    Player * p2;
    
   public:
+   /// \cond SETUPTEARDOWNTRADITIONALARMY
    // initialization for the test unit
    void setUp() {
       p1 = new DefaultPlayer(std::string("player1"));
@@ -65,6 +67,7 @@ class TestUnit : public CppUnit::TestFixture {
       delete p1;
       delete p2;
    }
+   /// \endcond
 
    /// \test ensure that the unit names are correctly reported
    void unitname_should_be_as_constructed()  {
