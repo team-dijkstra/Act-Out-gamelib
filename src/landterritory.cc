@@ -68,5 +68,5 @@ void LandTerritory::addUnit(Unit * u)
    if(it==tUnits.end())
       tUnits[u->name()]=u;
    else
-      it->second->increase(u);
+      it->second->increase(u->numUnits());
 }

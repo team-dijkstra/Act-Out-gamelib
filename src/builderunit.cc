@@ -24,15 +24,15 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 BuilderUnit::BuilderUnit(Territory * t, int nunit):  uTerritory(t), nUnits(nunit), uName("BuilderUnit")
 {}
 
-int BuilderUnit::increase (Unit* u)
+int BuilderUnit::increase (int u)
 {
-   nUnits += u->numUnits();
+   nUnits += u;
    return nUnits;
 }
 
-int BuilderUnit::decrease (Unit* u)
+int BuilderUnit::decrease (int u)
 {
-   int tdec = u->numUnits();
+   int tdec = u;
    nUnits = (tdec > nUnits ? 0 : nUnits - tdec);
    return nUnits;
 }
@@ -49,4 +49,7 @@ std::string BuilderUnit::name() const{
    return uName;
 }
 
-std::vector<Action*> BuilderUnit::actions() const{}
+/// \todo need to return the proper container
+Unit::actionContainer BuilderUnit::actions() const{ 
+   return Unit::actionContainer();
+}

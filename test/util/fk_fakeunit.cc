@@ -28,15 +28,15 @@ FakeUnit::FakeUnit(int nunit, Territory * t, string s):nUnits(nunit), tWhere(t),
    //uName = "FakeUnit";   
 }
 
-int FakeUnit:: increase (Unit* u)
+int FakeUnit:: increase (int u)
 {
-   nUnits += u->numUnits();
+   nUnits += u;
    return nUnits;
 }
 
-int FakeUnit::decrease (Unit* u)
+int FakeUnit::decrease (int u)
 {
-   int tdec = u->numUnits();
+   int tdec = u;
    nUnits = (tdec > nUnits ? 0 : nUnits - tdec);
    return nUnits;
 }

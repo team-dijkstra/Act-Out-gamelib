@@ -23,37 +23,38 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// Territory interface class
 #ifndef FAKETERRITORY_H
 #define FAKETERRITORY_H
-						\
+
 #include "territory.h"
-//class Player;
-//class Unit;
+#include "player.h"
+
+class Unit;
 
 /// An interface class to represent a Territory 
 class FakeTerritory : public Territory{
   public:
-  FakeTerritory(std::string & n, Player * own = NULL):tName(n), tOwner(own){}
-   ~FakeTerritory() {}
+   FakeTerritory(std::string & n, Player * own = NULL):tName(n), tOwner(own){}
+   virtual ~FakeTerritory() {delete tOwner;}
 
    //accessors
    /// \return the Player object that currently owns this Territory
-   Player* owner() const{}
+   Player* owner() const{ return tOwner;}
    
    /// \return a string, the name of the Territory
    std::string name() const{ return tName;}
 
    /// \param[in] 
    /// \return a vector of Units that are on this Territory 
-   unitContainer units(UnitOperation* f) const{}
+   unitContainer units(UnitOperation* f) const{ return unitContainer();}
 
    //mutators
    /// \param[in] p -- pointer to Player object 
    /// \post sets Territory owner to the passed Player object
-   void owner(Player*){}
+   void owner(Player* p){(void)p;}
 
    
    /// \param[in] u -- pointer to a Unit object
    /// \post stores pointer in this territory's unitContainer
-   void addUnit(Unit*){}
+   void addUnit(Unit* u){(void)u;}
 
   private:
    std::string tName;

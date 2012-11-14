@@ -97,7 +97,7 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
 
    /// \test ensure that the increase method works properly
    void traditionalarmy_increase_should_increment_called_unit()  {
-      unitA->increase(unitB);
+      unitA->increase(unitB->numUnits());
       
       CPPUNIT_ASSERT(unitA->numUnits() == 5);
       CPPUNIT_ASSERT(unitB->numUnits() == 4);
@@ -106,10 +106,10 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
    /// \test ensure that the decrease method works properly
    void traditionalarmy_decrease_should_decrement_numUnit_but_not_below_zero()
    {
-      unitB->decrease(unitA);
+      unitB->decrease(unitA->numUnits());
       CPPUNIT_ASSERT(unitB->numUnits() == 3);
 
-      unitA->decrease(unitB);
+      unitA->decrease(unitB->numUnits());
       CPPUNIT_ASSERT(unitA->numUnits() == 0);
 
    }

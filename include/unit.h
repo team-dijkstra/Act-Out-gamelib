@@ -46,7 +46,7 @@ class Unit {
    ///       numUnits in the passed object.
    /// \return the current numUnits in this object after increase
    ///         method is performed
-   virtual int increase (Unit* u) =0;
+   virtual int increase (int u) =0;
 
    /// Decreases the numUnits in this Unit
    //
@@ -56,7 +56,9 @@ class Unit {
    ///       numUnits in the passed object.
    /// \return the current numUnits in this object after decrease
    ///         method is performed
-   virtual int decrease (Unit* u) =0;
+   virtual int decrease (int u) =0;
+
+   //virtual int merge(Unit * u, int nunits =0) =0;
 
    //accessors
    /// \return the current numUnits in this object
@@ -69,7 +71,7 @@ class Unit {
    virtual std::string name() const =0;
 
    /// \return all the possible actions that this unit can perform
-   virtual std::vector<Action*> actions() const =0;
+   virtual actionContainer actions() const =0;
    
 };
 

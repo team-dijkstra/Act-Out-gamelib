@@ -92,8 +92,8 @@ public:
    }
 
    void fakeUnit_increase_should_return_properly()  {
-      fakeUnitA->increase(fakeUnitB);
-      fakeUnitC->increase(fakeUnitA);
+      fakeUnitA->increase(fakeUnitB->numUnits());
+      fakeUnitC->increase(fakeUnitA->numUnits());
       
       CPPUNIT_ASSERT(fakeUnitA->numUnits() == 3);
       CPPUNIT_ASSERT(fakeUnitB->numUnits() == 2);
@@ -101,8 +101,8 @@ public:
    }
 
    void fakeUnit_decrease_should_return_properly()  {
-      fakeUnitB->decrease(fakeUnitA);
-      fakeUnitA->decrease(fakeUnitC);
+      fakeUnitB->decrease(fakeUnitA->numUnits());
+      fakeUnitA->decrease(fakeUnitC->numUnits());
       
       CPPUNIT_ASSERT(fakeUnitA->numUnits() == 0);
       CPPUNIT_ASSERT(fakeUnitB->numUnits() == 1);

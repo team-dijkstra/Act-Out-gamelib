@@ -42,7 +42,7 @@ class BuilderUnit : public Unit {
    ///       numUnits in the passed object.
    /// \return the current numUnits in this object after increase
    ///         method is performed
-   int increase (Unit* u);
+   int increase (int u);
 
    /// Decreases the numUnits in this Unit
    //
@@ -52,7 +52,7 @@ class BuilderUnit : public Unit {
    ///       numUnits in the passed object.
    /// \return the current numUnits in this object after decrease
    ///         method is performed
-   int decrease (Unit* u);
+   int decrease (int u);
 
    //accessors
    /// \return the current numUnits in this object
