@@ -23,7 +23,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
-   uActions.push_back(new MoveAction());
+   uActions.push_back(new MoveAction(this));
 
 }
 

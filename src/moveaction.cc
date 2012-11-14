@@ -1,4 +1,6 @@
 #include "moveaction.h"
+MoveAction::MoveAction(Unit * p): parent(p)
+{}
 
 std::string MoveAction::name() const
 {
@@ -13,5 +15,6 @@ bool MoveAction::applicable(Phase* p) const
 void MoveAction::doaction(int nUnits, Territory * T)
 {
    /// \todo do stuff here
+   //Unit * tmp
 }
    

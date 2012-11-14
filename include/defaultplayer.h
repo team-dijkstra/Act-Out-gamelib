@@ -22,6 +22,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "player.h"
 
+
 class Phase;
 class Action;
 class TerritoryOperation;
@@ -41,11 +42,11 @@ class DefaultPlayer : public Player {
    std::string name() const;
 
    /// \return the remaining phases in this players current turn
-   std::vector<Phase*> remainingPhases() const;
+   phaselist remainingPhases() const;
 
    /// \return the valid actions that this player can perform given
    ///         this unitoperation.
-   std::vector<Action*> actions(TerritoryOperation * op) const;
+   Unit::actionContainer actions(TerritoryOperation * op) const;
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
@@ -53,8 +54,8 @@ class DefaultPlayer : public Player {
    void nextPhase();
 
   private:
-
-   typedef std::vector<Phase*> phaselist;
+   typedef Player::phaselist phaselist;
+  
    std::string pName;
    bool isAlive;
    phaselist phases;

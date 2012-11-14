@@ -41,17 +41,18 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 ///Basic interface specifying behaviour for class Action
 //
 ///MoveAction move numUnits from one Territory to another
-//template<class U>
-/// \todo template this for different types of unit and store the parent unit object
 
+/// \todo template this for different types of unit and store the parent unit object
+					   //template<typename U>
 class MoveAction : public Action{
   public:
+   MoveAction(Unit * p);
    ~MoveAction() {}
 
    //accessors
    /// \return the name of the action class
    std::string name() const;
-
+   
 
    /// \return true if action can be used in the specified Phase; false otherwise
    bool applicable(Phase* p) const;
@@ -64,8 +65,10 @@ class MoveAction : public Action{
    /// \post preforms Action on the specified territory using specifiec number of units
    void doaction(int nUnits, Territory * T);
 
-  private:
-//   U * parent;
+
+      private:
+   Unit * parent;
 };
 
+//#include "../src/moveaction.cc"
 #endif

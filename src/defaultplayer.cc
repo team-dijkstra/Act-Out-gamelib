@@ -27,6 +27,7 @@ DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
 {}
 
 bool DefaultPlayer::alive() const{
+   /// \todo if isAlive, need to have it check # of territories owned if zero, set isAlive to false. call GameMap::(list territories by player method)
    return isAlive;
 }
 
@@ -36,11 +37,11 @@ std::string DefaultPlayer::name() const{
 }
 
 /// \return the remaining phases in this players current turn
-std::vector<Phase*> DefaultPlayer::remainingPhases() const{}
+DefaultPlayer::phaselist DefaultPlayer::remainingPhases() const{}
 
 /// \return the valid actions that this player can perform given
 ///         this unitoperation.
-std::vector<Action*> DefaultPlayer::actions(TerritoryOperation * op) const{}
+Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) const{}
 
 //Mutator
 /// \post moves to the next phase, if the last phase is reached

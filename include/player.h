@@ -27,6 +27,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <string>
+#include "unit.h"
 
 class Phase;
 class Action;
@@ -35,6 +36,7 @@ class TerritoryOperation;
 /// Player Interface Class specified the Player Behaviours
 class Player {
   public:
+   typedef std::vector<Phase*> phaselist;
    //accessors
    /// \return true if the player is alive (i.e. still in the
    ///         game, false otherwise
@@ -48,7 +50,7 @@ class Player {
 
    /// \return the valid actions that this player can perform given
    ///         this unitoperation.
-   virtual std::vector<Action*> actions(TerritoryOperation * op) const =0;
+   virtual Unit::actionContainer actions(TerritoryOperation * op) const =0;
 
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
