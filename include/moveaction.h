@@ -17,6 +17,12 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+/// \file
+/// \brief contains the interface class Action -- action.h
+//
+/// MoveAction class interface, specifies behavious of game actions
+
 /// \file
 /// \brief contains the interface class Action -- action.h
 //
@@ -28,43 +34,38 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include "territory.h"
 #include "phase.h"
+#include "action.h"
 //class Territory;
 //class Phase;
 
 ///Basic interface specifying behaviour for class Action
 //
 ///MoveAction move numUnits from one Territory to another
-template<typename U>
+//template<class U>
+/// \todo template this for different types of unit and store the parent unit object
+
 class MoveAction : public Action{
   public:
    ~MoveAction() {}
-	     
+
    //accessors
    /// \return the name of the action class
-   std::string name() const
-   {
-      return "MoveAction";
-   }
+   std::string name() const;
+
 
    /// \return true if action can be used in the specified Phase; false otherwise
-   bool applicable(Phase* p) const
-   {
-      return (p->name() == "Redeploy");
-   }
+   bool applicable(Phase* p) const;
+
    
    //mutators
-   /// \param nUnits  -- the number of units to commit to current action
+   /// \param nUnits -- the number of units to commit to current action
    /// \param T -- the territory to act on.
    //
    /// \post preforms Action on the specified territory using specifiec number of units
-   void doaction(int nUnits, Territory * T)
-   {
-      // do stuff here
-   }
-   
+   void doaction(int nUnits, Territory * T);
 
   private:
-   U * parent;
+//   U * parent;
 };
 
 #endif

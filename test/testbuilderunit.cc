@@ -29,10 +29,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "landterritory.h"
 
 
+
 /// Class containing the test cases for BuilderUnit. The BuilderUnit
 /// is exercised through its interface Unit.
-class TestUnit : public CppUnit::TestFixture {
-   CPPUNIT_TEST_SUITE(TestUnit);
+class TestBuilderUnit : public CppUnit::TestFixture {
+   CPPUNIT_TEST_SUITE(TestBuilderUnit);
    CPPUNIT_TEST(unitname_should_be_as_constructed);
    CPPUNIT_TEST(unit_whereAt_should_be_as_constructed);
    CPPUNIT_TEST(unit_numUnits_should_be_as_constructed);
@@ -93,5 +94,5 @@ class TestUnit : public CppUnit::TestFixture {
    
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestUnit);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestBuilderUnit);
 

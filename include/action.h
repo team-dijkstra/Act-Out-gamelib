@@ -35,6 +35,7 @@ class Phase;
 ///Actions mutate game state.
 class Action {
   public:
+   
    virtual ~Action() {}
 
    //accessors

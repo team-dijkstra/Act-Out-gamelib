@@ -27,13 +27,19 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include "landterritory.h"
 #include "defaultplayer.h"
+#include "action.h"
 
 
 /// Class containing the test cases for TraditionalArmyUnit. The TraditionalArmyUnit
 /// is exercised through its interface Unit.
-class TestUnit : public CppUnit::TestFixture {
-   CPPUNIT_TEST_SUITE(TestUnit);
-   CPPUNIT_TEST(unitname_should_be_as_constructed);
+class TestTraditionalArmy : public CppUnit::TestFixture {
+   CPPUNIT_TEST_SUITE(TestTraditionalArmy);
+   CPPUNIT_TEST(traditionalarmy_name_should_be_as_constructed);
+   CPPUNIT_TEST(traditionalarmy_whereAt_should_be_as_constructed);
+   CPPUNIT_TEST(traditionalarmy_numUnits_should_be_as_constructed);
+   CPPUNIT_TEST(traditionalarmy_increase_should_increment_called_unit);
+   CPPUNIT_TEST(traditionalarmy_decrease_should_decrement_numUnit_but_not_below_zero);
+   CPPUNIT_TEST(traditionalarmy_actions_should_return_actionContainer);
    CPPUNIT_TEST_SUITE_END();
    
   private:
@@ -70,14 +76,58 @@ class TestUnit : public CppUnit::TestFixture {
    /// \endcond
 
    /// \test ensure that the unit names are correctly reported
-   void unitname_should_be_as_constructed()  {
+   void traditionalarmy_name_should_be_as_constructed()  {
       CPPUNIT_ASSERT(unitA->name() == "TraditionalArmy");
       CPPUNIT_ASSERT(unitB->name() == "TraditionalArmy");
+   }
+
+   
+   /// \test ensure that the unit locations are correctly reported
+   ///       on construction
+   void traditionalarmy_whereAt_should_be_as_constructed()  {
+      CPPUNIT_ASSERT(unitA->whereAt() == t1);
+      CPPUNIT_ASSERT(unitB->whereAt() == t2);
+   }
+
+   /// \test ensure that the unit names are correctly reported
+   void traditionalarmy_numUnits_should_be_as_constructed()  {
+      CPPUNIT_ASSERT(unitA->numUnits() == 1);
+      CPPUNIT_ASSERT(unitB->numUnits() == 4);
+   }
+
+   /// \test ensure that the increase method works properly
+   void traditionalarmy_increase_should_increment_called_unit()  {
+      unitA->increase(unitB);
+      
+      CPPUNIT_ASSERT(unitA->numUnits() == 5);
+      CPPUNIT_ASSERT(unitB->numUnits() == 4);
+   }
+   
+   /// \test ensure that the decrease method works properly
+   void traditionalarmy_decrease_should_decrement_numUnit_but_not_below_zero()
+   {
+      unitB->decrease(unitA);
+      CPPUNIT_ASSERT(unitB->numUnits() == 3);
+
+      unitA->decrease(unitB);
+      CPPUNIT_ASSERT(unitA->numUnits() == 0);
+
+   }
+   
+   
+   /// \test ensure that actions() returns actions container
+   void traditionalarmy_actions_should_return_actionContainer()
+   {
+      Unit::actionContainer a;
+      a = unitA->actions();
+      CPPUNIT_ASSERT(a.size() != 0);
+      CPPUNIT_ASSERT(a[0]->name() == "MoveAction");
+
    }
 
    
 
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestUnit);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestTraditionalArmy);
 

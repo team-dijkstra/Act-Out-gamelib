@@ -31,7 +31,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class TraditionalArmy : public Unit {
   public:
    TraditionalArmy(Territory *, int nunit=1);
-   ~TraditionalArmy() {}
+   ~TraditionalArmy(){}
 
    //mutators
    /// Increases the numUnits in this Unit
@@ -71,7 +71,7 @@ class TraditionalArmy : public Unit {
    int nUnits;
    Territory * uTerritory;
    std::string uName;
-   std::vector<Action*> uActions;
+   Unit::actionContainer uActions;
    
 };
 

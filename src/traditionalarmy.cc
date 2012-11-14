@@ -19,10 +19,13 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "traditionalarmy.h"
 #include "territory.h"
-#include "action.h"
+#include "moveaction.h"
 
-TraditionalArmy::TraditionalArmy(Territory * t, int nunit): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
-{}
+TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
+{
+   uActions.push_back(new MoveAction());
+
+}
 
 /// \todo implement increase units
 int TraditionalArmy::increase (Unit* u){

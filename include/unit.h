@@ -34,6 +34,7 @@ class Action;
 ///An interface to specify the behaviour of the game units
 class Unit {
   public:
+   typedef std::vector<Action*> actionContainer;
    virtual ~Unit() {}
 
    //mutators
