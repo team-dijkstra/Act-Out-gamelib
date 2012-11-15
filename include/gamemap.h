@@ -47,6 +47,7 @@ class GameMap {
    typedef std::pair<Territory*, Territory*> Adjacency;
    typedef std::vector<Adjacency> AdjacencyList;
 
+
    virtual ~GameMap() {}
     
    //constants
