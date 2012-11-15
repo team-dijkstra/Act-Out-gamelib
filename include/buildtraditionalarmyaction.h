@@ -24,7 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 class BuildTraditionalArmyAction : public Action{
   public:
-   BuildTraditionalArmyAction(Phase* p);
+   BuildTraditionalArmyAction(Phase* p, Unit * par);
    ~BuildTraditionalArmyAction(){}
 
    //accessors
@@ -42,6 +42,7 @@ class BuildTraditionalArmyAction : public Action{
 
    std::string aName;
    Phase* aPhase;
+   Unit * parent;
 };
 
 #endif

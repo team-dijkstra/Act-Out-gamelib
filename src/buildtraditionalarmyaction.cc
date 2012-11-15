@@ -22,7 +22,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "traditionalarmy.h"
 
-BuildTraditionalArmyAction::BuildTraditionalArmyAction(Phase* p):aName("BuildTraditionalArmy"), aPhase(p)
+BuildTraditionalArmyAction::BuildTraditionalArmyAction(Phase* p, Unit * par):aName("BuildTraditionalArmy"), aPhase(p), parent(par)
 {}
 
 std::string BuildTraditionalArmyAction::name() const
