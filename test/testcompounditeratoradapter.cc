@@ -63,7 +63,7 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    void tearDown() {
       tc.clear();
    }
-   /// \endcond
+   /// \endcondThis file is part 
 
    /// \test ensure that a == a is true for the adapter.
    void iterator_should_be_equal_to_self() {
