@@ -19,6 +19,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <map>
+#include <set>
 #include <utility>
 #include <algorithm>
 #include "territory.h"
@@ -50,7 +51,36 @@ StlGameMap::StlGameMap(const AdjacencyList & tal) {
     }
 }
 
-StlGameMap::~StlGameMap() {}
+/// Cleans up all Territory objects on delete.
+StlGameMap::~StlGameMap() {
+   std::vector<MapNode::first_type> del;
+   std::vector<MapNode::first_type> rem;
+
+   for (MapType::iterator it = territories.begin(); it != territories.end(); it++) {
+      MapNode::second_type & adj = it->second;
+      
+      for (MapNode::second_type::iterator jt = adj.begin(); jt != adj.end(); jt++) {
+         delete *jt;
+         del.push_back(*jt);
+      }
+      rem.push_back(it->first);
+   }
+
+   // since there is overlap between parent nodes and their adjacencies, we
+   // need to remove the overlap to identify any remaining straglers that still 
+   // need to be deleted.
+   std::vector<MapNode::first_type> straglers;
+
+   /// NB: it is important to ensure that these operations use sorting by pointer value.
+   /// otherwise, this will not work.
+   std::sort(rem.begin(), rem.end());
+   std::sort(del.begin(), del.end());
+   std::set_difference(rem.begin(), rem.end(), del.begin(), del.end(), straglers.begin());
+   
+   for(std::vector<MapNode::first_type>::iterator it = straglers.begin(); it != straglers.end(); it++) {
+      delete *it;
+   }
+}
 
 Territory* StlGameMap::begin() const {
     return NULL;
