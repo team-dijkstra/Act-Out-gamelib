@@ -31,6 +31,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestCompoundIteratorAdapter);
    CPPUNIT_TEST(iterator_should_be_equal_to_self);
+   CPPUNIT_TEST(iterators_to_same_element_should_be_equal);
    CPPUNIT_TEST_SUITE_END();
   private:
    typedef int stype;
@@ -54,12 +55,22 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
       tc.clear();
    }
    /// \endcond
-
+ 
+   /// \test ensure that a == a is true for the adapter.
    void iterator_should_be_equal_to_self() {
       ctype_iterator ci = tc.begin();
       test_iterator ti(ci);
 
       CPPUNIT_ASSERT(ti == ti);
+   }
+
+   /// \test ensure that different iterators pointing to the same element are equal.
+   void iterators_to_same_element_should_be_equal() {
+      ctype_iterator ci = tc.begin();
+      test_iterator ti1(ci);
+      test_iterator ti2(ci);
+
+      CPPUNIT_ASSERT(ti1 == ti2);
    }
 
 };
