@@ -47,6 +47,13 @@ Unit * TraditionalArmy::split (int num){
    this->decrease(num);
    return new TraditionalArmy(whereAt(),num);
 }
+/// \todo make this a pointer to a pointer
+int TraditionalArmy::merge (Unit * u){
+   int n = u->numUnits();
+   this->increase(n);
+   delete u;
+   return nUnits;
+}
 
 int TraditionalArmy::numUnits() const{
    return nUnits;

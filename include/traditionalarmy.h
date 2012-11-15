@@ -54,10 +54,12 @@ class TraditionalArmy : public Unit {
    ///         method is performed
    int decrease (int u);
 
+   Unit * split (int num=1);
+
+   int merge(Unit * u);
+   
    //accessors
    /// \return the current numUnits in this object
-   Unit * split (int num=1);
-   
    int numUnits() const;
 
    /// \return the Territory where this Unit is located
