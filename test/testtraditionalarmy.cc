@@ -123,7 +123,7 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
       Unit::actionContainer a;
       a = unitA->actions();
       CPPUNIT_ASSERT(a.size() != 0);
-      CPPUNIT_ASSERT(a[0]->name() == "MoveAction");
+      CPPUNIT_ASSERT(a[0]->name() == "Move");
 
    }
 

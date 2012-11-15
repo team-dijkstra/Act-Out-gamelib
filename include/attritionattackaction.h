@@ -47,7 +47,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class AttritionAttackAction : public Action{
   public:
    AttritionAttackAction(Unit * p);
-   ~AttritionAttackAction() {}
+   AttritionAttackAction(Unit * p, Phase * ph);
+   ~AttritionAttackAction();
 
    //accessors
    /// \return the name of the action class
@@ -68,6 +69,7 @@ class AttritionAttackAction : public Action{
 
       private:
    Unit * parent;
+   const Phase * aPhase;
 };
 
 //#include "../src/moveaction.cc"

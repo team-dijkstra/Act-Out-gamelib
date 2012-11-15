@@ -21,10 +21,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include "territory.h"
 #include "moveaction.h"
+#include "defaultphase.h"
 
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
-   uActions.push_back(new MoveAction(this));
+   uActions.push_back(new MoveAction(new DefaultPhase(std::string("Marshall")),this));
 
 }
 
@@ -51,7 +52,7 @@ Unit * TraditionalArmy::split (int num){
 int TraditionalArmy::merge (Unit * u){
    int n = u->numUnits();
    this->increase(n);
-   delete u;
+   u = NULL;
    return nUnits;
 }
 

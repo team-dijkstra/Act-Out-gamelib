@@ -35,6 +35,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "phase.h"
 #include "action.h"
+#include "builderunit.h"
+
 //class Territory;
 //class Phase;
 
@@ -46,7 +48,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 					   //template<typename U>
 class MoveAction : public Action{
   public:
-   MoveAction(Unit * p);
+   MoveAction(Phase * p, Unit * par);
    ~MoveAction() {}
 
    //accessors
@@ -67,6 +69,7 @@ class MoveAction : public Action{
 
 
       private:
+   Phase * aPhase;
    Unit * parent;
 };
 

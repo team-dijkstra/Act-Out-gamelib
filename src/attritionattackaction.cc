@@ -2,9 +2,20 @@
 #include "filterbyunittype.h"
 #include "landterritory.h"
 #include "traditionalarmy.h"
+#include "defaultphase.h"
 
 AttritionAttackAction::AttritionAttackAction(Unit * p): parent(p)
+{
+   aPhase = new DefaultPhase(std::string("Attack"));
+}
+
+AttritionAttackAction::AttritionAttackAction(Unit * p, Phase * ph): parent(p), aPhase(ph)
 {}
+
+AttritionAttackAction::~AttritionAttackAction()
+{
+   delete aPhase;
+}
 
 std::string AttritionAttackAction::name() const
 {
@@ -13,7 +24,7 @@ std::string AttritionAttackAction::name() const
 
 bool AttritionAttackAction::applicable(Phase* p) const
 {
-   return (p->name() == "Attack");
+   return (p->name() == aPhase->name());
 }
 
 void AttritionAttackAction::doaction(int nUnits, Territory * T)
@@ -21,7 +32,6 @@ void AttritionAttackAction::doaction(int nUnits, Territory * T)
    std::string attackUnitName = parent->name();
    Player * attacker = parent->whereAt()->owner();
    Player * defender = T->owner();
-   int attrition = 0;
    if(attacker == defender)
       return;
    int attackUnits = parent->numUnits();
@@ -32,6 +42,7 @@ void AttritionAttackAction::doaction(int nUnits, Territory * T)
    it = defendUnits.find(attackUnitName);
    if(it != defendUnits.end())
    {
+      int attrition = 0;
       int defendnUnits = it->second->numUnits();
       if(defendnUnits < nUnits)
 	 //more attackers than defenders
