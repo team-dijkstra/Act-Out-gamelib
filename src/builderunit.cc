@@ -37,6 +37,14 @@ int BuilderUnit::decrease (int u)
    return nUnits;
 }
 
+Unit * BuilderUnit::split (int num)
+{
+   if(num > numUnits())
+      num = numUnits();
+   this->decrease(num);
+   return new BuilderUnit(whereAt(),num);
+}
+
 int BuilderUnit::numUnits() const{
    return nUnits;
 }

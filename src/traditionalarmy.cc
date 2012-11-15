@@ -17,6 +17,7 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include <stdexcept>
 #include "traditionalarmy.h"
 #include "territory.h"
 #include "moveaction.h"
@@ -38,6 +39,13 @@ int TraditionalArmy::decrease (int u){
    int tdec = u;
    nUnits = (tdec > nUnits ? 0 : nUnits - tdec);
    return nUnits;
+}
+
+Unit * TraditionalArmy::split (int num){
+   if(num > numUnits())
+      num = numUnits();
+   this->decrease(num);
+   return new TraditionalArmy(whereAt(),num);
 }
 
 int TraditionalArmy::numUnits() const{

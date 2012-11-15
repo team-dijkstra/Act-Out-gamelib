@@ -56,6 +56,8 @@ class TraditionalArmy : public Unit {
 
    //accessors
    /// \return the current numUnits in this object
+   Unit * split (int num=1);
+   
    int numUnits() const;
 
    /// \return the Territory where this Unit is located

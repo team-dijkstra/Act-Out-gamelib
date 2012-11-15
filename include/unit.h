@@ -59,7 +59,7 @@ class Unit {
    virtual int decrease (int u) =0;
 
    //virtual int merge(Unit * u, int nunits =0) =0;
-
+   virtual Unit * split(int num=1) =0;
    //accessors
    /// \return the current numUnits in this object
    virtual int numUnits() const =0;

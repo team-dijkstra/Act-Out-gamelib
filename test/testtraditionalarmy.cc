@@ -21,7 +21,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * cpsc 2720 - Project - Unit Test cases
  */
 
-
+#include <cassert>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "traditionalarmy.h"
@@ -40,6 +40,7 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
    CPPUNIT_TEST(traditionalarmy_increase_should_increment_called_unit);
    CPPUNIT_TEST(traditionalarmy_decrease_should_decrement_numUnit_but_not_below_zero);
    CPPUNIT_TEST(traditionalarmy_actions_should_return_actionContainer);
+   CPPUNIT_TEST(traditionalarmy_should_split_correctly);
    CPPUNIT_TEST_SUITE_END();
    
   private:
@@ -126,6 +127,23 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
    }
 
    
+   /// \test ensure that split(num) splits a unit and preseves quantity
+   void traditionalarmy_should_split_correctly()
+   {
+      assert(unitA->numUnits() == 1);
+      assert(unitB->numUnits() == 4);
+      Unit * unitC;
+      Unit * unitD;
+      unitC = unitA->split();
+      unitD = unitB->split(3);
+      CPPUNIT_ASSERT(unitA->numUnits() == 0);
+      CPPUNIT_ASSERT(unitB->numUnits() == 1);
+      CPPUNIT_ASSERT(unitC->numUnits() == 1);
+      CPPUNIT_ASSERT(unitD->numUnits() == 3);
+      unitD = unitB->split(8);
+      CPPUNIT_ASSERT(unitB->numUnits() == 0);
+      CPPUNIT_ASSERT(unitD->numUnits() == 1);
+   }
 
 };
 

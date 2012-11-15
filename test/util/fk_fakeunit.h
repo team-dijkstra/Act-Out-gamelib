@@ -58,6 +58,8 @@ class FakeUnit : public Unit{
    ///         method is performed
    int decrease (int u);
 
+   Unit * split(int num){return new FakeUnit(num, tWhere);}
+   
    //accessors
    /// \return the current numUnits in this object
    int numUnits() const;
@@ -75,7 +77,7 @@ class FakeUnit : public Unit{
    int nUnits;
    Territory * tWhere;
    std::string uName;
-   std::vector<Action*> uActions;
+   Unit::actionContainer uActions;
 
 };
 
