@@ -25,7 +25,9 @@ class FakePlayer : public Player {
    Unit::actionContainer actions(TerritoryOperation *) const {
       return Unit::actionContainer();
    }
-   void nextPhase() {}
+   bool nextPhase() {
+      return false;    
+   }
 
   private:
    std::string pName;
