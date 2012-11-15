@@ -31,17 +31,19 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 void TestGameMap::setUp() {
    GameMap::AdjacencyList tal;
+   const int nterritories = 9;
    const char * territories[] = {
       "spain", "italy", "brazil", "narnia",
-      "gotham city", "metropolis", "alexandria"
+      "gotham city", "metropolis", "alexandria", 
+      "danger island", "danger island"
    };
 
-   for (int i = 0; i < 2; i++) {
+   for (int i = 0; i < nterritories; i++) {
       existing_territories.push_back(territories[i]);
    }
 
    std::back_insert_iterator<GameMap::AdjacencyList> it(tal);
-   for (int i = 0; i + 1 < 2; i++) {
+   for (int i = 0; i + 1 < nterritories; i++) {
       *it = std::make_pair(
          new FakeTerritory(territories[i]), 
          new FakeTerritory(territories[i + 1])
@@ -94,7 +96,11 @@ void TestGameMap::adjacencies_returns_empty_list_for_non_existent_items() {
 /// \test ensure that existent but non connected items do not have 
 ///       adjacencies.
 void TestGameMap::adjacencies_returns_empty_list_for_existent_item_with_no_connections() {
-   CPPUNIT_FAIL("Test not implemented.");
+   Territory * t = game_map->find("danger island");
+   GameMap::TerritoryList tl;
+   tl = game_map->adjacencies(t);
+
+   CPPUNIT_ASSERT(tl.empty());
 }
 
 /// \test ensure that all adjacent items are returned, and that no 
