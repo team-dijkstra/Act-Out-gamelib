@@ -38,13 +38,14 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    //CPPUNIT_TEST(postincrement_operator_should_advance_after);
    //CPPUNIT_TEST(predecrement_operator_should_regress_immediately);
    //CPPUNIT_TEST(postdecrement_operator_should_regress_after);
+=======
+>>>>>>> addresses issue #13. implemented first test for iterator adapter (passes).
    CPPUNIT_TEST_SUITE_END();
   private:
    typedef int stype;
    typedef std::pair<stype, double> ctype;
    typedef std::vector<ctype> ctype_container;
    typedef ctype_container::iterator ctype_iterator;
-   typedef CompoundIteratorAdapter<ctype_iterator, stype, &ctype::first> test_iterator;
 
    ctype_container tc;
   public:
