@@ -180,7 +180,7 @@ test: $(MSDIR)/testrunner.cppunit
 	@echo Testing ran successfully. See the logs in the $(LOGDIR) directory.
 
 clean:
-	rm -rf *~ $(OBJDIR)/*.o $(BINDIR)/*
+	rm -rf *.pdf *~ $(OBJDIR)/*.o $(BINDIR)/*
 
 # TODO: this could use a better name
 clean-commit: clean
