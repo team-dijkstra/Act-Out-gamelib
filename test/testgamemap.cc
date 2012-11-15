@@ -29,14 +29,14 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "testgamemap.h"
 #include "fk_faketerritory.h"
 
+const char * TestGameMap::territories[TestGameMap::nterritories] = {
+   "spain", "italy", "brazil", "narnia",
+   "gotham city", "metropolis", "alexandria", 
+   "danger island", "danger island"
+};
+
 void TestGameMap::setUp() {
    GameMap::AdjacencyList tal;
-   const int nterritories = 9;
-   const char * territories[] = {
-      "spain", "italy", "brazil", "narnia",
-      "gotham city", "metropolis", "alexandria", 
-      "danger island", "danger island"
-   };
 
    for (int i = 0; i < nterritories; i++) {
       existing_territories.push_back(territories[i]);
@@ -106,7 +106,18 @@ void TestGameMap::adjacencies_returns_empty_list_for_existent_item_with_no_conne
 /// \test ensure that all adjacent items are returned, and that no 
 ///       non-adjacent items are returned.
 void TestGameMap::adjacencies_returns_all_and_only_adjacent_items() {
-   CPPUNIT_FAIL("Test not implemented.");
+   for (int i = 1; i + 1 < nterritories; i++) {
+      Territory * t = game_map->find(territories[i]);
+      GameMap::TerritoryList tl = game_map->adjacencies(t);
+
+      // make sure no extra elements were found.
+      CPPUNIT_ASSERT(3 == tl.size());
+
+      // search previous, current and next items. (expected adjacencies)
+      for (int j = -1; j < 2; j++) {
+         CPPUNIT_ASSERT(tl[j + 1]->name() == territories[i + j]);
+      }
+   }
 }
 
 /// \test ensure that the traversal part of the traverse operation works.

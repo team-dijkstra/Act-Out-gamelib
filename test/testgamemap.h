@@ -44,6 +44,10 @@ class TestGameMap : public CppUnit::TestFixture {
    typedef std::vector<const char *> namelist;
    namelist existing_territories;
    GameMap * game_map;
+
+   static const int nterritories = 9;
+   static const char * territories[nterritories];
+
   public:
 
    // Let doxygen skip ininteresting methods.
