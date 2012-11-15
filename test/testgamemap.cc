@@ -178,6 +178,24 @@ void TestGameMap::filter_returns_all_elements_if_filter_selects_all_elements() {
 
 /// \test ensure that filter works for non-empty proper subset selections.
 void TestGameMap::filter_returns_all_and_only_selected_elements() {
-   CPPUNIT_FAIL("Test not implemented.");
+    namelist temp;
+    temp.push_back(existing_territories[2]);
+    temp.push_back(existing_territories[4]);
+    temp.push_back(existing_territories[6]);
+    temp.push_back(existing_territories[7]);
+
+    TerritoryNameFilter<namelist> tOp(temp);
+
+    GameMap::TerritoryList tl;
+    tl = game_map->filter(&tOp);
+
+    CPPUNIT_ASSERT(tl.size() == temp.size());
+
+    for (GameMap::TerritoryList::iterator it = tl.begin(); it != tl.end(); it++) {
+        namelist::iterator pos = std::find(temp.begin(), temp.end(), (*it)->name());
+        if (temp.end() != pos) temp.erase(pos);
+    }
+
+    CPPUNIT_ASSERT(temp.empty());
 }
 
