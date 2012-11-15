@@ -55,6 +55,8 @@ class BuilderUnit : public Unit {
    int decrease (int u);
 
    Unit * split(int num=1);
+
+   int merge(Unit * u);
    //accessors
    /// \return the current numUnits in this object
    int numUnits() const;

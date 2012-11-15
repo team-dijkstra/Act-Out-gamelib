@@ -41,6 +41,7 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
    CPPUNIT_TEST(traditionalarmy_decrease_should_decrement_numUnit_but_not_below_zero);
    CPPUNIT_TEST(traditionalarmy_actions_should_return_actionContainer);
    CPPUNIT_TEST(traditionalarmy_should_split_correctly);
+   CPPUNIT_TEST(traditionalarmy_should_merge_correctly);
    CPPUNIT_TEST_SUITE_END();
    
   private:
@@ -130,8 +131,6 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
    /// \test ensure that split(num) splits a unit and preseves quantity
    void traditionalarmy_should_split_correctly()
    {
-      assert(unitA->numUnits() == 1);
-      assert(unitB->numUnits() == 4);
       Unit * unitC;
       Unit * unitD;
       unitC = unitA->split();
@@ -143,8 +142,19 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
       unitD = unitB->split(8);
       CPPUNIT_ASSERT(unitB->numUnits() == 0);
       CPPUNIT_ASSERT(unitD->numUnits() == 1);
+      delete unitC;
+      delete unitD;
    }
 
+   /// \test ensure that merge(u) merges two units and preseves quantity
+   void traditionalarmy_should_merge_correctly()
+   {
+      unitA->merge(unitB->split(4));
+      CPPUNIT_ASSERT(unitA->numUnits() == 5);
+      CPPUNIT_ASSERT(unitB->numUnits() == 0);
+      //CPPUNIT_ASSERT(unitB == NULL);
+   }
+   
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestTraditionalArmy);

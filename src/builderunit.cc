@@ -45,6 +45,13 @@ Unit * BuilderUnit::split (int num)
    return new BuilderUnit(whereAt(),num);
 }
 
+int BuilderUnit::merge (Unit * u){
+   int n = u->numUnits();
+   this->increase(n);
+   delete u;
+   return nUnits;
+}
+
 int BuilderUnit::numUnits() const{
    return nUnits;
 }
