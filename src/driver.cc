@@ -104,17 +104,29 @@ public:
       }
       return pass;
    }
-   void Attack(Territory * att, Territory * def)
+   bool Attack(Territory * att, Territory * def, Player * player)
    {
+      
       set< Territory* >::iterator i1,i2;
       i1 = allTerr.find(att);
       i2 = allTerr.find(def);
       if(i1!=allTerr.end() && i2!=allTerr.end() )
       {
+	 phaseList curr = player->remainingPhases();
+	 phaseList::iterator phsIT = curr.begin();
+
 	 Action * a = new AttritionAttackAction(new TraditionalArmy(att,10));
-	 a->doaction(1,def);
+	 bool cando = a->applicable(*phsIT);
+	 if(cando)
+	 {
+	    //  cout << "Can Do!\n";
+	    a->doaction(1,def);
+	 }
+
 	 delete a;
+	 return cando;
       }
+      return false;
    }
    
    territorylist getSet()
@@ -311,7 +323,8 @@ void attack(GameMap *& g, playerList & plst, Player *& currP)
    mIT = m.find(s);
    
    Territory * p2 = mIT->second;
-   g->Attack(p1, p2);
+   bool success = g->Attack(p1, p2, currP);
+   cout << "\n\n *** Attack "<<(success? "Suceeded!":"Failed!")<<" ***"<<endl;
 
    cout << endl;
       
