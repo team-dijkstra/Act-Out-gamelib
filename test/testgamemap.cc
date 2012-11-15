@@ -32,6 +32,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "removefromotherop.h"
 #include "takeoverop.h"
 #include "removeownedby.h"
+#include "trivialterritoryfilter.h"
 
 const char * TestGameMap::territories[TestGameMap::nterritories] = {
    "spain", "italy", "brazil", "narnia",
@@ -149,7 +150,11 @@ void TestGameMap::traverse_applies_operation_transformations() {
 
 /// \test ensure that filter works for selected sets of size 0.
 void TestGameMap::filter_returns_empty_list_if_filter_selects_no_elements() {
-   CPPUNIT_FAIL("Test not implemented.");
+   TerritoryBlockFilter p;
+   GameMap::TerritoryList tl;
+   tl = game_map->filter(&p);
+
+   CPPUNIT_ASSERT(tl.empty());
 }
 
 /// \test ensure that filter works for selections that include everything.
