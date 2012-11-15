@@ -84,6 +84,11 @@ void TestGameMap::find_returns_position_for_existent_items() {
 
 /// \test ensure that non-existent items do not have any adjacencies.
 void TestGameMap::adjacencies_returns_empty_list_for_non_existent_items() {
+   FakeTerritory ft("foobar");
+   GameMap::TerritoryList tl;
+   tl = game_map->adjacencies(&ft);
+
+   CPPUNIT_ASSERT(tl.empty());
 }
 
 /// \test ensure that existent but non connected items do not have 
