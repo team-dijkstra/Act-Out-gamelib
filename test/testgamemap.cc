@@ -41,6 +41,12 @@ const char * TestGameMap::territories[TestGameMap::nterritories] = {
    "danger island", "danger island"
 };
 
+const char * TestGameMap::territories[TestGameMap::nterritories] = {
+   "spain", "italy", "brazil", "narnia",
+   "gotham city", "metropolis", "alexandria", 
+   "danger island", "danger island"
+};
+
 void TestGameMap::setUp() {
    GameMap::AdjacencyList tal;
 
