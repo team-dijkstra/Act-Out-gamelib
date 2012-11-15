@@ -86,6 +86,10 @@ Territory* StlGameMap::begin() const {
     return (territories.begin())->first;
 }
 
+Territory* StlGameMap::find(TerritoryName) const {
+   return NULL; 
+}
+
 GameMap::TerritoryList StlGameMap::adjacencies(Territory *) const {
    return TerritoryList();
 }
