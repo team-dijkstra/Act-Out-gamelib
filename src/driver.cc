@@ -10,6 +10,7 @@
 
 #include "defaultplayer.h"
 #include "landterritory.h"
+#include "defaultphase.h"
 //#include "stlgamemap.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ using namespace std;
 typedef vector< pair< Territory*, Territory* > > adjList;
 typedef vector< Player* > playerList;
 typedef map< string, int > comList;
+typedef Player::phaselist phaseList;
 
 
 struct GameMap{
@@ -28,7 +30,7 @@ struct GameMap{
 
 void init(map< string, int > &);
 void help();
-void setup(GameMap *&, playerList &);
+void setup(GameMap *&, playerList &, phaseList&);
 void showmap();
 void myterritories(Player *);
 void playPhase(GameMap *&, playerList &, Player *&);
@@ -46,8 +48,10 @@ int main()
 
    GameMap * myGameMap;
    playerList pList;
+   phaseList phsList;
+   phaseList::iterator phsIT;
    
-   setup(myGameMap,pList);
+   setup(myGameMap,pList,phsList);
    Player * currentTurn;
    currentTurn = pList[0];
    cout << endl;
@@ -57,7 +61,12 @@ int main()
    
    while(playGame(myGameMap, pList, commands, currentTurn))
    {
-      cout << "The current player is: " <<currentTurn->name() <<endl;
+      phaseList curr = currentTurn->remainingPhases();
+      phsIT = curr.begin();
+      //string cp = phsIT->name();
+      string cp =  (*phsIT)->name();
+      cout << "The current player is: " <<currentTurn->name();
+      cout << " The current phase is: " <<cp <<endl;
    }
    return 0;
 }
@@ -69,8 +78,8 @@ void init(map< string, int > & commands)
    //commands["'help'"] = index++;
    commands["showmap"] = index++;
    commands["myterritories"] = index++;
-   commands["playPhase"] = index++;
-   commands["nextPhase"] = index++;
+   commands["play"] = index++;
+   commands["next"] = index++;
    commands["quit"] = index++;
    //commands[""] = index++;
 }
@@ -81,22 +90,27 @@ void help()
    cout << "'help': display these help instructions."<<endl;
    cout << "'showmap': display all the territories."<<endl;
    cout << "'myterritories': display the list of territories owned by the current player."<<endl;
-   cout << "'playPhase': Play the current player's current phase of the current turn \n\t(will automatically move on to the next phase)"<<endl;
-   cout << "'nextPhase': move to the players next phase of the current turn \n\t(if no more phases are left in the current turn, this will move to the next players turn)"<<endl;
+   cout << "'play': Play the current player's current phase of the current turn \n\t(will automatically move on to the next phase)"<<endl;
+   cout << "'next': move to the players next phase of the current turn \n\t(if no more phases are left in the current turn, this will move to the next players turn)"<<endl;
    cout << "'quit': current player quits (lame!)"<<endl;
    cout << endl;
 }
 
-void setup(GameMap *& gm ,playerList& pL)
+void setup(GameMap *& gm ,playerList& pL, phaseList& phsL)
 {
+   //setup phaselist
+   phsL.push_back(new DefaultPhase(string("Marshal")));
+   phsL.push_back(new DefaultPhase(string("Attack")));
+   phsL.push_back(new DefaultPhase(string("Redeploy")));
+   
    string pn1,pn2;
    cout << "This game has 2 players"<<endl;
    cout << "Please enter the name of player 1: ";
    getline(cin, pn1);
-   Player * p1 = new DefaultPlayer(pn1);
+   Player * p1 = new DefaultPlayer(pn1, phsL);
    cout << "Please enter the name of player 2: ";
    getline(cin, pn2);
-   Player * p2 = new DefaultPlayer(pn2);
+   Player * p2 = new DefaultPlayer(pn2, phsL);
    pL.push_back(p1);
    pL.push_back(p2);
    
@@ -135,14 +149,27 @@ void myterritories(Player * p)
 
 void playPhase(GameMap *& gm, playerList & pl, Player *& player)
 {
+   phaseList curr = player->remainingPhases();
+   phaseList::iterator cIT;
+   cIT = curr.begin();
+   string s = (*cIT)->name();
    gm->out();pl[0]->name();
-   cout << "\t***Stub: Doing "<<player->name()<<"'s Current Phase" << endl;
+   cout << "\t***Stub: Doing "<<player->name()<<"'s Current Phase: "<< s << endl;
    cout << endl;
 }
 
 void nextPhase(GameMap *& gm, playerList & pl, Player *& player)
 {
-   gm->out();pl[0]->name();player->name();
+   gm->out();
+   bool nextPlayer = player->nextPhase();
+   if(nextPlayer)
+   {
+      if(player->name() != pl[0]->name() )
+	 player = pl[0];
+      else
+	 player = pl[1];
+   }
+   
    cout << "\t***Stub: Moving to Next Phase" << endl;
    cout << endl;
 }
