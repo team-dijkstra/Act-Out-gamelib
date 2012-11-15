@@ -55,18 +55,42 @@ public:
    void out(){
       cout<<"";
    }
-   territorylist print()
+
+   void print()
+   {
+      territorylist l = list();
+      territorylist::iterator lsIT;
+      for(lsIT = l.begin(); lsIT != l.end(); ++lsIT)
+      {
+	 cout << (*lsIT)->name() << endl;;
+      }
+   }
+
+   void print(Player * p)
+   {
+      territorylist l = list(p);
+      territorylist::iterator lsIT;
+      for(lsIT = l.begin(); lsIT != l.end(); ++lsIT)
+      {
+	 cout << (*lsIT)->name() << endl;;
+      }
+      
+   }
+   
+   territorylist list()
    {
       territorylist pass;
       set< Territory*>::iterator gIT;
       for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
       {
 	 pass.insert(*gIT);
-	 cout << (*gIT)->name() << endl;;
+	 //cout << (*gIT)->name() << endl;;
       }
       return pass;
    }
-   territorylist players(Player * p)
+
+   
+   territorylist list(Player * p)
    {
       territorylist pass;
       set< Territory*>::iterator gIT;
@@ -75,7 +99,7 @@ public:
 	 if( (*gIT)->owner() == p)
 	 {
 	    pass.insert(*gIT);
-	    cout << (*gIT)->name() << endl;;
+	    //cout << (*gIT)->name() << endl;;
 	 }
       }
       return pass;
@@ -227,7 +251,7 @@ void showmap(GameMap *& g)
 void myterritories(GameMap *& g,Player * p)
 {
    //cout << "\t***Stub: "<<p->name()<<"'s Territory List!" << endl;
-   g->players(p);
+   g->print(p);
    cout << endl;
 }
 
@@ -372,18 +396,18 @@ bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *
 bool isWinner(GameMap *& g, playerList& pL, Player * currentTurn)
 {
    /// \todo win condition for more than 2 players loop thru pL if all other player !alive() then currentTurn Wins
-   bool win;
+   bool win = false;
    if (pL[0]==currentTurn){
       win = !pL[1]->alive(); // \todo fix this
-      territorylist us = g-> players(pL[1]);
-      if (us.size()==0)
+      territorylist us = g-> list(pL[1]);
+      if (us.empty())
 	 win = true;
    }
-   else
+   else //(pL[1]==currentTurn)
    {
       win = !pL[0]->alive(); // \todo fix this
-      territorylist us = g-> players(pL[0]);
-      if (us.size()==0)
+      territorylist us = g-> list(pL[0]);
+      if (us.empty())
 	 win = true;
   
    }
