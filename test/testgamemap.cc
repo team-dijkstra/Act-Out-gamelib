@@ -155,7 +155,7 @@ void TestGameMap::traverse_applies_operation_transformations() {
 
    delete p;
 }
-EA
+
 /// \test ensure that filter works for selected sets of size 0.
 void TestGameMap::filter_returns_empty_list_if_filter_selects_no_elements() {
    TerritoryBlockFilter p;
