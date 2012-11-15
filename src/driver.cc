@@ -82,8 +82,15 @@ public:
    }
    void Attack(Territory * att, Territory * def)
    {
-      Action * a = new AttritionAttackAction(new TraditionalArmy(att,10));
-      a->doaction(1,def);
+      set< Territory* >::iterator i1,i2;
+      i1 = allTerr.find(att);
+      i2 = allTerr.find(def);
+      if(i1!=allTerr.end() && i2!=allTerr.end() )
+      {
+	 Action * a = new AttritionAttackAction(new TraditionalArmy(att,10));
+	 a->doaction(1,def);
+	 delete a;
+      }
    }
    
    territorylist getSet()
@@ -109,7 +116,7 @@ void nextPhase(GameMap *&, playerList &, Player *&);
 void attack(GameMap *&, playerList &, Player *&);
 
 bool playGame(GameMap *&, playerList &, comList&, Player *&);
-bool isWinner(playerList&, Player *);
+bool isWinner(GameMap *&, playerList&, Player *);
 
 
 int main()
@@ -132,7 +139,7 @@ int main()
    cout << "Game is ready, "<< currentTurn->name() << " will proceed first" << endl<<endl;
    //cout << "The commands are: "<<endl;
    
-   while(playGame(myGameMap, pList, commands, currentTurn))
+   do
    {
       phaseList curr = currentTurn->remainingPhases();
       phsIT = curr.begin();
@@ -141,6 +148,7 @@ int main()
       cout << "The current player is: " <<currentTurn->name();
       cout << " The current phase is: " <<cp <<endl;
    }
+   while(playGame(myGameMap, pList, commands, currentTurn));
    return 0;
 }
 
@@ -252,9 +260,34 @@ void nextPhase(GameMap *& gm, playerList & pl, Player *& player)
 
 void attack(GameMap *& g, playerList & plst, Player *& currP)
 {
-   cout << "attack!";
+   cout << "***Attack!***"<<endl;
    territorylist aL = g->getSet();
+   cout << "List of All Territories:" <<endl;
+   g->print();
+   cout<<endl;
+   cout << "Your Territories: "<<endl;
+   myterritories(g, currP);
+   territorylist::iterator gaLIT;
+   map< string, Territory* > m;
+   map< string, Territory* >::iterator mIT;
+   for(gaLIT = aL.begin(); gaLIT != aL.end(); ++gaLIT)
+   {
+      Territory * t = (*gaLIT);
+      string s = t->name();
+      m[s]=t;
+   }
+   string s;
+   cout << "Choose attacking territory: ";
+   cin >> s;
+   mIT = m.find(s);
+   Territory * p1 = mIT->second;
+
+   cout << "Choose defending territory: ";
+   cin >> s;
+   mIT = m.find(s);
    
+   Territory * p2 = mIT->second;
+   g->Attack(p1, p2);
 
    cout << endl;
       
@@ -299,6 +332,11 @@ bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *
 	    case 4:
 	       //move to the next phase
 	       cout << " >>> Moving on to next phase."<<endl;
+	       if(isWinner(myGame , pList, currentTurn ))
+	       {
+		  cout << " >>> "<<currentTurn->name() << "wins!"<<endl;
+		  return false;
+	       }
 	       nextPhase(myGame , pList, currentTurn);
 	       break;
 	    case 5:
@@ -327,13 +365,27 @@ bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *
    }
    
    
-   return isWinner( pList, currentTurn );   
+   return true;
 }
 
 /// \todo check for winner
-bool isWinner(playerList& pL, Player * currentTurn)
+bool isWinner(GameMap *& g, playerList& pL, Player * currentTurn)
 {
    /// \todo win condition for more than 2 players loop thru pL if all other player !alive() then currentTurn Wins
-   bool lost = currentTurn->alive(); // \todo fix this
-   return lost;
+   bool win;
+   if (pL[0]==currentTurn){
+      win = !pL[1]->alive(); // \todo fix this
+      territorylist us = g-> players(pL[1]);
+      if (us.size()==0)
+	 win = true;
+   }
+   else
+   {
+      win = !pL[0]->alive(); // \todo fix this
+      territorylist us = g-> players(pL[0]);
+      if (us.size()==0)
+	 win = true;
+  
+   }
+   return win;
 }
