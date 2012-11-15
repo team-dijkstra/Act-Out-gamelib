@@ -60,7 +60,7 @@ class StlGameMap : public GameMap {
    /// \copydoc 
    TerritoryList players(Player *) const;
 
-   /// \copydoc
+   /// \copydocstd::vector<std::pair<Territory*, Territory*> >::iterator
    TerritoryList filter(TerritoryOperation * op) const; 
       
    //mutators
