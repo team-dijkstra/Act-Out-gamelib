@@ -28,6 +28,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "gamemap.h"
 #include "testgamemap.h"
 #include "fk_faketerritory.h"
+#include "removefromotherop.h"
 
 const char * TestGameMap::territories[TestGameMap::nterritories] = {
    "spain", "italy", "brazil", "narnia",
@@ -122,7 +123,11 @@ void TestGameMap::adjacencies_returns_all_and_only_adjacent_items() {
 
 /// \test ensure that the traversal part of the traverse operation works.
 void TestGameMap::traverse_visits_all_territories() {
-   CPPUNIT_FAIL("Test not implemented.");
+   RemoveFromOther<namelist> tOp(existing_territories);
+
+   game_map->traverse(&tOp, game_map->begin());
+
+   CPPUNIT_ASSERT(tOp.result().empty());
 }
 
 /// \test ensure that the visitor part of the traverse operation works.
