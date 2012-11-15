@@ -52,7 +52,7 @@ class DefaultPlayer : public Player {
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
    ///       reset to the first phase
-   void nextPhase();
+   bool nextPhase();
 
   private:
    typedef Player::phaselist phaselist;

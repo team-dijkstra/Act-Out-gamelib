@@ -77,6 +77,15 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) const
 //Mutator
 /// \post moves to the next phase, if the last phase is reached
 ///       reset to the first phase
-void DefaultPlayer::nextPhase(){
+bool DefaultPlayer::nextPhase()
+{
+   ++currentPhase;
+   if(currentPhase == phases.end())
+   {
+      currentPhase = phases.begin();
+      return true;
+   }
+   return false;
 
+      
 }

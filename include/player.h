@@ -55,7 +55,7 @@ class Player {
    //Mutator
    /// \post moves to the next phase, it the last phase is reached
    ///       reset to the first phase
-   virtual void nextPhase() =0;
+   virtual bool nextPhase() =0;
    
    virtual ~Player() {}
 };

@@ -35,6 +35,7 @@ class TestPlayer : public CppUnit::TestFixture {
    CPPUNIT_TEST(player_name_should_be_as_constructed);
    CPPUNIT_TEST(player_should_be_alive_when_constructed);
    CPPUNIT_TEST(player_remainingPhases_should_return_a_phaselist);
+   CPPUNIT_TEST(player_nextPhases_should_move_to_next_element_in_phaselist);
    
    CPPUNIT_TEST_SUITE_END();
    
@@ -92,7 +93,26 @@ class TestPlayer : public CppUnit::TestFixture {
       
    }
 
-
+  /// \test ensure that the player names are correctly reported
+   void player_nextPhases_should_move_to_next_element_in_phaselist()
+   {
+      it = Plist.begin();
+      ++it;
+      Player::phaselist Pl2;
+      Player::phaselist::iterator it2;
+      playerA->nextPhase();
+      Pl2 = playerA->remainingPhases();
+      it2 = Pl2.begin();
+      //CPPUNIT_ASSERT(Plist.size() == Pl2.size());
+      //CPPUNIT_ASSERT(Plist == Pl2);
+      CPPUNIT_ASSERT(*(it2) == *(it));
+            
+      playerA->nextPhase();
+      Pl2 = playerA->remainingPhases();
+      it2 = Pl2.begin();
+      it = Plist.begin();
+      CPPUNIT_ASSERT(*(it2) == *(it));
+   }
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestPlayer);
