@@ -49,7 +49,7 @@ class CompoundIteratorAdapter {
    CompoundIteratorAdapter(self_type & ci) : compound_iterator(ci.compound_iterator) {}
    
    bool operator== (self_type const& rhs) const {
-      return (compound_iterator == rhs.val);
+      return (compound_iterator == rhs.compound_iterator);
    }
 
    bool operator!= (self_type const& rhs) const {

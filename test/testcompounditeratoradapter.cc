@@ -30,29 +30,16 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// CompoundIteratorAdapter test suite.
 class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestCompoundIteratorAdapter);
+   CPPUNIT_TEST(iterator_should_be_equal_to_self);
    CPPUNIT_TEST_SUITE_END();
   private:
-   typedef std::vector<std::pair<int, double> > test_container;
-   typedef test_container::iterator test_iterator;
-   typedef typename std::iterator_traits<test_iterator>::value_type outer_value_type;
-   typedef CompoundIteratorAdapter<
-      test_iterator,
-      typename outer_value_type::first_type //, 
-      //&iterator_traits<test_iterator>::value_type::first
-      > first_iterator;
-   
-   typedef CompoundIteratorAdapter<
-      test_iterator, 
-      typename outer_value_type::first_type //, 
-      //&iterator_traits<test_iterator>::value_type::second
-      > second_iterator;
-   
+   typedef int stype;
+   typedef std::pair<stype, double> ctype;
+   typedef std::vector<ctype> ctype_container;
+   typedef ctype_container::iterator ctype_iterator;
+   typedef CompoundIteratorAdapter<ctype_iterator, ctype> test_iterator;
 
-   test_container tc;
-   first_iterator * fi;
-   first_iterator * fi_end;
-   second_iterator * si;
-   second_iterator * si_end;
+   ctype_container tc;
   public:
 
    // let doxygen skip uninteresting methods
@@ -61,18 +48,19 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
       for (int i = 0; i < 20; i++) {
           tc.push_back(std::make_pair(i, (double)i));
       }
-      //fi = new first_iterator(tc.begin(), &first_iterator::value_type);
    }
 
    void tearDown() {
       tc.clear();
-      delete fi;
-      delete fi_end;
-      delete si;
-      delete si_end;
    }
    /// \endcond
 
+   void iterator_should_be_equal_to_self() {
+      ctype_iterator ci = tc.begin();
+      test_iterator ti(ci);
+
+      CPPUNIT_ASSERT(ti == ti);
+   }
 
 };
 
