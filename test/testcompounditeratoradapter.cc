@@ -33,13 +33,18 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    CPPUNIT_TEST(iterator_should_be_equal_to_self);
    CPPUNIT_TEST(iterators_to_same_element_should_be_equal);
    CPPUNIT_TEST(iterators_to_different_element_should_not_be_equal);
+   CPPUNIT_TEST(iterator_dereference_should_yield_member_value);
+   //CPPUNIT_TEST(preincrement_operator_should_advance_immediately);
+   //CPPUNIT_TEST(postincrement_operator_should_advance_after);
+   //CPPUNIT_TEST(predecrement_operator_should_regress_immediately);
+   //CPPUNIT_TEST(postdecrement_operator_should_regress_after);
    CPPUNIT_TEST_SUITE_END();
   private:
    typedef int stype;
    typedef std::pair<stype, double> ctype;
    typedef std::vector<ctype> ctype_container;
    typedef ctype_container::iterator ctype_iterator;
-   typedef CompoundIteratorAdapter<ctype_iterator, ctype> test_iterator;
+   typedef CompoundIteratorAdapter<ctype_iterator, stype, &ctype::first> test_iterator;
 
    ctype_container tc;
   public:
@@ -59,7 +64,8 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
       tc.clear();
    }
    /// \endcond
- 
+
+   
    /// \test ensure that a == a is true for the adapter.
    void iterator_should_be_equal_to_self() {
       ctype_iterator ci = tc.begin();
@@ -80,13 +86,38 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    /// \test ensure that iterators pointing to different elements are not equal.
    void iterators_to_different_element_should_not_be_equal() {
       ctype_iterator ci1 = tc.begin();
+      ctype_iterator ciend = tc.end();
       ctype_iterator ci2 = ci1;
       ci2++;
 
-      while (ci2 != tc.end()) {
-         CPPUNIT_ASSERT(ci1++ != ci2++);
+      test_iterator ti1(ci1);
+      test_iterator ti2(ci2);
+      test_iterator tiend(ciend);
+
+      while (ti2 != tiend) {
+         CPPUNIT_ASSERT(ti1++ != ti2++);
+      }
+      
+   }
+
+   /// \test ensure that the pointer dereference operator works.
+   ///       The value should be the same as the native iterator component value. 
+   void iterator_dereference_should_yield_member_value() {
+      ctype_iterator ci1 = tc.begin();
+      ctype_iterator ci2 = ci1;
+      ctype_iterator ciend = tc.end();
+      
+      test_iterator ti1(ci1);
+      test_iterator tiend(ciend);
+
+      while (ti1 != tiend) {
+         stype si2 = ci2->first;
+         //CPPUNIT_ASSERT(*ti1 == si2);
+         ti1++;
+         ci2++;
       }
    }
+   
 
 };
 

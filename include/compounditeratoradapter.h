@@ -24,13 +24,12 @@
 ///
 template<
    typename CI, 
-   typename CV //,
-   //typename std::iterator_traits<CI>::value_type::* member = NULL
-   > 
+   typename CV,
+   CV std::iterator_traits<CI>::value_type::* member> 
 class CompoundIteratorAdapter {
   public:
    // Helper types 
-   typedef CompoundIteratorAdapter<CI, CV> self_type;
+   typedef CompoundIteratorAdapter<CI, CV, member> self_type;
    
    // Iterator Traits
    typedef typename std::iterator_traits<CI>::difference_type difference_type;
@@ -78,9 +77,10 @@ class CompoundIteratorAdapter {
       return tmp;
    }
 
-   /*
+   /**
+    * \todo type mismatches.
    reference operator* () const {
-      return compound_iterator->*member;
+      return compound_iterator.*member;
    }
 
    pointer operator-> () const {
@@ -89,9 +89,6 @@ class CompoundIteratorAdapter {
    */
 
   private:
-   /// \todo Shouldn't need to store this since it should be a compile
-   ///       time constant.
-   //typename outer_value_type::* member;
    CI & compound_iterator;
 };
 
