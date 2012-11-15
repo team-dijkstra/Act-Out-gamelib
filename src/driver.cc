@@ -7,11 +7,14 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <set>
 
 #include "defaultplayer.h"
 #include "landterritory.h"
 #include "defaultphase.h"
 //#include "stlgamemap.h"
+#include "attritionattackaction.h"
+#include "traditionalarmy.h"
 
 using namespace std;
 
@@ -19,22 +22,91 @@ typedef vector< pair< Territory*, Territory* > > adjList;
 typedef vector< Player* > playerList;
 typedef map< string, int > comList;
 typedef Player::phaselist phaseList;
+typedef set<Territory* > territorylist;
 
 
-struct GameMap{
+class GameMap{
+public:
+   GameMap(adjList & a):myAjL(a)//, unclaimed(new DefaultPlayer(string("Unclaimed")))
+   {
+      adjList::iterator it;
+      for(it = myAjL.begin();  it!=myAjL.end() ; ++it)
+      {
+	 allTerr.insert(it->first);
+	 allTerr.insert(it->second);
+      }
+   }
+
+   void setOwners(Player * p1, Player * p2)
+   {
+      set< Territory*>::iterator gIT;
+      int m=0;
+      for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
+      {
+	 if(((m++)%2 ) == 0)
+	 {
+	    (*gIT)->owner(p1);
+	 }
+	 else
+	    (*gIT)->owner(p2);
+      }
+   }
+
+   void out(){
+      cout<<"";
+   }
+   territorylist print()
+   {
+      territorylist pass;
+      set< Territory*>::iterator gIT;
+      for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
+      {
+	 pass.insert(*gIT);
+	 cout << (*gIT)->name() << endl;;
+      }
+      return pass;
+   }
+   territorylist players(Player * p)
+   {
+      territorylist pass;
+      set< Territory*>::iterator gIT;
+      for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
+      {
+	 if( (*gIT)->owner() == p)
+	 {
+	    pass.insert(*gIT);
+	    cout << (*gIT)->name() << endl;;
+	 }
+      }
+      return pass;
+   }
+   void Attack(Territory * att, Territory * def)
+   {
+      Action * a = new AttritionAttackAction(new TraditionalArmy(att,10));
+      a->doaction(1,def);
+   }
    
-   GameMap(adjList){}
-   void out(){cout<<"";}
+   territorylist getSet()
+   {
+      return allTerr;
+   }
+   
+private:
+   adjList myAjL;
+   //Player * unclaimed;
+   set< Territory* > allTerr;
+   
    
 };
 
 void init(map< string, int > &);
 void help();
 void setup(GameMap *&, playerList &, phaseList&);
-void showmap();
-void myterritories(Player *);
+void showmap(GameMap *&);
+void myterritories(GameMap *&,Player *);
 void playPhase(GameMap *&, playerList &, Player *&);
 void nextPhase(GameMap *&, playerList &, Player *&);
+void attack(GameMap *&, playerList &, Player *&);
 
 bool playGame(GameMap *&, playerList &, comList&, Player *&);
 bool isWinner(playerList&, Player *);
@@ -52,6 +124,7 @@ int main()
    phaseList::iterator phsIT;
    
    setup(myGameMap,pList,phsList);
+   myGameMap->setOwners(pList[0],pList[1]);
    Player * currentTurn;
    currentTurn = pList[0];
    cout << endl;
@@ -77,9 +150,10 @@ void init(map< string, int > & commands)
    commands["help"] = index++;
    //commands["'help'"] = index++;
    commands["showmap"] = index++;
-   commands["myterritories"] = index++;
+   commands["showme"] = index++;
    commands["play"] = index++;
    commands["next"] = index++;
+   commands["attack"] = index++;
    commands["quit"] = index++;
    //commands[""] = index++;
 }
@@ -89,7 +163,7 @@ void help()
    cout << "===List Of Commands==="<<endl;
    cout << "'help': display these help instructions."<<endl;
    cout << "'showmap': display all the territories."<<endl;
-   cout << "'myterritories': display the list of territories owned by the current player."<<endl;
+   cout << "'showme': display the list of territories owned by the current player."<<endl;
    cout << "'play': Play the current player's current phase of the current turn \n\t(will automatically move on to the next phase)"<<endl;
    cout << "'next': move to the players next phase of the current turn \n\t(if no more phases are left in the current turn, this will move to the next players turn)"<<endl;
    cout << "'quit': current player quits (lame!)"<<endl;
@@ -119,7 +193,7 @@ void setup(GameMap *& gm ,playerList& pL, phaseList& phsL)
    Territory *t2 = new LandTerritory("Germany");
    Territory *t3 = new LandTerritory("GreatWhiteNorth");
    Territory *t4 = new LandTerritory("Sweden");
-   Territory *t5 = new LandTerritory("StinkinYankees");
+   Territory *t5 = new LandTerritory("Yankees");
    Territory *t6 = new LandTerritory("Mexico");
    
    /// create adjacency list
@@ -135,15 +209,17 @@ void setup(GameMap *& gm ,playerList& pL, phaseList& phsL)
    
 }
 
-void showmap()
+void showmap(GameMap *& g)
 {
-   cout << "\t***Stub: All Territory List!" << endl;
+   //cout << "\t***Stub: All Territory List!" << endl;
+   g->print();
    cout << endl;
 }
 
-void myterritories(Player * p)
+void myterritories(GameMap *& g,Player * p)
 {
-   cout << "\t***Stub: "<<p->name()<<"'s Territory List!" << endl;
+   //cout << "\t***Stub: "<<p->name()<<"'s Territory List!" << endl;
+   g->players(p);
    cout << endl;
 }
 
@@ -170,10 +246,21 @@ void nextPhase(GameMap *& gm, playerList & pl, Player *& player)
 	 player = pl[1];
    }
    
-   cout << "\t***Stub: Moving to Next Phase" << endl;
+   cout << "\t**Moving to Next Phase**" << endl;
    cout << endl;
 }
+
+void attack(GameMap *& g, playerList & plst, Player *& currP)
+{
+   cout << "attack!";
+   territorylist aL = g->getSet();
    
+
+   cout << endl;
+      
+}
+
+
 bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *& currentTurn)
 {
    map< string, int >::iterator comIT;
@@ -197,12 +284,12 @@ bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *
 	    case 1:
 	       //show list of all territories
 	       cout<< " >>> Listing all territories: "<<endl;
-	       showmap();
+	       showmap(myGame);
 	       break;
 	    case 2:
 	       //show a list of currentTurn players territories
 	       cout<< " >>> " << currentTurn->name()<<"'s territories: "<<endl;
-	       myterritories(currentTurn);
+	       myterritories(myGame,currentTurn);
 	       break;
 	    case 3:
 	       //play the current phase
@@ -215,6 +302,9 @@ bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *
 	       nextPhase(myGame , pList, currentTurn);
 	       break;
 	    case 5:
+	       attack(myGame , pList, currentTurn);
+	       break;
+	    case 6:
 	       //player quits
 	       cout << " >>> "<<currentTurn->name() << " quits! (Looser!)"<< endl;
 	       return false;
