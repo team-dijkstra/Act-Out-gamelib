@@ -23,6 +23,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iterator>
 #include <utility>
+#include <algorithm>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "gamemap.h"
@@ -159,7 +160,20 @@ void TestGameMap::filter_returns_empty_list_if_filter_selects_no_elements() {
 
 /// \test ensure that filter works for selections that include everything.
 void TestGameMap::filter_returns_all_elements_if_filter_selects_all_elements() {
-   CPPUNIT_FAIL("Test not implemented.");
+   namelist temp = existing_territories;
+   TerritoryPassFilter p;
+   GameMap::TerritoryList tl;
+   tl = game_map->filter(&p);
+
+   CPPUNIT_ASSERT(tl.size() == temp.size());
+
+   for (GameMap::TerritoryList::iterator it = tl.begin(); it != tl.end(); it++) {
+      
+      namelist::iterator pos = std::find(temp.begin(), temp.end(), (*it)->name());
+      if (temp.end() != pos) temp.erase(pos);
+   }
+
+   CPPUNIT_ASSERT(temp.empty());
 }
 
 /// \test ensure that filter works for non-empty proper subset selections.
