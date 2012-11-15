@@ -26,8 +26,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define STL_GAMEMAP_H
 
 #include <vector>
-#include <map>
+//#include <map>
 #include <string>
+#include <utility>
 #include "gamemap.h"
 
 class Player;
@@ -65,7 +66,9 @@ class StlGameMap : public GameMap {
    //mutators
    /// \copydoc 
    void traverse(TerritoryOperation * op, Territory * start);
-   
+  private:
+   typedef std::pair<Territory*, TerritoryList> MapNode;
+   typedef std::vector<MapNode> MapType;
 };
 
 #endif

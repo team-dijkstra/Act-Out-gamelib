@@ -33,6 +33,8 @@ class TerritoryNameFilter: public TerritoryOperation {
          bfound = (*it == t->name());
          it++;
       }
+
+      return bfound;
    }
 
   private:

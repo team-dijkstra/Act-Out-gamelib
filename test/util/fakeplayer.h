@@ -22,7 +22,7 @@ class FakePlayer : public Player {
    phaselist remainingPhases() const {
       return phaselist();
    }
-   Unit::actionContainer actions(TerritoryOperation * op) const {
+   Unit::actionContainer actions(TerritoryOperation *) const {
       return Unit::actionContainer();
    }
    void nextPhase() {}

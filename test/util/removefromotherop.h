@@ -23,6 +23,8 @@ class RemoveFromOther : public TerritoryOperation {
       typename C::iterator pos;
       pos = std::find(other.begin(), other.end(), t->name());
       if (other.end() != pos) other.erase(pos);
+
+      return false;
    }
 
    /// Allows the resulting set to be retrieved once all operations have

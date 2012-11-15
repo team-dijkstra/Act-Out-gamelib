@@ -64,7 +64,7 @@ void TestGameMap::tearDown() {
    delete game_map;
 }
 
-GameMap* TestGameMap::createGameMap(const GameMap::AdjacencyList & tal) {
+GameMap* TestGameMap::createGameMap(const GameMap::AdjacencyList &) {
     /// \todo throw an appropriate exception?
     return NULL;
 }

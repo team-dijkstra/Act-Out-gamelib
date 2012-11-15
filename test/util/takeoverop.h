@@ -16,6 +16,8 @@ class TakeOver : public TerritoryOperation {
 
    bool operator()(Territory * t) {
       t->owner(conquerer);
+
+      return false;
    }
 
   private:
