@@ -38,8 +38,6 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    //CPPUNIT_TEST(postincrement_operator_should_advance_after);
    //CPPUNIT_TEST(predecrement_operator_should_regress_immediately);
    //CPPUNIT_TEST(postdecrement_operator_should_regress_after);
-=======
->>>>>>> addresses issue #13. implemented first test for iterator adapter (passes).
    CPPUNIT_TEST_SUITE_END();
   private:
    typedef int stype;
