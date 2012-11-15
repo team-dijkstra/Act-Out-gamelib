@@ -45,7 +45,6 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    typedef std::vector<ctype> ctype_container;
    typedef ctype_container::iterator ctype_iterator;
    typedef CompoundIteratorAdapter<ctype_iterator, stype, &ctype::first> test_iterator;
-   typedef CompoundIteratorAdapter<ctype_iterator, ctype> test_iterator;
 
    ctype_container tc;
   public:
