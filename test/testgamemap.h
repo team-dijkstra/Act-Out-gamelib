@@ -21,7 +21,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * cpsc 2720 - Project - GameMap Test cases
  */
 
-
+#include <vector>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "gamemap.h"
@@ -41,6 +41,8 @@ class TestGameMap : public CppUnit::TestFixture {
    CPPUNIT_TEST(filter_returns_all_and_only_selected_elements);
    CPPUNIT_TEST_SUITE_END();
   private:
+   typedef std::vector<const char *> namelist;
+   namelist existing_territories;
    GameMap * game_map;
   public:
 

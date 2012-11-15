@@ -31,12 +31,28 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 void TestGameMap::setUp() {
    GameMap::AdjacencyList tal;
+   const char * territories[] = {
+      "spain", "italy", "brazil", "narnia",
+      "gotham city", "metropolis", "alexandria"
+   };
+
+   for (int i = 0; i < 2; i++) {
+      existing_territories.push_back(territories[i]);
+   }
+
    std::back_insert_iterator<GameMap::AdjacencyList> it(tal);
-   *it = std::make_pair(new FakeTerritory("spain"), new FakeTerritory("italy")); 
+   for (int i = 0; i + 1 < 2; i++) {
+      *it = std::make_pair(
+         new FakeTerritory(territories[i]), 
+         new FakeTerritory(territories[i + 1])
+      ); 
+   }
+
    game_map = createGameMap(tal);
 }
 
 void TestGameMap::tearDown() {
+   existing_territories.clear();
    delete game_map;
 }
 
@@ -53,12 +69,21 @@ void TestGameMap::find_returns_marker_token_for_non_existent_items() {
 
 /// \test ensure that find works for existent elements.
 void TestGameMap::find_returns_position_for_existent_items() {
-   CPPUNIT_FAIL("Test not implemented.");
+   for (
+      namelist::const_iterator it = existing_territories.begin(); 
+      it != existing_territories.end(); 
+      it++
+   ) {
+      Territory * result = game_map->find(*it);
+      // make sure the position is valid.
+      CPPUNIT_ASSERT(GameMap::end() != result);
+      // make sure the right territory is returned.
+      CPPUNIT_ASSERT(result->name() == *it);
+   }
 }
 
 /// \test ensure that non-existent items do not have any adjacencies.
 void TestGameMap::adjacencies_returns_empty_list_for_non_existent_items() {
-   CPPUNIT_FAIL("Test not implemented.");
 }
 
 /// \test ensure that existent but non connected items do not have 
