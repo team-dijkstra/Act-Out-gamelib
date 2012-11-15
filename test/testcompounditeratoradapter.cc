@@ -32,6 +32,7 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestCompoundIteratorAdapter);
    CPPUNIT_TEST(iterator_should_be_equal_to_self);
    CPPUNIT_TEST(iterators_to_same_element_should_be_equal);
+   CPPUNIT_TEST(iterators_to_different_element_should_not_be_equal);
    CPPUNIT_TEST_SUITE_END();
   private:
    typedef int stype;
@@ -46,8 +47,11 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    // let doxygen skip uninteresting methods
    /// \cond
    void setUp() {
-      for (int i = 0; i < 20; i++) {
-          tc.push_back(std::make_pair(i, (double)i));
+      int j = 1;
+      // make at least some adjacent pairs equal.
+      for (int i = 0; i < 20; i += 1 + j) {
+         j = -j;
+         tc.push_back(std::make_pair(i, (double)i));
       }
    }
 
@@ -71,6 +75,17 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
       test_iterator ti2(ci);
 
       CPPUNIT_ASSERT(ti1 == ti2);
+   }
+
+   /// \test ensure that iterators pointing to different elements are not equal.
+   void iterators_to_different_element_should_not_be_equal() {
+      ctype_iterator ci1 = tc.begin();
+      ctype_iterator ci2 = ci1;
+      ci2++;
+
+      while (ci2 != tc.end()) {
+         CPPUNIT_ASSERT(ci1++ != ci2++);
+      }
    }
 
 };
