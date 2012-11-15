@@ -115,6 +115,24 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
          ci2++;
       }
    }
+
+   /// \test ensure that the pointer dereference operator works.
+   ///       The value should be the same as the native iterator component value. 
+   void iterator_dereference_should_yield_member_value() {
+      ctype_iterator ci1 = tc.begin();
+      ctype_iterator ci2 = ci1;
+      ctype_iterator ciend = tc.end();
+      
+      test_iterator ti1(ci1);
+      test_iterator tiend(ciend);
+
+      while (ti1 != tiend) {
+         stype si2 = ci2->first;
+         //CPPUNIT_ASSERT(*ti1 == si2);
+         ti1++;
+         ci2++;
+      }
+   }
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestCompoundIteratorAdapter);

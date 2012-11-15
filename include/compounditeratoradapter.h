@@ -89,9 +89,6 @@ class CompoundIteratorAdapter {
    */
 
   private:
-   /// \todo Shouldn't need to store this since it should be a compile
-   ///       time constant.
-   //typename outer_value_type::* member;
    CI & compound_iterator;
 };
 
