@@ -32,6 +32,7 @@ class DefaultPlayer : public Player {
   public:
 //   DefaultPlayer(std::string nm, Game * g);
    DefaultPlayer(std::string nm);
+   DefaultPlayer(std::string nm, const Player::phaselist & Plist);
    ~DefaultPlayer() {}
    //accessors
    /// \return true if the player is alive (i.e. still in the

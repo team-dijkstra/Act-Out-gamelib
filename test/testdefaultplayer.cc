@@ -25,14 +25,17 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "defaultplayer.h"
+#include "defaultphase.h"
 
 
 /// Class containing the test cases for DefaultPlayer. The DefaultPlayer
 /// is exercised through its interface Player.
 class TestPlayer : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestPlayer);
-   CPPUNIT_TEST(playername_should_be_as_constructed);
-   CPPUNIT_TEST(playername_should_be_alive_when_constructed);
+   CPPUNIT_TEST(player_name_should_be_as_constructed);
+   CPPUNIT_TEST(player_should_be_alive_when_constructed);
+   CPPUNIT_TEST(player_remainingPhases_should_return_a_phaselist);
+   
    CPPUNIT_TEST_SUITE_END();
    
   private:
@@ -40,12 +43,15 @@ class TestPlayer : public CppUnit::TestFixture {
    // different players used in testing
    Player * playerA;
    Player * playerB;
-   
+   Player::phaselist Plist;
+   Player::phaselist::iterator it;
   public:
    // initialization for the test player
    void setUp() {
-      playerA = new DefaultPlayer(std::string("Player1"));
-      playerB = new DefaultPlayer(std::string("Player2"));
+      Plist.push_back(new DefaultPhase("Marshall"));
+      Plist.push_back(new DefaultPhase("Attack"));
+      playerA = new DefaultPlayer(std::string("Player1"),Plist);
+      playerB = new DefaultPlayer(std::string("Player2"),Plist);
    }
    // frees memory for the players
    void tearDown() {
@@ -56,15 +62,34 @@ class TestPlayer : public CppUnit::TestFixture {
    
    
    /// \test ensure that the player names are correctly reported
-   void playername_should_be_as_constructed()  {
+   void player_name_should_be_as_constructed()  {
       CPPUNIT_ASSERT(playerA->name() == "Player1");
       CPPUNIT_ASSERT(playerB->name() == "Player2");
    }
 
-     /// \test ensure that the player names are correctly reported
-   void playername_should_be_alive_when_constructed()  {
+   void player_should_be_alive_when_constructed()
+   {
       CPPUNIT_ASSERT(playerA->alive() == true);
       CPPUNIT_ASSERT(playerB->alive() == true);
+   }
+      
+
+   /// \test ensure that the player names are correctly reported
+   void player_remainingPhases_should_return_a_phaselist()
+   {
+      //CPPUNIT_ASSERT(playerA->alive() == true);
+      //CPPUNIT_ASSERT(playerB->alive() == true);
+/*      for(it = Plist.begin();it!=Plist.end();it++)
+      {
+	 
+      }
+*/
+      Player::phaselist Pl2;
+      Pl2 = playerA->remainingPhases();
+      CPPUNIT_ASSERT(Plist.size() == Pl2.size());
+      CPPUNIT_ASSERT(Plist == Pl2);
+      CPPUNIT_ASSERT(*(Plist.begin()) == *(Pl2.begin()));
+      
    }
 
 
