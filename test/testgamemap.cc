@@ -43,6 +43,7 @@ const char * TestGameMap::territories[TestGameMap::nterritories] = {
 
 void TestGameMap::setUp() {
    GameMap::AdjacencyList tal;
+   const int nterritories = 9;
 
    for (int i = 0; i < nterritories; i++) {
       existing_territories.push_back(territories[i]);
