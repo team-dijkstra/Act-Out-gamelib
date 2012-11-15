@@ -27,6 +27,10 @@ StlGameMap::StlGameMap(const AdjacencyList & tal) {
 
 StlGameMap::~StlGameMap() {}
 
+Territory* StlGameMap::begin() const {
+    return NULL;
+}
+
 Territory* StlGameMap::find(TerritoryName) const {
    return NULL; 
 }

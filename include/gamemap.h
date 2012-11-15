@@ -47,9 +47,18 @@ class GameMap {
    typedef std::pair<Territory*, Territory*> Adjacency;
    typedef std::vector<Adjacency> AdjacencyList;
 
+
    virtual ~GameMap() {}
+    
+   //constants
+   /// \return a sentinel node. Used to indicate non-existent values.
+   static const Territory* end() {return NULL;}
 
    //accessors
+   /// \return the start territory. Which territory this is is implementation
+   ///       defined.
+   virtual Territory* begin() const =0;
+   
    /// Finds the specified Territory
    //
    /// \param tname -- string representing the TerritoryName

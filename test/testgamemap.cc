@@ -48,7 +48,7 @@ GameMap* TestGameMap::createGameMap(const GameMap::AdjacencyList & tal) {
 /// \test ensure that find works for non-existent elements.
 void TestGameMap::find_returns_marker_token_for_non_existent_items() {
    Territory* temp = game_map->find("foobar");
-   CPPUNIT_ASSERT(NULL == temp);
+   CPPUNIT_ASSERT(GameMap::end() == temp);
 }
 
 /// \test ensure that find works for existent elements.

@@ -47,6 +47,9 @@ class StlGameMap : public GameMap {
    ~StlGameMap(); 
 
    //accessors
+   /// \copydoc
+   Territory* begin() const;
+
    /// \copydoc 
    Territory* find(TerritoryName) const;
 
