@@ -28,7 +28,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "gamemap.h"
 #include "testgamemap.h"
 #include "fk_faketerritory.h"
+#include "fakeplayer.h"
 #include "removefromotherop.h"
+#include "takeoverop.h"
+#include "removeownedby.h"
 
 const char * TestGameMap::territories[TestGameMap::nterritories] = {
    "spain", "italy", "brazil", "narnia",
@@ -132,7 +135,16 @@ void TestGameMap::traverse_visits_all_territories() {
 
 /// \test ensure that the visitor part of the traverse operation works.
 void TestGameMap::traverse_applies_operation_transformations() {
-   CPPUNIT_FAIL("Test not implemented.");
+   Player * p = new FakePlayer<int>("The King of Spain");
+   TakeOver<int> tOp(p);
+   game_map->traverse(&tOp, game_map->begin());
+   
+   RemoveOwnedBy<namelist> tOp2(p->name(), existing_territories);
+   game_map->traverse(&tOp2, game_map->begin());
+   
+   CPPUNIT_ASSERT(tOp2.result().empty());
+
+   delete p;
 }
 
 /// \test ensure that filter works for selected sets of size 0.
