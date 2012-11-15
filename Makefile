@@ -14,13 +14,15 @@ DOCDIR := doc
 MSDIR := .msdir
 LOGDIR := log
 # defines what <error> severity attibutes will trigger a build error.
-CPPCHECK_SEVERITY_ERR := error warning
+CPPCHECK_SEVERITY_ERR := error warning style
 
-PROGS := testrunner 
+PROGS := testrunner driver 
 LIBS := actout
-actout_SRC := $(wildcard src/*.cc)
+driver_SRC := driver.cc
+actout_SRC := $(filter-out driver.%,$(wildcard src/*.cc))
 testutil_SRC := $(wildcard test/util/*.cc)
 test_SRC := $(wildcard test/*.cc)
+driver_OBJS := $(patsubst %.cc,%.o,$(driver_SRC) $(actout_SRC))
 actout_OBJS := $(patsubst %.cc,%.o,$(notdir $(actout_SRC)))
 testutil_OBJS := $(patsubst %.cc,%.o,$(notdir $(testutil_SRC)))
 testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(test_SRC))) $(testutil_OBJS) $(actout_OBJS)
