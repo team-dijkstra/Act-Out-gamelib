@@ -21,6 +21,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define BUILD_TRADITIONAL_ARMY_ACTION_H
 
 #include "action.h"
+#include "unit.h"
 
 class BuildTraditionalArmyAction : public Action{
   public:

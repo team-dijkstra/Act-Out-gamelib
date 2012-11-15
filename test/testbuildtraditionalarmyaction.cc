@@ -29,6 +29,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "landterritory.h"
 #include "filterbyallunittypes.h"
 #include "traditionalarmy.h"
+#include "builderunit.h"
 
 /// Class containing the test cases for BuildTraditionalArmyAction. The BuildTraditionalArmyAction
 /// is exercised through its interface Action.
@@ -47,6 +48,7 @@ class TestAction : public CppUnit::TestFixture {
    Phase * p2;
    Phase * p3;
    Territory * t1;
+   Unit * u1;
    
   public:
    /// \cond SETUPTEARDOWNACTIONTEST
@@ -56,10 +58,12 @@ class TestAction : public CppUnit::TestFixture {
       p1 = new DefaultPhase(std::string("phase one"));
       p2 = new DefaultPhase(std::string("phase two"));
       p3 = new DefaultPhase(std::string("phase three"));
+      u1 = new BuilderUnit(t1);
+      //u2 = new BuilderUnit(t1);
       //delete actionA;
       //delete actionB;
-      actionA = new BuildTraditionalArmyAction(p1);
-      actionB = new BuildTraditionalArmyAction(p2);
+      actionA = new BuildTraditionalArmyAction(p1, u1);
+      actionB = new BuildTraditionalArmyAction(p2, u1);
    }
 
    // frees memory for the actions
