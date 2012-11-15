@@ -14,7 +14,7 @@ DOCDIR := doc
 MSDIR := .msdir
 LOGDIR := log
 # defines what <error> severity attibutes will trigger a build error.
-CPPCHECK_SEVERITY_ERR := error warning style
+CPPCHECK_SEVERITY_ERR := error warning
 
 PROGS := testrunner 
 LIBS := actout
