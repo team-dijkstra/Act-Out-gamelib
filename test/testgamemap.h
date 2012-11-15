@@ -29,6 +29,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// GameMap test suite.
 class TestGameMap : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestGameMap);
+   CPPUNIT_TEST(begin_should_return_first_territory_by_lexicographical_order);
    CPPUNIT_TEST(find_returns_marker_token_for_non_existent_items);
    CPPUNIT_TEST(find_returns_position_for_existent_items);
    CPPUNIT_TEST(adjacencies_returns_empty_list_for_non_existent_items);
@@ -61,6 +62,10 @@ class TestGameMap : public CppUnit::TestFixture {
    virtual GameMap* createGameMap(
       const GameMap::AdjacencyList & tal
    );
+
+   /// \test make sure that begin returns a valid element, and that it is
+   ///       first in sort order by name.
+   void begin_should_return_first_territory_by_lexicographical_order();  
 
    /// \test ensure that find works for non-existent elements.
    void find_returns_marker_token_for_non_existent_items();

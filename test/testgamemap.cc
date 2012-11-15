@@ -75,6 +75,13 @@ void TestGameMap::find_returns_marker_token_for_non_existent_items() {
    CPPUNIT_ASSERT(GameMap::end() == temp);
 }
 
+void TestGameMap::begin_should_return_first_territory_by_lexicographical_order() {
+   Territory* temp = game_map->begin();
+   std::sort(existing_territories.begin(), existing_territories.end());
+
+   CPPUNIT_ASSERT(temp->name() == *existing_territories.begin());
+}
+
 /// \test ensure that find works for existent elements.
 void TestGameMap::find_returns_position_for_existent_items() {
    for (

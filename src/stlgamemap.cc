@@ -83,7 +83,7 @@ StlGameMap::~StlGameMap() {
 }
 
 Territory* StlGameMap::begin() const {
-    return NULL;
+    return (territories.begin())->first;
 }
 
 Territory* StlGameMap::find(TerritoryName) const {
