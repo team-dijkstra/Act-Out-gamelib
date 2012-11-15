@@ -18,11 +18,11 @@ CPPCHECK_SEVERITY_ERR := error warning style
 
 PROGS := testrunner driver 
 LIBS := actout
-driver_SRC := driver.cc
-actout_SRC := $(filter-out driver.%,$(wildcard src/*.cc))
+driver_SRC := src/driver.cc
+actout_SRC := $(filter-out $(driver_SRC),$(wildcard src/*.cc))
 testutil_SRC := $(wildcard test/util/*.cc)
 test_SRC := $(wildcard test/*.cc)
-driver_OBJS := $(patsubst %.cc,%.o,$(driver_SRC) $(actout_SRC))
+driver_OBJS := $(patsubst %.cc,%.o,$(notdir $(driver_SRC) $(actout_SRC)))
 actout_OBJS := $(patsubst %.cc,%.o,$(notdir $(actout_SRC)))
 testutil_OBJS := $(patsubst %.cc,%.o,$(notdir $(testutil_SRC)))
 testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(test_SRC))) $(testutil_OBJS) $(actout_OBJS)
