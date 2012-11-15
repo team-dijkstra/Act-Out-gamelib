@@ -66,7 +66,6 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    }
    /// \endcond
 
-   
    /// \test ensure that a == a is true for the adapter.
    void iterator_should_be_equal_to_self() {
       ctype_iterator ci = tc.begin();
@@ -118,7 +117,6 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
          ci2++;
       }
    }
-   
 
 };
 
