@@ -30,10 +30,14 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// An interface class to represent the different game phases
 class Phase{
   public:
+
+   //destructor
+   
    virtual ~Phase() {}
 
-   //accessor
-   /// \returns the name of the Phase
+   //accessors
+   
+   /// \return name of Phase
    virtual std::string name() const =0;
 };
 

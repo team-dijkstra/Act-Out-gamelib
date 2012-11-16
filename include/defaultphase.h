@@ -17,22 +17,34 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef DEFAULT_PHASE_H
 #define DEFAULT_PHASE_H
 
 #include "phase.h"
 
 class DefaultPhase : public Phase{
-      public:
+  public:
+
+   //constructors
+
+   /// \param nm -- const string, passed by reference, to be name of Phase
+   //
+   /// \post MIL:
+   ///       <br>- sets phasename to nm
    DefaultPhase(const std::string & nm);
+
+   //destructor
+   
    ~DefaultPhase() {}
 
-   //accessor
-   /// \returns the name of the Phase
+   //accessors
+   
+   //! @copydoc Phase::name
    virtual std::string name() const;
 
   private:
-   std::string phasename;
+   std::string phasename; ///< string, name of Phase
 };
 
 #endif

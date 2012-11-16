@@ -17,10 +17,12 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/// \file
-/// \brief contains interface class Territory -- territory.h
-//
-/// Territory interface class
+
+/** \file territory.h
+ * \brief contains interface class Territory
+ * Territory interface class
+ */
+
 #ifndef TERRITORY_H
 #define TERRITORY_H
 
@@ -37,28 +39,35 @@ class Territory {
   public:
 
    typedef std::map<std::string, Unit*> unitContainer;
+
+   //destructor
    
    virtual ~Territory() {}
 
    //accessors
-   /// \return the Player object that currently owns this Territory
+   
+   /// \return pointer to Player that owns this Territory
    virtual Player* owner() const =0;
    
-   /// \return a string, the name of the Territory
+   /// \return string, name of Territory
    virtual std::string name() const =0;
 
-   /// \param[in] f -- Unit operations for filtering the units returned
-   /// \return a container of Units that are on this Territory 
-   virtual unitContainer units(UnitOperation* f) const =0;
+   /// \param f -- pointer to UnitOperation for filtering Units returned
+   //
+   /// \return unitContainer of Units on this Territory 
+   virtual unitContainer units(UnitOperation * f) const =0;
 
    //mutators
-   /// \param[in] p -- pointer to Player object 
-   /// \post sets Territory owner to the passed Player object
-   virtual void owner(Player*) =0;
+   
+   /// \param p -- pointer to Player
+   //
+   /// \post sets Territory owner to passed Player
+   virtual void owner(Player * p) =0;
 
-   /// \param[in] u -- pointer to a Unit object
-   /// \post stores pointer in this territory's unitContainer
-   virtual void addUnit(Unit*) =0;
+   /// \param u -- pointer to Unit
+   //
+   /// \post adds Unit pointer to this Territory's unitContainer
+   virtual void addUnit(Unit * u) =0;
 };
 
 #endif

@@ -17,6 +17,7 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef BUILD_TRADITIONAL_ARMY_ACTION_H
 #define BUILD_TRADITIONAL_ARMY_ACTION_H
 
@@ -25,25 +26,40 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 class BuildTraditionalArmyAction : public Action{
   public:
-   BuildTraditionalArmyAction(Phase* p, Unit * par);
+
+   //constructors
+
+   /// \param p -- pointer to current Phase
+   /// \param par -- pointer to parent Unit
+   //
+   /// \post MIL:
+   ///       <br>- sets aName to name of this action
+   ///       <br>- sets aPhase to a p
+   ///       <br>- sets parent to par
+   BuildTraditionalArmyAction(Phase * p, Unit * par);
+
+   //destructor
+	
    ~BuildTraditionalArmyAction(){}
 
    //accessors
+   
    //! @copydoc Action::name()
    std::string name() const;
 
    //! @copydoc Action::applicable()
-   bool applicable(Phase* p) const;
+   bool applicable(Phase * p) const;
 
    //mutators
-   //! @copydoc Action::doaction(int,Territory)
-   void doaction(int nUnits, Territory* T);
+   
+   //! @copydoc Action::doaction()
+   void doaction(int nUnits, Territory * T);
 
   private:
 
-   std::string aName;
-   Phase* aPhase;
-   Unit * parent;
+   std::string aName; ///< name of this Action
+   Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
+   Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
 
 #endif

@@ -37,27 +37,32 @@ class TerritoryOperation;
 class Player {
   public:
    typedef std::vector<Phase*> phaselist;
+
+   //destructor
+
+   virtual ~Player() {}
+   
    //accessors
-   /// \return true if the player is alive (i.e. still in the
-   ///         game, false otherwise
+   
+   /// \return true if Player is alive (i.e. still in the game, false otherwise
    virtual bool alive() const =0;
 
-   /// \return the name of the player
+   /// \return name of Player
    virtual std::string name() const =0;
 
-   /// \return the remaining phases in this players current turn
-   virtual std::vector<Phase*> remainingPhases() const =0;
+   /// \return remaining phases in this Player's current turn
+   virtual phaselist remainingPhases() const =0;
 
-   /// \return the valid actions that this player can perform given
-   ///         this unitoperation.
+   /// \param op -- pointer to a TerritoryOperation that filters out
+   ///              unapplicable actions
+   /// \return valid actions this Player can perform given this UnitOperation
    virtual Unit::actionContainer actions(TerritoryOperation * op) const =0;
 
-   //Mutator
-   /// \post moves to the next phase, it the last phase is reached
-   ///       reset to the first phase
-   virtual bool nextPhase() =0;
+   //mutators
    
-   virtual ~Player() {}
+   /// \post moves to next phase, if the last phase is reached, reset to first
+   ///       phase
+   virtual bool nextPhase() =0;
 };
 
 #endif

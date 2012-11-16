@@ -30,73 +30,57 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 ///An interface to specify the behaviour of the game units
 class BuilderUnit : public Unit {
   public:
-   BuilderUnit(Territory *, int nunit=1);
+
+   //constructors
+
+   /// \param t -- pointer to Territory Unit is on
+   /// \param nunit -- integer, count of this Unit
+   //
+   /// \post MIL:
+   ///       <br>- sets uTerritory to t
+   ///       <br>- sets nUnits to nunits
+   ///       <br>- sets uName to name of this Unit
+   BuilderUnit(Territory * t, int nunit=1);
+
+   //destructor
+   
    ~BuilderUnit() {}
 
    //mutators
    
-   /// \brief Increases the numUnits in this Unit
-   //
-   /// \param u -- an integer, the amount to increase the count in this Unit
-   //
-   /// \post increases the numUnits in this object by u
-   //
-   /// \return the current numUnits in this object after increase method is
-   ///         performed
+   //! @copydoc Unit::increase()
    int increase (int u);
 
-   /// \brief Decreases the numUnits in this Unit
-   //
-   /// \param u -- an integer, the amount to decrease the count in this Unit
-   //
-   /// \post decreases the numUnits in this object by u
-   //
-   /// \return the current numUnits in this object after decrease method is performed
+   //! @copydoc Unit::decrease()
    int decrease (int u);
 
-   /// \brief Splits the Unit in to two Units
-   //
-   /// \param num -- an integer that specifies the count to split from the
-   ///               current unit; defaults to 1
-   //
-   /// \post the count of this Unit is decreased by num, and the returned Unit
-   ///       can do an action with num count
-   //
-   /// \return the Unit that was split from this Unit
+   //! @copydoc Unit::split()
    Unit * split(int num=1);
 
-   /// \brief Merges the Units together
-   //
-   /// \param u -- a pointer to a Unit that is to be merged with this Unit
-   //
-   /// \post this Unit now has count increased by the count of u, and u is
-   ///       deleted
-   //
-   /// \return an integer of the count in this Unit after the merge
+   //! @copydoc Unit::merge()
    int merge(Unit * u);
    
    //accessors
 
-   /// \return the current numUnits in this object
+   //! @copydoc Unit::numUnits()
    int numUnits() const;
 
-   /// \return the Territory where this Unit is located
+   //! @copydoc Unit::whereAt()
    Territory* whereAt() const;
 
-   /// \return the type name of this object
+   //! @copydoc Unit::name()
    std::string name() const;
 
-   /// \return all the possible actions that this unit can perform
+   //! @copydoc Unit::actions()
    std::vector<Action*> actions() const;
 
   private:
 
    
-   Territory * uTerritory; ///< the Territory the Unit is placed
-   int nUnits; ///< the count of this Unit
-   std::string uName; ///< the name of the Unit; for specifying Unit type
-   std::vector<Action*> uActions; ///< a list of actions that this Unit is able
-   ///<                                to perform
+   Territory * uTerritory; ///< pointer to Territory Unit is placed
+   int nUnits; ///< count of this Unit
+   std::string uName; ///< type name of this Unit
+   std::vector<Action*> uActions; ///< list of actions Unit can perform
    
 };
 

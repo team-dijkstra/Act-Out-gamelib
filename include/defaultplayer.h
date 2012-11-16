@@ -30,37 +30,57 @@ class Game;
 
 class DefaultPlayer : public Player {
   public:
-//   DefaultPlayer(std::string nm, Game * g);
+
+   //constructors
+
+   /// \param nm -- string, to be name of Player
+   //
+   /// \post MIL:
+   ///       <br>- sets pName to nm
+   ///       <br>- sets isAlive to true
+   ///       <br>adds each Phase to phases, sets currentPhase to first Phase
    DefaultPlayer(std::string nm);
-   DefaultPlayer(std::string nm, const Player::phaselist & Plist);
+
+   /// \param nm -- string, to be name of Player
+   /// \param Plist -- phaselist of all Phases
+   //
+   /// \post MIL:
+   ///       <br>- sets pName to nm
+   ///       <br>- sets isAlive to true
+   ///       <br>- sets phases to Plist
+   ///       <br>sets currentPhase to first Phase
+   DefaultPlayer(std::string nm, const phaselist & Plist);
+
+   //destructor
+   
    ~DefaultPlayer() {}
+   
    //accessors
-   /// \return true if the player is alive (i.e. still in the
-   ///         game, false otherwise
+   
+   //! @copydoc Player::alive()
    bool alive() const;
 
-   /// \return the name of the player
+   //! @copydoc Player::name()
    std::string name() const;
 
-   /// \return the remaining phases in this players current turn
+   //! @copydoc Player::remainingPhases()
    phaselist remainingPhases() const;
 
-   /// \return the valid actions that this player can perform given
-   ///         this unitoperation.
+   //! @copydoc Player::actions()
    Unit::actionContainer actions(TerritoryOperation * op) const;
 
-   //Mutator
-   /// \post moves to the next phase, it the last phase is reached
-   ///       reset to the first phase
+   //mutators
+   
+   //! @copydoc Player::nextPhase()
    bool nextPhase();
 
   private:
    typedef Player::phaselist phaselist;
   
-   std::string pName;
-   bool isAlive;
-   phaselist phases;
-   phaselist::const_iterator currentPhase;
+   std::string pName; ///< string, name of Player
+   bool isAlive; ///< bool, whether Player is alive or dead
+   phaselist phases; ///< phaselist of all Phases
+   phaselist::const_iterator currentPhase; ///< stores iterator to current Phase
    
 };
 

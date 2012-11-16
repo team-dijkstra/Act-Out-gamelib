@@ -23,11 +23,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 //
 /// MoveAction class interface, specifies behavious of game actions
 
-/// \file
-/// \brief contains the interface class Action -- action.h
-//
-/// MoveAction class interface, specifies behavious of game actions
-
 #ifndef MOVEACTION_H
 #define MOVEACTION_H
 
@@ -48,29 +43,40 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 					   //template<typename U>
 class MoveAction : public Action{
   public:
+
+   //constructors
+
+   /// \param p -- pointer to current Phase
+   /// \param par -- pointer to parent Unit
+   //
+   /// \post MIL:
+   ///       <br>- sets aPhase to a p
+   ///       <br>- sets parent to par
    MoveAction(Phase * p, Unit * par);
+   
+   //destructor
+	
    ~MoveAction() {}
 
    //accessors
-   /// \return the name of the action class
+   
+   //! @copydoc Action::name()
    std::string name() const;
    
 
-   /// \return true if action can be used in the specified Phase; false otherwise
+   //! @copydoc Action::applicable()
    bool applicable(Phase* p) const;
 
    
    //mutators
-   /// \param nUnits -- the number of units to commit to current action
-   /// \param T -- the territory to act on.
-   //
-   /// \post preforms Action on the specified territory using specifiec number of units
+   
+   //! @copydoc Action::doaction()
    void doaction(int nUnits, Territory * T);
 
 
       private:
-   Phase * aPhase;
-   Unit * parent;
+   Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
+   Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
 
 //#include "../src/moveaction.cc"

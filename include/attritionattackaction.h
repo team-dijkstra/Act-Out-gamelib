@@ -18,15 +18,11 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/// \file
-/// \brief contains the interface class Action -- action.h
-//
-/// AttritionAttackAction class interface, specifies behavious of game actions
-
-/// \file
-/// \brief contains the interface class Action -- action.h
-//
-/// AttritionAttackAction class interface, specifies behavious of game actions
+/** \file action.h
+ * \brief contains the interface class Action
+ *
+ *  AttritionAttackAction class interface, specifies behavious of game actions
+ */
 
 #ifndef ATTRITIONATTACKACTION_H
 #define ATTRITIONATTACKACTION_H
@@ -45,28 +41,41 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// \todo template this for different types of unit and store the parent unit object
 class AttritionAttackAction : public Action{
   public:
+
+   //constructors
+
+   /// \param p -- pointer to parent Unit
+   //
+   /// \post MIL:
+   ///       <br>- sets parent to p
+   ///       <br> sets aPhase to a pointer to the Phase where this action is
+   ///       applicable
    AttritionAttackAction(Unit * p);
+
+   /// \param p -- pointer to the parent Unit
+   /// \param ph -- pointer to current Phase
+   //
+   /// \post MIL:
+   ///       <br>- sets parent to p
+   ///       <br>- sets aPhase to ph
    AttritionAttackAction(Unit * p, Phase * ph);
+
+   //destructor
+   
    ~AttritionAttackAction();
 
    //accessors
    
-   /// \return name of the action class
+   //! @copydoc Action::name()
    std::string name() const;
    
 
-   /// \param p -- pointer to a Phase
-   //
-   /// \return true if action can be used in the specified Phase; false
-   ///         otherwise
+   //! @copydoc Action::applicable()
    bool applicable(Phase* p) const;
 
    //mutators
    
-   /// \param nUnits -- integer; the count to do the current action
-   /// \param T -- pointer to the territory to act on
-   //
-   /// \post preforms Action on the specified territory using a count of nUnits
+   //! @copydoc Action::doaction()
    void doaction(int nUnits, Territory * T);
 
   private:

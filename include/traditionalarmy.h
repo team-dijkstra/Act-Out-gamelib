@@ -30,52 +30,49 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 ///An interface to specify the behaviour of the game units
 class TraditionalArmy : public Unit {
   public:
-   TraditionalArmy(Territory *, int nunit=1);
+
+   //constructors
+
+   //! @copydoc BuilderUnit::BuilderUnit()
+   TraditionalArmy(Territory * t, int nunit=1);
+
+   //destructor
+   
    ~TraditionalArmy(){}
 
    //mutators
-   /// Increases the numUnits in this Unit
-   //
-   /// \param a Unit object
-   //
-   /// \post increases the numUnits in this object by the
-   ///       numUnits in the passed object.
-   /// \return the current numUnits in this object after increase
-   ///         method is performed
+
+   //! @copydoc Unit::increase()
    int increase (int u);
 
-   /// Decreases the numUnits in this Unit
-   //
-   /// \param a Unit object
-   //
-   /// \post decreases the numUnits in this object by the
-   ///       numUnits in the passed object.
-   /// \return the current numUnits in this object after decrease
-   ///         method is performed
+   //! @copydoc Unit::decrease()
    int decrease (int u);
 
+   //! @copydoc Unit::split()
    Unit * split (int num=1);
 
+   //! @copydoc Unit::merge()
    int merge(Unit * u);
    
    //accessors
-   /// \return the current numUnits in this object
+   
+   //! @copydoc Unit::numUnits()
    int numUnits() const;
 
-   /// \return the Territory where this Unit is located
+   //! @copydoc Unit::whereAt()
    Territory* whereAt() const;
 
-   /// \return the type name of this object
+   //! @copydoc Unit::name()
    std::string name() const;
 
-   /// \return all the possible actions that this unit can perform
+   //! @copydoc Unit::actions()
    std::vector<Action*> actions() const;
 
   private:
-   int nUnits;
-   Territory * uTerritory;
-   std::string uName;
-   Unit::actionContainer uActions;
+   int nUnits; //! @copydoc BuilderUnit::nUnits
+   Territory * uTerritory; //! @copydoc BuilderUnit::uTerritory
+   std::string uName;  //! @copydoc BuilderUnit::uName
+   Unit::actionContainer uActions;  //! @copydoc BuilderUnit::uAction
    
 };
 

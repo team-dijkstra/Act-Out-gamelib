@@ -35,12 +35,14 @@ class Phase;
 ///Actions mutate game state.
 class Action {
   public:
+
+   //destructor
    
    virtual ~Action() {}
 
    //accessors
    
-   /// \return the name of the action class
+   /// \return name of the action class
    virtual std::string name() const =0;
 
    /// \return true if action can be used in the specified Phase; false
@@ -49,10 +51,10 @@ class Action {
 
    //mutators
    
-   /// \param nUnits -- the number of units to do the current action
-   /// \param T -- a pointer to a Territory; the territory to act on
+   /// \param nUnits -- integer of the count to do the current action
+   /// \param T -- pointer to the territory to act on
    //
-   /// \post preforms Action on the specified territory using a count of nUnits
+   /// \post preforms Action on the territory using a count of nUnits
    virtual void doaction(int nUnits, Territory * T) =0;
     
 };

@@ -30,33 +30,46 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// An interface class to represent a Territory 
 class LandTerritory : public Territory{
   public:
-   LandTerritory(std::string nm, Player* own = NULL);
+
+   //constructors
+
+   /// \param nm -- string to be this Territory's name
+   /// \param own -- pointer to Player to be owner
+   //
+   /// \post MIL:
+   ///       <br>- sets tName to nm
+   ///       <br>- sets tOwner to own
+   /// \todo should own default to NULL?
+   LandTerritory(std::string nm, Player * own = NULL);
+
+   //destructor
+   
    ~LandTerritory();
 
    //accessors
-   /// \return the Player object that currently owns this Territory
+   
+   //! @copydoc Territory::owner()
    Player* owner() const;
    
-   /// \return a string, the name of the Territory
+   //! @copydoc Territory::name()
    std::string name() const;
 
-   /// \param[in] 
-   /// \return a vector of Units that are on this Territory 
+   //! @copydoc Territory::units()
    unitContainer units(UnitOperation* f) const;
 
    //mutators
-   /// \param[in] p -- pointer to Player object 
-   /// \post sets Territory owner to the passed Player object
-   void owner(Player*);
+   
+   //! @copydoc Territory::owner(Player*)
+   void owner(Player * p);
 
-   /// \todo possible better method
-   void addUnit(Unit *);
+   //! @copydoc Territory::addUnit()
+   void addUnit(Unit * u);
 
   private:
    
-   std::string tName;
-   Player * tOwner;
-   unitContainer tUnits;
+   std::string tName; ///< string, name of Territory
+   Player * tOwner; ///< pointer to Player that is owner of this Territory
+   unitContainer tUnits; ///< unitContainer of Units on this Territory
    
 };
 
