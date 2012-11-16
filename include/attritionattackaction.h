@@ -43,7 +43,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 ///AttritionAttackAction move numUnits from one Territory to another
 
 /// \todo template this for different types of unit and store the parent unit object
-					   //template<typename U>
 class AttritionAttackAction : public Action{
   public:
    AttritionAttackAction(Unit * p);
@@ -51,25 +50,29 @@ class AttritionAttackAction : public Action{
    ~AttritionAttackAction();
 
    //accessors
-   /// \return the name of the action class
+   
+   /// \return name of the action class
    std::string name() const;
    
 
-   /// \return true if action can be used in the specified Phase; false otherwise
+   /// \param p -- pointer to a Phase
+   //
+   /// \return true if action can be used in the specified Phase; false
+   ///         otherwise
    bool applicable(Phase* p) const;
 
-   
    //mutators
-   /// \param nUnits -- the number of units to commit to current action
-   /// \param T -- the territory to act on.
+   
+   /// \param nUnits -- integer; the count to do the current action
+   /// \param T -- pointer to the territory to act on
    //
-   /// \post preforms Action on the specified territory using specifiec number of units
+   /// \post preforms Action on the specified territory using a count of nUnits
    void doaction(int nUnits, Territory * T);
 
-
-      private:
-   Unit * parent;
-   const Phase * aPhase;
+  private:
+   
+   Unit * parent; ///< pointer to the Unit that does this action
+   const Phase * aPhase; ///< pointer to the Phase that applies to this action
 };
 
 //#include "../src/moveaction.cc"
