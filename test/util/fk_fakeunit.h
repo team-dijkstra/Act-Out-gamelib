@@ -60,7 +60,7 @@ class FakeUnit : public Unit{
 
    Unit * split(int num){return new FakeUnit(num, tWhere);}
 
-   int merge(Unit * u){return nUnits;}
+   int merge(Unit * u){return u->numUnits();}
    
    //accessors
    /// \return the current numUnits in this object

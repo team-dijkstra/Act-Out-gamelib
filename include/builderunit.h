@@ -34,30 +34,49 @@ class BuilderUnit : public Unit {
    ~BuilderUnit() {}
 
    //mutators
-   /// Increases the numUnits in this Unit
+   
+   /// \brief Increases the numUnits in this Unit
    //
-   /// \param a Unit object
+   /// \param u -- an integer, the amount to increase the count in this Unit
    //
-   /// \post increases the numUnits in this object by the
-   ///       numUnits in the passed object.
-   /// \return the current numUnits in this object after increase
-   ///         method is performed
+   /// \post increases the numUnits in this object by u
+   //
+   /// \return the current numUnits in this object after increase method is
+   ///         performed
    int increase (int u);
 
-   /// Decreases the numUnits in this Unit
+   /// \brief Decreases the numUnits in this Unit
    //
-   /// \param a Unit object
+   /// \param u -- an integer, the amount to decrease the count in this Unit
    //
-   /// \post decreases the numUnits in this object by the
-   ///       numUnits in the passed object.
-   /// \return the current numUnits in this object after decrease
-   ///         method is performed
+   /// \post decreases the numUnits in this object by u
+   //
+   /// \return the current numUnits in this object after decrease method is performed
    int decrease (int u);
 
+   /// \brief Splits the Unit in to two Units
+   //
+   /// \param num -- an integer that specifies the count to split from the
+   ///               current unit; defaults to 1
+   //
+   /// \post the count of this Unit is decreased by num, and the returned Unit
+   ///       can do an action with num count
+   //
+   /// \return the Unit that was split from this Unit
    Unit * split(int num=1);
 
+   /// \brief Merges the Units together
+   //
+   /// \param u -- a pointer to a Unit that is to be merged with this Unit
+   //
+   /// \post this Unit now has count increased by the count of u, and u is
+   ///       deleted
+   //
+   /// \return an integer of the count in this Unit after the merge
    int merge(Unit * u);
+   
    //accessors
+
    /// \return the current numUnits in this object
    int numUnits() const;
 
@@ -72,10 +91,12 @@ class BuilderUnit : public Unit {
 
   private:
 
-   Territory * uTerritory;
-   int nUnits;
-   std::string uName;
-   std::vector<Action*> uActions;
+   
+   Territory * uTerritory; ///< the Territory the Unit is placed
+   int nUnits; ///< the count of this Unit
+   std::string uName; ///< the name of the Unit; for specifying Unit type
+   std::vector<Action*> uActions; ///< a list of actions that this Unit is able
+   ///<                                to perform
    
 };
 
