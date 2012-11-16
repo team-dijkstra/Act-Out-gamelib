@@ -17,11 +17,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/*
- * cpsc 2720 - Project - FakeUnit Test cases
+/** \file fk_testfakeunit.cc
+ * Contains tests for 'Fake' test classes
  */
-
-
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "fk_fakeunit.h"

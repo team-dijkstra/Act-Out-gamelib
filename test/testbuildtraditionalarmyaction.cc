@@ -17,10 +17,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/*
- * cpsc 2720 - Project - Action Test cases
+/** \file testbuildtraditionalarmyaction.cc
+ * Contains tests for the BuildTraditionalArmyAction class
  */
-
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -33,8 +32,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 /// Class containing the test cases for BuildTraditionalArmyAction. The BuildTraditionalArmyAction
 /// is exercised through its interface Action.
-class TestAction : public CppUnit::TestFixture {
-   CPPUNIT_TEST_SUITE(TestAction);
+class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
+   CPPUNIT_TEST_SUITE(TestBuildTraditionalArmyAction);
    CPPUNIT_TEST(actionname_should_be_as_constructed);
    CPPUNIT_TEST(actionphase_should_be_as_constructed);
    CPPUNIT_TEST(action_doaction_should_properly_add_units_to_territory);
@@ -120,5 +119,5 @@ class TestAction : public CppUnit::TestFixture {
 
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestAction);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildTraditionalArmyAction);
 

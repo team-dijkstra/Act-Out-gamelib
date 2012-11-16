@@ -17,16 +17,13 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/*
- * cpsc 2720 - Project - Player Test cases
+/** \file testdefaultplayer.cc
+ * Contains tests for the DefaultPlayer class
  */
-
-
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "defaultplayer.h"
 #include "defaultphase.h"
-
 
 /// Class containing the test cases for DefaultPlayer. The DefaultPlayer
 /// is exercised through its interface Player.

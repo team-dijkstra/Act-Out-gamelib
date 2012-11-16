@@ -17,10 +17,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/// \file
-/// \brief contains interface class Territory -- territory.h
-//
-/// Territory interface class
+/** \file fk_faketerritory.h
+ * Contains a Test class to implement the Territory interface
+ */
 #ifndef FAKETERRITORY_H
 #define FAKETERRITORY_H
 

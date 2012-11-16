@@ -17,11 +17,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/// \file
-/// \brief Interface file for the game units -- unit.h
-//
-/// Specified behaviour of game units
-
+/** \file fk_fakeunit.h
+ * Contains a Test class to implement the Unit interface
+ */
 #ifndef FAKEUNIT_H
 #define FAKEUNIT_H
 

@@ -17,8 +17,8 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/*
- * cpsc 2720 - Project - Action Test cases
+/** \file testattritionattackaction.cc
+ * Contains tests for the AttritionAttackAction class
  */
 
 
