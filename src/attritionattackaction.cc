@@ -1,3 +1,8 @@
+/** \file attritionattackaction.cc
+ * Implementation file for AttritionAttackAction class
+ * Detatailed descriptions of each method are in the header file
+ */
+
 #include "attritionattackaction.h"
 #include "filterbyunittype.h"
 #include "landterritory.h"

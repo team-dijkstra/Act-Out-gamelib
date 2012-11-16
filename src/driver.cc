@@ -1,7 +1,8 @@
-/// \file
-/// \brief A basic driver program for our game library -- driver.cc
-//
-/// Contains the main() function for implementing a basic game
+/** \file
+ *  \brief A basic driver program for our game library -- driver.cc
+ *
+ *  Contains the main() function for implementing a basic game
+ */
 #include <iostream>
 #include <string>
 #include <utility>

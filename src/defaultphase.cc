@@ -17,6 +17,10 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+/** \file defaultphase.cc
+ * Implementation file for DefaultPhase class
+ * Detatailed descriptions of each method are in the header file
+ */
 #include "defaultphase.h"
 
 using namespace std;

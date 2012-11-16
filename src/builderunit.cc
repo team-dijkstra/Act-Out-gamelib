@@ -17,6 +17,11 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+/** \file builderunit.cc 
+ * Implementation file for BuilderUnit class
+ * Detatailed descriptions of each method are in the header file
+ */
 #include "builderunit.h"
 #include "territory.h"
 #include "action.h"
@@ -64,7 +69,9 @@ std::string BuilderUnit::name() const{
    return uName;
 }
 
-/// \todo need to return the proper container
+/** \todo need to return the proper container is currently
+ *  returning an empty container
+ */
 Unit::actionContainer BuilderUnit::actions() const{ 
    return Unit::actionContainer();
 }

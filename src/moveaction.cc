@@ -1,3 +1,7 @@
+/** \file moveaction.cc
+ * Implementation file for MoveAction class
+ * Detatailed descriptions of each method are in the header file
+ */
 #include "moveaction.h"
 #include "buildtraditionalarmyaction.h"
 #include "filterbyunittype.h"
