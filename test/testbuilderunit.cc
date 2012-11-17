@@ -85,7 +85,7 @@ class TestBuilderUnit : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(unitB->whereAt() == t2);
    }
 
-   /// \test ensure that the unit names are correctly reported
+   /// \test ensure that the unit count is correctly reported
    void unit_numUnits_should_be_as_constructed()  {
       CPPUNIT_ASSERT(unitA->numUnits() == 1);
       CPPUNIT_ASSERT(unitB->numUnits() == 3);
