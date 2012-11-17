@@ -56,10 +56,10 @@ class Game {
    virtual GameMap* currentGame() const =0;
    
    //mutators
-   /// \param all the players playing this game
+   /// \param playerlist -- all the players playing this game
    //
-   /// \post perfoems all operations needed to play a game
-   virtual void SetupGame(std::vector<PlayerName>) =0;
+   /// \post performs all operations needed to initialize game state
+   virtual void SetupGame(std::vector<PlayerName> playerlist) =0;
    
 };
 

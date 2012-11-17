@@ -37,7 +37,7 @@ class Unit;
 /// An interface class to represent a Territory 
 class Territory {
   public:
-
+   /// container of references to Unit objects 
    typedef std::map<std::string, Unit*> unitContainer;
 
    //destructor

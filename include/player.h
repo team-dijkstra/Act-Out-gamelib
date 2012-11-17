@@ -36,6 +36,7 @@ class TerritoryOperation;
 /// Player Interface Class specified the Player Behaviours
 class Player {
   public:
+   /// container of references to Phase objects
    typedef std::vector<Phase*> phaselist;
 
    //destructor
