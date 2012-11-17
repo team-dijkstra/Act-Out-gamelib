@@ -17,11 +17,11 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/// \file
-/// \brief Interface file for game class -- game.h
-//
-/// Game Interface class 
-
+/** \file
+ *  \brief Interface file for game class -- game.h
+ * 
+ *  Game Interface class 
+ */
 #ifndef GAME_H
 #define GAME_H
 
@@ -31,6 +31,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class Player;
 class GameMap;
 
+/// PlayerName typedef is for clarity and code readability
 typedef std::string PlayerName;
 
 /// Game Interface class specifies the bahavior of the game object

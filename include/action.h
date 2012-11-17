@@ -47,6 +47,7 @@ class Action {
    /// \return name of the action class
    virtual std::string name() const =0;
 
+   /// \param p -- pointer to the current Phase.
    /// \return true if action can be used in the specified Phase; false
    ///         otherwise
    virtual bool applicable(Phase * p) const =0;

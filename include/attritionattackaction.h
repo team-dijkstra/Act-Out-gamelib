@@ -23,7 +23,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  *
  *  AttritionAttackAction class interface, specifies behavious of game actions
  */
-
 #ifndef ATTRITIONATTACKACTION_H
 #define ATTRITIONATTACKACTION_H
 
@@ -31,15 +30,15 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "phase.h"
 #include "action.h"
-//class Territory;
-//class Phase;
 
-///Basic interface specifying behaviour for class Action
-//
-///AttritionAttackAction move numUnits from one Territory to another
-
-/// \todo template this for different types of unit and store the parent unit object
+/**
+ * Implements Action interface class
+ *
+ * AttritionAttackAction attacks with numUnits from a unit on one territory
+ * to another unit of the same type on another territory.
+ */
 class AttritionAttackAction : public Action{
+/// \todo template AttritionAttackAction class for different types of unit and store the parent unit object
   public:
 
    //constructors

@@ -32,6 +32,7 @@ class Player;
 class Territory;
 class Operation;
 
+/// TerritoryName typedef is for clarity and code readability
 typedef string TerritoryName;
 
 /// The GameMap interface class.
