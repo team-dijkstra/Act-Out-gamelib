@@ -54,7 +54,7 @@ class Territory {
 
    /// \param f -- pointer to UnitOperation for filtering Units returned
    //
-   /// \return unitContainer of Units on this Territory 
+   /// \return unitContainer of Units on this Territory
    virtual unitContainer units(UnitOperation * f) const =0;
 
    //mutators

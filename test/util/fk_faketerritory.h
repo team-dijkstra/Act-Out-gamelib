@@ -31,33 +31,50 @@ class Unit;
 /// An interface class to represent a Territory 
 class FakeTerritory : public Territory{
   public:
+
+   //constructors
+
+   /// \param n -- string, passed by reference, to be this Territory's name
+   /// \param own -- pointer to Player to be owner
+   //
+   /// \post MIL:
+   ///       <br>- sets tName to n
+   ///       <br>- sets tOwner to own
    FakeTerritory(std::string & n, Player * own = NULL):tName(n), tOwner(own){}
+
+   //destructor
+   
    virtual ~FakeTerritory() {delete tOwner;}
 
    //accessors
-   /// \return the Player object that currently owns this Territory
+   
+   /// \return pointer to Player that owns this Territory
    Player* owner() const{ return tOwner;}
    
-   /// \return a string, the name of the Territory
+   /// \return string, name of Territory
    std::string name() const{ return tName;}
 
-   /// \param[in] 
-   /// \return a vector of Units that are on this Territory 
+   /// \param f -- pointer to UnitOperation for filtering Units returned
+   //
+   /// \return unitContainer of Units on this Territory
    unitContainer units(UnitOperation* f) const{ return unitContainer();}
 
    //mutators
-   /// \param[in] p -- pointer to Player object 
-   /// \post sets Territory owner to the passed Player object
+   
+   /// \param p -- pointer to Player
+   //
+   /// \post sets Territory owner to passed Player
    void owner(Player* p){(void)p;}
 
    
-   /// \param[in] u -- pointer to a Unit object
-   /// \post stores pointer in this territory's unitContainer
+   /// \param u -- pointer to Unit
+   //
+   /// \post adds Unit pointer to this Territory's unitContainer
    void addUnit(Unit* u){(void)u;}
 
   private:
-   std::string tName;
-   Player * tOwner;
+   std::string tName; ///< string, name of Territory
+   Player * tOwner; ///< pointer to Player that is owner of this Territory
    
 };
 

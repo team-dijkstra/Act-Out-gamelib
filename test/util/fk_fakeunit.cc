@@ -17,8 +17,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file fk_fakeunit.h
+/** \file fk_fakeunit.cc
  * Imlements FakeUnit Test class to implement the Unit interface
+ * See header file for details
  */
 #include "fk_fakeunit.h"
 #include "action.h"
