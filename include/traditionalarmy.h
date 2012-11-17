@@ -49,7 +49,7 @@ class TraditionalArmy : public Unit {
    int decrease (int u);
 
    //! @copydoc Unit::split()
-   Unit * split (int num=1);
+   Unit * split(int num=1);
 
    //! @copydoc Unit::merge()
    int merge(Unit * u);

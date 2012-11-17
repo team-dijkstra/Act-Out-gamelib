@@ -75,8 +75,6 @@ class BuilderUnit : public Unit {
    std::vector<Action*> actions() const;
 
   private:
-
-   
    Territory * uTerritory; ///< pointer to Territory Unit is placed
    int nUnits; ///< count of this Unit
    std::string uName; ///< type name of this Unit
