@@ -86,10 +86,9 @@ public:
       CPPUNIT_ASSERT(territoryA->owner() == ply2);
    }
 
-   /// \todo add test for different types of units in units() function
-   /// \test ensure a unitContainer is returned
+   /// \test ensure a Territory::unitContainer is returned
    void territory_unit_should_return_a_unitContainer()  {
-      
+   /// \todo add test for different types of units in units() function
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
 	 
