@@ -60,6 +60,6 @@ class TestPhase : public CppUnit::TestFixture {
    }
 
 };
-
+/// \cond TestPhaseREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestPhase);
-
+/// \endcond

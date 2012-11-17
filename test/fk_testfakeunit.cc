@@ -73,22 +73,25 @@ public:
    }
    /// \endcond
 
-   /// \test ensure that the fakeUnit names are correctly reported
+   /// \test ensure that the FakeTerritory names are correctly constructed
    void fakeTerritoryName_should_be_as_constructed()  {
       CPPUNIT_ASSERT(t1->name() == "terr1");
       CPPUNIT_ASSERT(t2->name() == "terr2");
    }
-   
+
+   /// \test ensure that the FakeUnit names are correctly constructed
    void fakeUnitname_should_be_as_constructed()  {
       CPPUNIT_ASSERT(fakeUnitA->name() == "FakeUnit");
       CPPUNIT_ASSERT(fakeUnitB->name() == "FakeUnit");
    }
 
+   /// \test ensure that the FakeUnit names are correctly constructed
    void fakeUnit_numUnits_should_be_as_constructed()  {
       CPPUNIT_ASSERT(fakeUnitA->numUnits() == 1);
       CPPUNIT_ASSERT(fakeUnitB->numUnits() == 2);
    }
 
+   /// \test ensure that FakeUnit::increase() works properly
    void fakeUnit_increase_should_return_properly()  {
       fakeUnitA->increase(fakeUnitB->numUnits());
       fakeUnitC->increase(fakeUnitA->numUnits());
@@ -98,6 +101,7 @@ public:
       CPPUNIT_ASSERT(fakeUnitC->numUnits() == 13);
    }
 
+   /// \test ensure that FakeUnit::decrease() works properly
    void fakeUnit_decrease_should_return_properly()  {
       fakeUnitB->decrease(fakeUnitA->numUnits());
       fakeUnitA->decrease(fakeUnitC->numUnits());
@@ -107,6 +111,7 @@ public:
       CPPUNIT_ASSERT(fakeUnitC->numUnits() == 10);
    }
 
+   /// \test ensure that FakeUnit::whereAt() works properly
    void fakeUnit_whereAt_should_return_its_territory_properly()  {
       CPPUNIT_ASSERT(fakeUnitA->whereAt() == t1);
       CPPUNIT_ASSERT(fakeUnitB->whereAt() == t2);
@@ -115,5 +120,6 @@ public:
    
 };
 
+/// \cond TestFakeUnitREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestFakeUnit);
-
+/// \endcond

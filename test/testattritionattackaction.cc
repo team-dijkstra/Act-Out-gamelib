@@ -85,7 +85,7 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionB->name() == "AttritionAttack");
    }
    
-   /// \test ensure that the action phases are correct
+   /// \test ensure that only correct Phase objects return true
    void actionphase_should_be_applicable_if_attack()  {
       CPPUNIT_ASSERT(actionA->applicable(p1) == true);
       CPPUNIT_ASSERT(actionB->applicable(p2) == false);
@@ -130,6 +130,6 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
    
 
 };
-
+/// \cond TestAttritionAttackActionREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestAttritionAttackAction);
-
+/// \endcond

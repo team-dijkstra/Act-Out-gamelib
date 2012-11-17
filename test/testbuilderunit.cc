@@ -77,20 +77,21 @@ class TestBuilderUnit : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(unitB->name() == "BuilderUnit");
    }
 
-   /// \test ensure that the unit locations are correctly reported
-   ///       on construction
+   /** \test ensure that the unit locations are correctly reported
+    *  on construction
+    */
    void unit_whereAt_should_be_as_constructed()  {
       CPPUNIT_ASSERT(unitA->whereAt() == t1);
       CPPUNIT_ASSERT(unitB->whereAt() == t2);
    }
 
-      /// \test ensure that the unit names are correctly reported
+   /// \test ensure that the unit names are correctly reported
    void unit_numUnits_should_be_as_constructed()  {
       CPPUNIT_ASSERT(unitA->numUnits() == 1);
       CPPUNIT_ASSERT(unitB->numUnits() == 3);
    }
    
 };
-
+/// \cond TestBuilderUnitREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestBuilderUnit);
-
+/// \endcond

@@ -72,7 +72,7 @@ class TestPlayer : public CppUnit::TestFixture {
    }
       
 
-   /// \test ensure that the player names are correctly reported
+   /// \test checks that phaselist is correctly returned
    void player_remainingPhases_should_return_a_phaselist()
    {
       //CPPUNIT_ASSERT(playerA->alive() == true);
@@ -90,7 +90,9 @@ class TestPlayer : public CppUnit::TestFixture {
       
    }
 
-  /// \test ensure that the player names are correctly reported
+   /** \test checks that nextPhase properly sets DefaultPlayer::currentPhase
+    *  to the proper next phase
+    */
    void player_nextPhases_should_move_to_next_element_in_phaselist()
    {
       it = Plist.begin();
@@ -111,6 +113,6 @@ class TestPlayer : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(*(it2) == *(it));
    }
 };
-
+/// \cond TestPlayerREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestPlayer);
-
+/// \endcond

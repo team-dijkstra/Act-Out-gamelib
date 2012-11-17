@@ -118,6 +118,6 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
    
 
 };
-
+/// \cond TestBuildTraditionalArmyActionREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildTraditionalArmyAction);
-
+/// \endcond
