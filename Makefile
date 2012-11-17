@@ -169,12 +169,16 @@ export basedir have_dot DOCDIR INCLUDE PROJECT_NAME PROJECT_VERSION PROJECT_BRIE
 
 $(MSDIR)/test.doxygen: $(MSDIR)/src.doxygen $(test_SRC) $(testutil_SRC) $(wildcard test/*.h) $(wildcard test/util/*.h)
 $(MSDIR)/src.doxygen: $(actout_SRC) $(wildcard include/*.h)
+$(MSDIR)/msic.doxygen: $(actout_SRC) $(test_SRC) $(testutil_SRC) $(wildcard include/*.h) $(wildcard test/*.h) $(wildcard test/util/*.h)
 
 html: $(MSDIR)/src.doxygen $(MSDIR)/test.doxygen
 	@echo HTML documentation was built successfully. See the logs in the $(LOGDIR) directory.
 
 latex: $(MSDIR)/src.latex $(MSDIR)/test.latex
 	@echo LaTeX documentation was built successfully. See the logs in the $(LOGDIR) directory.
+
+all-doc: $(MSDIR)/misc.doxygen $(MSDIR)/misc.latex
+	@echo Combined documentation HTML, and LaTeX documentaiton was built successfully. See the logs in the $(LOGDIR) directory.
 
 test: $(MSDIR)/testrunner.cppunit
 	@echo Testing ran successfully. See the logs in the $(LOGDIR) directory.
