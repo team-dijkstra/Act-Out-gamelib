@@ -80,12 +80,14 @@ public:
       CPPUNIT_ASSERT(territoryB->owner() == ply2);
    }
 
+   /// \test ensure owner changes correctly
    void territory_owner_should_be_changed_by_mutator()  {
       territoryA->owner(ply2);
       CPPUNIT_ASSERT(territoryA->owner() == ply2);
    }
 
    /// \todo add test for different types of units in units() function
+   /// \test ensure a unitContainer is returned
    void territory_unit_should_return_a_unitContainer()  {
       
       Territory::unitContainer a;
@@ -97,6 +99,7 @@ public:
       CPPUNIT_ASSERT(a.size() != 0);
    }
 
+   /// \test ensure Territory doesn't add existing Unit type
    void territory_should_not_add_new_unit_of_existing_unit_type(){
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
@@ -113,5 +116,6 @@ public:
    
 };
 
+/// \cond TestTerritoryREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestTerritory);
-
+/// \endcond

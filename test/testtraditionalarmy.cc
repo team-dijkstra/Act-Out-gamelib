@@ -156,5 +156,6 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
    
 };
 
+/// \cond TestTraditionalArmyREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestTraditionalArmy);
-
+/// \endcond

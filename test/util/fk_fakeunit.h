@@ -31,11 +31,19 @@ class Action;
 ///An interface to specify the behaviour of the game units
 class FakeUnit : public Unit{
   public:
+
+   //constructors
 //   FakeUnit(int nunit, Territory * t, std::vector<Action*> uActs);
+
+   
    FakeUnit(int nunit, Territory * t, std::string s="FakeUnit");
+
+   //destructor
+   
    ~FakeUnit() {}
 
    //mutators
+   
    /// Increases the numUnits in this FakeUnit
    //
    /// \param a Unit object

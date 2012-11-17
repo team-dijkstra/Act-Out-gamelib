@@ -140,17 +140,11 @@ class TestMoveAction : public CppUnit::TestFixture {
       //this is correct because u1 did not have 100 guys in the unit, but 4
       CPPUNIT_ASSERT(u1->numUnits() == 3);
       CPPUNIT_ASSERT(u2->numUnits() == 1);
-      CPPUNIT_ASSERT(u3->numUnits() == 2);
-
-      
-
-      
+      CPPUNIT_ASSERT(u3->numUnits() == 2);  
    }
-
    
-   
-
 };
 
+/// \cond TestMoveActionREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestMoveAction);
-
+/// \endcond

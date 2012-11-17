@@ -75,6 +75,7 @@ class TestUnitOperation : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(filterFakeUnit2->name() == "Type2");
    }
 
+   /// \test ensure that the filter filters correctly
    void filter_operator_should_be_return_properly()  {
       CPPUNIT_ASSERT((*filterAll)(u1) == true);
       CPPUNIT_ASSERT((*filterAll)(u2) == true);
@@ -87,5 +88,6 @@ class TestUnitOperation : public CppUnit::TestFixture {
 
 };
 
+/// \cond TestUnitOperationREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestUnitOperation);
-
+/// \endcond
