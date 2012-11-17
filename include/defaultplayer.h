@@ -58,8 +58,7 @@ class DefaultPlayer : public Player {
    ///       <br>sets currentPhase to first Phase
    DefaultPlayer(std::string nm, const phaselist & Plist);
 
-   //destructor
-   
+   /// Destructor
    ~DefaultPlayer() {}
    
    //accessors
@@ -82,6 +81,8 @@ class DefaultPlayer : public Player {
    bool nextPhase();
 
   private:
+   /// The container type used to hold the list of phases.
+   /// \see Player::phaselist.
    typedef Player::phaselist phaselist;
   
    std::string pName; ///< string, name of Player
