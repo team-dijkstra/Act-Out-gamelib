@@ -35,18 +35,31 @@ class FilterByAllUnitTypes : public UnitOperation {
 
    //constructors
    
-   FilterByAllUnitTypes(Unit *);
+   /// \param u -- pointer to parent Unit
+   //
+   /// \post MIL:
+   ///       <br>- sets unitType to u
+   ///       <br>- sets fName to "AllUnits"
+   FilterByAllUnitTypes(Unit * u);
+
+   //destructor
+   
    ~FilterByAllUnitTypes(){}
    
    //accessors
-   
+
+   /// \param unit -- pointer to Unit that compares to this parent Unit
+   //
+   /// \return bool, always true
    bool operator()(Unit *) const;
+
+   //! @copydoc UnitOperation::name()
    std::string name() const;
 
   private:
 
-   Unit * unitType;
-   std::string fName;
+   Unit * unitType; //! @copydoc FilterByUnitType::unitType
+   std::string fName; //! @copydoc FilterByUnitType::fName
    
 };
 

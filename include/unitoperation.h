@@ -46,7 +46,7 @@ class UnitOperation {
    /// \return bool, true if unit and this parent Unit are same type
    virtual bool operator()(Unit * unit) const =0;
 
-   /// \retrun string, name of parent Unit
+   /// \return string, name of parent Unit
    virtual std::string name() const =0;
 };
 
