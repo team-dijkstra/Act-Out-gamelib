@@ -39,8 +39,7 @@ class Player {
    /// container of references to Phase objects
    typedef std::vector<Phase*> phaselist;
 
-   //destructor
-
+   /// destructor
    virtual ~Player() {}
    
    //accessors
@@ -63,6 +62,8 @@ class Player {
    
    /// \post moves to next phase, if the last phase is reached, reset to first
    ///       phase
+   /// \return true if this was the last phase of the players turn, false 
+   ///       othersise.
    virtual bool nextPhase() =0;
 };
 

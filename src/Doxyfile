@@ -1,6 +1,6 @@
 
 @INCLUDE            = $(basedir)/Doxyfile
 
-INPUT               = src include
+INPUT               = src include src/mainpage.md
 OUTPUT_DIRECTORY    = $(DOCDIR)/src
 GENERATE_TAGFILE    = $(DOCDIR)/src/tagfile

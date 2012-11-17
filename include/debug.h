@@ -25,10 +25,21 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cassert>
 
+/**
+ * \def dout
+ *
+ * \brief defines a c++ stream style debug output facility. 
+ *
+ * \details This symbol can be used in exactly the same manner as std::cout
+ * or std::cerr. If NDEBUG is defined, then this symbol will be defined as
+ * a nop. If NDEBUG is not defined, then for any 'dout' statements, the print
+ * line will be prefixed with the name of the file, and the line number that
+ * the statement was run from.
+ */
 #ifdef NDEBUG
-#   define dout std::cout << __FILE__ << ": " << __LINE__ << " "
-#else
 #   define dout if (false) std::cout
+#else
+#   define dout std::cout << __FILE__ << ": " << __LINE__ << " "
 #endif
 
 
