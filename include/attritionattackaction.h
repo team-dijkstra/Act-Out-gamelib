@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/** \file action.h
+/** \file attritionattackaction.h
  * \brief contains the interface class Action
  *
  *  AttritionAttackAction class interface, specifies behavious of game actions

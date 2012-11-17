@@ -17,22 +17,27 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+/** \file unitoperation.h
+ * Implementation file for UnitOperation class
+ */
 #ifndef UNITOPERATION_H
 #define UNITOPERATION_H
 
-#include "unitoperation.h"
 #include <string>
 
 class Unit;
 
-
+/**
+ * This is an interface class that defines a filtering functor class,
+ * unit operations will define a set of units and return true if the
+ * passed unit belongs in the set, false otherwise.
+ */
 class UnitOperation {
   public:
    ~UnitOperation(){}
    //accessor
    virtual bool operator()(Unit *) const =0;
    virtual std::string name() const =0;
-
 };
 
 #endif

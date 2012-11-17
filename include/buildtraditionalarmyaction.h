@@ -17,13 +17,23 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/** \file buildtraditionalarmyaction.h
+ * Implementation file for BuildTraditionalArmyAction class
+ * Detatailed descriptions of each method are in the header file
+ */
 #ifndef BUILD_TRADITIONAL_ARMY_ACTION_H
 #define BUILD_TRADITIONAL_ARMY_ACTION_H
 
 #include "action.h"
 #include "unit.h"
 
+/**
+ * Implements Action interface class.
+ *
+ * This class is responsible for constructing instances of
+ * TraditionalArmy and placing them on specific instances of
+ * LandTerritory
+ */
 class BuildTraditionalArmyAction : public Action{
   public:
 

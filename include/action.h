@@ -30,9 +30,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class Territory;
 class Phase;
 
-///Basic interface specifying behaviour for class Action
-//
-///Actions mutate game state.
+/**
+ *  Basic interface specifying behaviour for class Action
+ *
+ *  Actions mutate game state.
+ */
 class Action {
   public:
 

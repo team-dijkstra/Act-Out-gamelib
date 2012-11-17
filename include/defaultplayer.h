@@ -17,6 +17,10 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+/** \file defaultplayer.h
+ * Implementation file for DefaultPlayer class
+ * Detatailed descriptions of each method are in the header file
+ */
 #ifndef DEFAULT_PLAYER_H
 #define DEFAULT_PLAYER_H
 
@@ -28,6 +32,9 @@ class Action;
 class TerritoryOperation;
 class Game;
 
+/**
+ * Implements the Player interface class.
+ */
 class DefaultPlayer : public Player {
   public:
 

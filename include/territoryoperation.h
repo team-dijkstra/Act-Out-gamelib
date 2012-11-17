@@ -17,11 +17,19 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+/** \file territoryoperation.h
+ * Implementation file for TerritoryOperation class
+ * Detatailed descriptions of each method are in the header file
+ */
 #ifndef TERRITORYOPERATION_H
 #define TERRITORYOPERATION_H
 
 class Territory;
-
+/**
+ * This is a interface class that defines a filtering functor class,
+ * territory operations will define a set of territories and return
+ * true if the passed territory belongs in the set, false otherwise.
+ */
 class TerritoryOperation {
   public:
    virtual ~TerritoryOperation() {}

@@ -17,12 +17,11 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-/// \file
-/// \brief contains the interface class Action -- action.h
-//
-/// MoveAction class interface, specifies behavious of game actions
-
+/**
+ *  \file moveaction.h
+ *
+ *  Implements Action interface class.
+ */
 #ifndef MOVEACTION_H
 #define MOVEACTION_H
 
@@ -32,17 +31,16 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "action.h"
 #include "builderunit.h"
 
-//class Territory;
-//class Phase;
-
-///Basic interface specifying behaviour for class Action
-//
-///MoveAction move numUnits from one Territory to another
-
-/// \todo template this for different types of unit and store the parent unit object
-					   //template<typename U>
+/**
+ * Implements Action interface class.
+ *
+ * This class is responsible for moving units of one type between
+ * territories
+ */
 class MoveAction : public Action{
-  public:
+/** \todo template this for different types of unit and store the parent unit object
+          template<typename U> */
+ public:
 
    //constructors
 

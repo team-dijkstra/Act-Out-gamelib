@@ -17,11 +17,21 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
+/** \file filterbyunittype.h
+ * Implementation file for FilterByUnitType class
+ * Detatailed descriptions of each method are in the header file
+ */
 #ifndef FILTERBYUNITTYPE_H
 #define FILTERBYUNITTYPE_H
 
 #include "unitoperation.h"
 
+/**
+ * Implements the UnitOperation interface class, FilterByUnitType
+ * will return true only if the FilterByUnitType::operator()(Unit *)
+ * is passed the same type of unit object that was passed in the
+ * constructor and false otherwise.
+ */
 class FilterByUnitType : public UnitOperation {
   public:
    FilterByUnitType(Unit * u);
