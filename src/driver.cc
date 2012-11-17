@@ -19,16 +19,28 @@
 
 using namespace std;
 
+/// adjacency list of territories
 typedef vector< pair< Territory*, Territory* > > adjList;
+/// list of all players
 typedef vector< Player* > playerList;
+/// list of commands
 typedef map< string, int > comList;
+/// list of phases
 typedef Player::phaselist phaseList;
+/// list of territories
 typedef set<Territory* > territorylist;
 
-
-class GameMap{
+/** This is a temporary class implementation of functionality that is needed from the Game and DriverGameMap
+ * interface classes so we could complete our driver class for demo purposes. Elemets of this will be
+ * incorporated into the implementations of those clases and will be removed from the final driver program
+ * other elements such as DriverGameMap::print() are more appropriate for the driver program and will remain
+ */
+class DriverGameMap{
 public:
-   GameMap(adjList & a):myAjL(a)//, unclaimed(new DefaultPlayer(string("Unclaimed")))
+   /// param a -- adjList
+   /// post MIL:
+   ///      <br>- sets myAjL to a and inserts elements of a into allTerr
+   DriverGameMap(adjList & a):myAjL(a)//, unclaimed(new DefaultPlayer(string("Unclaimed")))
    {
       adjList::iterator it;
       for(it = myAjL.begin();  it!=myAjL.end() ; ++it)
@@ -38,6 +50,9 @@ public:
       }
    }
 
+   /** Convienience method for initially allocating owners to the Territories
+    *  this will be handled by the implementation of the Game::SetupGame()
+    */
    void setOwners(Player * p1, Player * p2)
    {
       set< Territory*>::iterator gIT;
@@ -52,11 +67,13 @@ public:
 	    (*gIT)->owner(p2);
       }
    }
-
+   /// \cond GAMEMAPOUT
    void out(){
       cout<<"";
    }
+   /// 	\endcond
 
+   /// \post prints all territories
    void print()
    {
       territorylist l = list();
@@ -67,6 +84,8 @@ public:
       }
    }
 
+   /// \param p -- Player pointer
+   /// \post prints territories of the specified Player
    void print(Player * p)
    {
       territorylist l = list(p);
@@ -77,7 +96,8 @@ public:
       }
       
    }
-   
+
+   /// \post returns a DriverGameMap::territorylist containing of all territories
    territorylist list()
    {
       territorylist pass;
@@ -90,7 +110,8 @@ public:
       return pass;
    }
 
-   
+   /// \param p -- Player pointer
+   /// \returns DriverGameMap::territorylist containing all territories of the specified Player
    territorylist list(Player * p)
    {
       territorylist pass;
@@ -105,6 +126,12 @@ public:
       }
       return pass;
    }
+
+   /// \param att -- pointer to attacking territory object
+   /// \param def -- pointer to defending territory object
+   /// \param player -- pointer to attacking player object
+   ///
+   /// \returns a bool indicating true if attack sucessful, false otherwise
    bool Attack(Territory * att, Territory * def, Player * player)
    {
       
@@ -129,7 +156,8 @@ public:
       }
       return false;
    }
-   
+
+   /// \returns a DriverGameMap::territorylist of all territories
    territorylist getSet()
    {
       return allTerr;
@@ -145,30 +173,29 @@ private:
 
 void init(map< string, int > &);
 void help();
-void setup(GameMap *&, playerList &, phaseList&);
-void showmap(GameMap *&);
-void myterritories(GameMap *&,Player *);
-void playPhase(GameMap *&, playerList &, Player *&);
-void nextPhase(GameMap *&, playerList &, Player *&);
-void attack(GameMap *&, playerList &, Player *&);
+void setup(DriverGameMap *&, playerList &, phaseList&);
+void showmap(DriverGameMap *&);
+void myterritories(DriverGameMap *&,Player *);
+void playPhase(DriverGameMap *&, playerList &, Player *&);
+void nextPhase(DriverGameMap *&, playerList &, Player *&);
+void attack(DriverGameMap *&, playerList &, Player *&);
+bool playGame(DriverGameMap *&, playerList &, comList&, Player *&);
+bool isWinner(DriverGameMap *&, playerList&, Player *);
 
-bool playGame(GameMap *&, playerList &, comList&, Player *&);
-bool isWinner(GameMap *&, playerList&, Player *);
-
-
+/// Main driver funtion
 int main()
 {
    map< string, int > commands;
    
    init(commands);
 
-   GameMap * myGameMap;
+   DriverGameMap * myDriverGameMap;
    playerList pList;
    phaseList phsList;
    phaseList::iterator phsIT;
    
-   setup(myGameMap,pList,phsList);
-   myGameMap->setOwners(pList[0],pList[1]);
+   setup(myDriverGameMap,pList,phsList);
+   myDriverGameMap->setOwners(pList[0],pList[1]);
    Player * currentTurn;
    currentTurn = pList[0];
    cout << endl;
@@ -185,10 +212,12 @@ int main()
       cout << "The current player is: " <<currentTurn->name();
       cout << " The current phase is: " <<cp <<endl;
    }
-   while(playGame(myGameMap, pList, commands, currentTurn));
+   while(playGame(myDriverGameMap, pList, commands, currentTurn));
    return 0;
 }
 
+/// \param[in,out] commands -- reference to a comList of commands
+/// \post initializes the command list
 void init(map< string, int > & commands)
 {
    int index = 0;
@@ -203,6 +232,7 @@ void init(map< string, int > & commands)
    //commands[""] = index++;
 }
 
+/// \post outputs help screen to standard out
 void help()
 {
    cout << "===List Of Commands==="<<endl;
@@ -215,7 +245,11 @@ void help()
    cout << endl;
 }
 
-void setup(GameMap *& gm ,playerList& pL, phaseList& phsL)
+/// \param gm -- pointer reference to the DriverGameMap
+/// \param pL -- reference to a playerList
+/// \param phsL -- reference to a phaseList
+/// \post initializes the game state
+void setup(DriverGameMap *& gm ,playerList& pL, phaseList& phsL)
 {
    //setup phaselist
    phsL.push_back(new DefaultPhase(string("Marshal")));
@@ -250,25 +284,34 @@ void setup(GameMap *& gm ,playerList& pL, phaseList& phsL)
    aL.push_back(make_pair(t4,t5) );
    aL.push_back(make_pair(t5,t6) );
 
-   gm = new GameMap(aL);
+   gm = new DriverGameMap(aL);
    
 }
 
-void showmap(GameMap *& g)
+/// \param g -- pointer reference to the DriverGameMap
+/// \post prints list of all territories to standard out
+void showmap(DriverGameMap *& g)
 {
    //cout << "\t***Stub: All Territory List!" << endl;
    g->print();
    cout << endl;
 }
 
-void myterritories(GameMap *& g,Player * p)
+/// \param g -- pointer reference to the DriverGameMap
+/// \param p -- pointer to the current player
+/// \post prints list of player's territories to standard out
+void myterritories(DriverGameMap *& g,Player * p)
 {
    //cout << "\t***Stub: "<<p->name()<<"'s Territory List!" << endl;
    g->print(p);
    cout << endl;
 }
 
-void playPhase(GameMap *& gm, playerList & pl, Player *& player)
+/// \param gm -- pointer reference to the DriverGameMap
+/// \param pl -- reference to a playerList
+/// \param player -- pointer reference to the current player
+/// \post stub for enacting the players current turn
+void playPhase(DriverGameMap *& gm, playerList & pl, Player *& player)
 {
    phaseList curr = player->remainingPhases();
    phaseList::iterator cIT;
@@ -279,7 +322,13 @@ void playPhase(GameMap *& gm, playerList & pl, Player *& player)
    cout << endl;
 }
 
-void nextPhase(GameMap *& gm, playerList & pl, Player *& player)
+/// \param gm -- pointer reference to the DriverGameMap
+/// \param pl -- reference to a playerList
+/// \param player -- pointer reference to the current player
+/** \post moves player to next phase, if last phase in turn is reached sets next player in pl
+ *  as the current player
+ */
+void nextPhase(DriverGameMap *& gm, playerList & pl, Player *& player)
 {
    gm->out();
    bool nextPlayer = player->nextPhase();
@@ -295,7 +344,12 @@ void nextPhase(GameMap *& gm, playerList & pl, Player *& player)
    cout << endl;
 }
 
-void attack(GameMap *& g, playerList & plst, Player *& currP)
+/// \param g -- pointer reference to the DriverGameMap
+/// \param plst -- reference to a playerList
+/// \param currP -- pointer reference to the current player
+/** \post asks player for attack decision and prints result to standard out
+ */
+void attack(DriverGameMap *& g, playerList & plst, Player *& currP)
 {
    cout << "***Attack!***"<<endl;
    territorylist aL = g->getSet();
@@ -332,7 +386,17 @@ void attack(GameMap *& g, playerList & plst, Player *& currP)
 }
 
 
-bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *& currentTurn)
+/**
+ * Main UI for playing the game
+ *
+ * \param myGame -- pointer reference to the DriverGameMap
+ * \param pList -- reference to a playerList
+ * \param commands -- reference to a list of available commands
+ * \param currentTurn -- pointer reference to the current player
+ *
+ * \returns false if a winner is found or if a player quits returns true otherwise
+ */
+bool playGame(DriverGameMap *& myGame, playerList & pList, comList& commands, Player *& currentTurn)
 {
    map< string, int >::iterator comIT;
    string nextCommand;
@@ -406,8 +470,16 @@ bool playGame(GameMap *& myGame, playerList & pList, comList& commands, Player *
    return true;
 }
 
-/// \todo check for winner
-bool isWinner(GameMap *& g, playerList& pL, Player * currentTurn)
+/**
+ * Function to check if current player is the winner
+ *
+ * \param g -- pointer reference to the DriverGameMap
+ * \param pL -- reference to a playerList
+ * \param currentTurn -- pointer reference to the current player
+ *
+ * \returns true if current player is the winner 
+ */
+bool isWinner(DriverGameMap *& g, playerList& pL, Player * currentTurn)
 {
    /// \todo win condition for more than 2 players loop thru pL if all other player !alive() then currentTurn Wins
    bool win = false;
