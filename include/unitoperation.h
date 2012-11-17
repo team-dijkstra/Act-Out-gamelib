@@ -34,9 +34,19 @@ class Unit;
  */
 class UnitOperation {
   public:
+
+   //destructor
+   
    ~UnitOperation(){}
-   //accessor
-   virtual bool operator()(Unit *) const =0;
+   
+   //accessors
+
+   /// \param unit -- pointer to Unit that compares to this parent Unit
+   //
+   /// \return bool, true if unit and this parent Unit are same type
+   virtual bool operator()(Unit * unit) const =0;
+
+   /// \retrun string, name of parent Unit
    virtual std::string name() const =0;
 };
 

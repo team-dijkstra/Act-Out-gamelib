@@ -26,12 +26,20 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "unitoperation.h"
 
-
+/**
+ * Implements the UnitOperation interface class, FilterByAllUnitTypes
+ * will return true for any unit passed.
+ */
 class FilterByAllUnitTypes : public UnitOperation {
   public:
+
+   //constructors
+   
    FilterByAllUnitTypes(Unit *);
    ~FilterByAllUnitTypes(){}
+   
    //accessors
+   
    bool operator()(Unit *) const;
    std::string name() const;
 

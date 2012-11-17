@@ -34,15 +34,31 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  */
 class FilterByUnitType : public UnitOperation {
   public:
+
+   //constructors
+
+   /// \param u -- pointer to parent Unit
+   //
+   /// \post MIL:
+   ///       <br>- sets unitType to u
+   ///       <br>- sets fName to name of u
    FilterByUnitType(Unit * u);
+
+   //destructor
+   
    ~FilterByUnitType(){}
-   //accessor
+   
+   //accessors
+
+   //! @copydoc UnitOperation::operator()
+   bool operator()(Unit * unit) const;
+
+   //! @copydoc UnitOperation::name()
    std::string name() const;
-   bool operator()(Unit *) const;
    
   private:
-   Unit * unitType;
-   std::string fName;
+   Unit * unitType; ///< pointer to parent Unit
+   std::string fName; ///< string, name of u
 };
 
 #endif
