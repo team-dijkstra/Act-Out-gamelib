@@ -32,9 +32,17 @@ class Territory;
  */
 class TerritoryOperation {
   public:
+
+   //destructor
+   
    virtual ~TerritoryOperation() {}
-   //mutators
-   virtual bool operator()(Territory *) =0; 
+   
+   //accessor
+
+   /// \param t -- pointer to Territory that compares to this parent Territory
+   //
+   /// \return bool, true if t and parent Territory are same type
+   virtual bool operator()(Territory * t) =0; 
    
 };
 

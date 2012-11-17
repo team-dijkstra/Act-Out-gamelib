@@ -43,7 +43,7 @@ class UnitOperation {
 
    /// \param unit -- pointer to Unit that compares to this parent Unit
    //
-   /// \return bool, true if unit and this parent Unit are same type
+   /// \return bool, true if unit and parent Unit are same type
    virtual bool operator()(Unit * unit) const =0;
 
    /// \return string, name of parent Unit

@@ -50,7 +50,9 @@ class FilterByUnitType : public UnitOperation {
    
    //accessors
 
-   //! @copydoc UnitOperation::operator()
+   /// \param unit -- pointer to Unit that compares to this parent Unit
+   //
+   /// \return bool, true if unit and parent Unit are same type
    bool operator()(Unit * unit) const;
 
    //! @copydoc UnitOperation::name()
