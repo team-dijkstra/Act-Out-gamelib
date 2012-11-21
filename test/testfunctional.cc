@@ -44,6 +44,7 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(last_should_return_last_for_multi_element_list);
    CPPUNIT_TEST(unary_map_should_produce_equivalent_functor_for_single_element_list);
    CPPUNIT_TEST(unary_map_should_produce_composite_functor_for_multi_element_list);
+   CPPUNIT_TEST(binary_map_should_produce_equivalent_functor_for_null_mapping);
    CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -123,6 +124,27 @@ class TestFunctional : public CppUnit::TestFixture {
 
       for (int i = -2; i < 10; ++i) {
          CPPUNIT_ASSERT(f2(i) == f1(f1(i)));
+      }
+   }
+
+   /// \test ensure that function::binary::map works for null parameter mapping.
+   void binary_map_should_produce_equivalent_functor_for_null_mapping() {
+
+      struct f {
+         typedef int result_type;
+         typedef int first_argument_type;
+         typedef int second_argument_type;
+         result_type operator()(first_argument_type x, second_argument_type y) {
+            return x + y;
+         }
+      };
+
+      typedef function::binary::map<f> fc;
+
+      for (int i = -2; i < 10; ++i) {
+         for (int j = -2; j < 10; ++j) {
+            CPPUNIT_ASSERT(f()(i, j) == fc()(i, j));
+         }
       }
    }
 
