@@ -141,7 +141,6 @@ class TestFunctional : public CppUnit::TestFixture {
    void binary_map_should_produce_equivalent_functor_for_null_mapping() {
 
       typedef function::binary::map<f_bin_null> fc;
-<<<<<<< HEAD
 
       for (int i = -2; i < 10; ++i) {
          for (int j = -2; j < 10; ++j) {
