@@ -25,7 +25,7 @@ function contains-block {
     local block_start=`head -n 1 $blockf`
     local block_end=`tail -n 1 $blockf`
 
-    local t=$(tempfile)
+    local t=$(mktemp)
 
     sed -n "\@$block_start@,\@$block_end@ p" $file > $t
     diff -q $t $blockf > /dev/null 2>&1
@@ -53,7 +53,7 @@ function prepend-block {
 
     contains-block $file $blockf
     if [ $? -ne 0 ]; then
-        local t=$(tempfile)
+        local t=$(mktemp)
        
         # build the new file
         echo "$pre" > $t
