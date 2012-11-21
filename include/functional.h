@@ -129,7 +129,7 @@ namespace function {
       */
       
       template<typename F1, typename F2, typename F3>
-      struct map : public binary_tag, F1, F2, F3 {
+      struct map : public binary_tag, public F1, private F2, private F3 {
          typedef typename F1::result_type result_type;
          typedef typename F2::argument_type first_argument_type;
          typedef typename F3::argument_type second_argument_type;
@@ -140,7 +140,7 @@ namespace function {
       };
       
       template<typename F1, typename F3>
-      struct map<F1, nil, F3> : public binary_tag, F1, F3 {
+      struct map<F1, nil, F3> : public binary_tag, private F1, private F3 {
          typedef typename F1::result_type result_type;
          typedef typename F1::first_argument_type first_argument_type;
          typedef typename F3::argument_type second_argument_type;
@@ -151,7 +151,7 @@ namespace function {
       };
       
       template<typename F1, typename F2>
-      struct map<F1, F2, nil> : public binary_tag, F1, F2 {
+      struct map<F1, F2, nil> : public binary_tag, private F1, private F2 {
          typedef typename F1::result_type result_type;
          typedef typename F2::argument_type first_argument_type;
          typedef typename F1::second_argument_type second_argument_type;
@@ -162,7 +162,7 @@ namespace function {
       };
       
       template<typename F1>
-      struct map<F1, nil, nil> : public binary_tag, F1 {
+      struct map<F1, nil, nil> : public binary_tag, private F1 {
          typedef typename F1::result_type result_type;
          typedef typename F1::first_argument_type first_argument_type;
          typedef typename F1::second_argument_type second_argument_type;
@@ -182,7 +182,7 @@ namespace function {
          struct map;
    
          template<typename F1, typename F2>
-         struct map : public unary_tag, F1, map<typename F2::head, typename F2::tail> {
+         struct map : private F1, private map<typename F2::head, typename F2::tail> {
             typedef F1 head;
             typedef F2 tail;
             typedef typename F1::result_type result_type;
@@ -208,20 +208,57 @@ namespace function {
    
       template<typename>
       struct map;
-   
+  
+      /**
+       * General case. recursively builds a call chain from the supplied list
+       * of functors.
+       *
+       * \par Example
+       * \code
+       *
+       * // creates a list of 3 functors.
+       * using typelist::cons;
+       * typedef cons<f1, cons<f2, cons<f3> > mylist;
+       * // creates the call chain: f1(f2(f3(x)));
+       * typedef function::unary::map<mylist> f123;
+       * // instantiate f123 and call.
+       * f123 f_it;
+       * f123::argument_type x = 23;
+       * f123::result_type y = f_it(x);
+       *
+       * \endcode
+       *
+       * \tparam list A cons list (typelist::cons) of functors to chain 
+       *    together as a composite function. Each functor in the list is 
+       *    expected to supply type definitions for \c result_type and 
+       *    \c argument_type.
+       */
       template<typename list>
-      struct map : public unary_tag,  list::head, map<typename list::tail> {
+      struct map : private virtual list::head, private map<typename list::tail> {
          typedef typename list::head::result_type result_type;
-         typedef typename last<list>::head::argument_type argument_type;
+         typedef typename last<list>::type::argument_type argument_type;
    
          result_type operator()(argument_type x) {
             /* operator() inherited from head and tail */
             return list::head::operator()(map<typename list::tail>::operator()(x));
          }
       };
-   
+  
+      /**
+       * Base case. simply forwards type declarations and exposes the public 
+       * interface inherited from T.
+       *
+       * \tparam T The class to inherit from. T is expected to provide type
+       *    definitions for \c result_type and \c argument_type.
+       *
+       * \note either virtual inheritance or a member variable must be used
+       *    whenever the same functor is applied more than once in the call 
+       *    chain.
+       *
+       * \todo is it possible to do this without virtual inheritance?
+       */
       template<typename T>
-      struct map<cons<T, nil> > : public unary_tag, T {
+      struct map<cons<T, nil> > : public unary_tag, public virtual T {
          typedef typename T::result_type result_type;
          typedef typename T::argument_type argument_type;
          /* operator() inherited from T */
