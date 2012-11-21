@@ -29,8 +29,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TEMPLATE_FUNCTIONAL_H
 #define TEMPLATE_FUNCTIONAL_H
 
-//#include <functional>
-
 namespace util {
 
    template<typename T>
@@ -129,13 +127,24 @@ namespace function {
       */
       
       template<typename F1, typename F2, typename F3>
-      struct map : public binary_tag, public F1, private F2, private F3 {
+      struct map : public binary_tag, private F1, private F2, private F3 {
          typedef typename F1::result_type result_type;
          typedef typename F2::argument_type first_argument_type;
          typedef typename F3::argument_type second_argument_type;
       
          result_type operator()(first_argument_type x, second_argument_type y) {
             return F1::operator()(F2::operator()(x), F3::operator()(y));
+         }
+      };
+
+      template<typename F1, typename F2>
+      struct map<F1, F2, F2> : public binary_tag, private F1, private F2 {
+         typedef typename F1::result_type result_type;
+         typedef typename F2::argument_type first_argument_type;
+         typedef typename F2::argument_type second_argument_type;
+
+         result_type operator()(first_argument_type x, second_argument_type y) {
+            return F1::operator()(F2::operator()(x), F2::operator()(y));
          }
       };
       
@@ -162,47 +171,15 @@ namespace function {
       };
       
       template<typename F1>
-      struct map<F1, nil, nil> : public binary_tag, private F1 {
+      struct map<F1, nil, nil> : public binary_tag, public F1 {
          typedef typename F1::result_type result_type;
          typedef typename F1::first_argument_type first_argument_type;
          typedef typename F1::second_argument_type second_argument_type;
-      
-         result_type operator()(first_argument_type x, second_argument_type y) {
-            return F1::operator()(x, y);
-         }
+         /* operator() inherited from F1 */ 
       };
    }
    
    namespace unary {
-   
-      namespace v1 {
-         using typelist::last;
-   
-         template<typename F1, typename F2 = nil>
-         struct map;
-   
-         template<typename F1, typename F2>
-         struct map : private F1, private map<typename F2::head, typename F2::tail> {
-            typedef F1 head;
-            typedef F2 tail;
-            typedef typename F1::result_type result_type;
-            typedef typename last<F2>::type::argument_type argument_type;
-   
-            result_type operator()(argument_type x) {
-               /* operator() inherited from head and tail */
-               return F1::operator()(map<typename tail::head, typename tail::tail>::operator()(x));
-            }
-         };
-   
-         template<typename F1>
-         struct map<F1, nil> : public unary_tag, public F1 {
-            typedef F1 head;
-            typedef nil tail;
-            typedef typename F1::result_type result_type;
-            typedef typename F1::argument_type argument_type;
-         };
-   
-      }
    
       using namespace typelist;
    
@@ -265,12 +242,6 @@ namespace function {
       };
    }
 }
-
-/*
-map<std::less, map<std::less, Dereference, Dereference> >
-
-map<list<negate, list<transform, list<map<std::less, Dereference, Dereference> > > >
-*/
 
 #endif /* TEMPLATE_FUNCTIONAL_H */
 

@@ -45,6 +45,7 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(unary_map_should_produce_equivalent_functor_for_single_element_list);
    CPPUNIT_TEST(unary_map_should_produce_composite_functor_for_multi_element_list);
    CPPUNIT_TEST(binary_map_should_produce_equivalent_functor_for_null_mapping);
+   CPPUNIT_TEST(binary_map_should_do_parameter_mapping);
    CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -141,6 +142,23 @@ class TestFunctional : public CppUnit::TestFixture {
       for (int i = -2; i < 10; ++i) {
          for (int j = -2; j < 10; ++j) {
             CPPUNIT_ASSERT(f_bin_null()(i, j) == fc()(i, j));
+         }
+      }
+   }
+
+   /// \test ensure that function::binary::map works for single parameter mapping.
+   void binary_map_should_do_parameter_mapping() {
+      using typelist::nil;
+
+      typedef function::binary::map<f_bin_null, twice> fc1;
+      typedef function::binary::map<f_bin_null, nil, twice> fc2;
+      typedef function::binary::map<f_bin_null, twice, twice> fc12;
+
+      for (int i = -2; i < 10; ++i) {
+         for (int j = -2; j < 10; ++j) {
+            CPPUNIT_ASSERT(f_bin_null()(twice()(i), j) == fc1()(i, j));
+            CPPUNIT_ASSERT(f_bin_null()(i, twice()(j)) == fc2()(i, j));
+            CPPUNIT_ASSERT(f_bin_null()(twice()(i), twice()(j)) == fc12()(i, j));
          }
       }
    }
