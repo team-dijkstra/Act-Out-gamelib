@@ -31,6 +31,7 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(last_should_return_nil_for_empty_list);
    CPPUNIT_TEST(last_should_return_head_for_one_element_list);
    CPPUNIT_TEST(last_should_return_last_for_multi_element_list);
+   CPPUNIT_TEST(unary_map_should_produce_equivalent_functor_for_single_element_list);
    CPPUNIT_TEST_SUITE_END();
   public:
 
@@ -71,6 +72,25 @@ class TestFunctional : public CppUnit::TestFixture {
       const bool result = type::eq<long, last<mylist>::type>::value;
 
       CPPUNIT_ASSERT(result);
+   }
+
+   /// \test ensure that function::unary::map works for the base case.
+   void unary_map_should_produce_equivalent_functor_for_single_element_list() {
+      using namespace typelist;
+
+      struct f {
+         typedef int result_type;
+         typedef int argument_type;
+         result_type operator()(argument_type x) {
+            return x;
+         }
+      };
+
+      typedef function::unary::map<cons<f> > fc;
+      
+      for (int i = 0; i < 10; ++i) {
+         CPPUNIT_ASSERT(f()(i) == fc()(i));
+      }
    }
 
 };
