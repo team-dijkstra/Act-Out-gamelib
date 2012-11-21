@@ -29,22 +29,56 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TEMPLATE_FUNCTIONAL_H
 #define TEMPLATE_FUNCTIONAL_H
 
+/* forward declarations */
+/*===========================================================================*/
+
 namespace util {
-
-   template<typename T>
-   class Dereference
-   //: public std::unary_function<const T *, const T &>
-   {
-     public:
-      typedef const T* argument_type;
-      typedef const T& result_type;
-
-      result_type operator()(argument_type t) {
-         return *t;
-      }
-   };
-
+   
+   template<typename> 
+   class dereference;
 }
+
+namespace type {
+   struct true_tag;
+   struct false_tag;
+
+   template<typename, typename> 
+   struct eq;
+}
+
+namespace typelist {
+   struct nil;
+   
+   template<typename H, typename T = nil>
+   struct cons;
+
+   template<typename head, typename tail = nil>
+   struct last2;
+
+   template<typename list = nil>
+   struct last;
+}
+
+namespace function {
+   struct binary_tag;
+   struct unary_tag;
+
+   namespace binary {
+      using typelist::nil;
+
+      template<typename F1, typename F2 = nil, typename F3 = nil>
+      struct map;
+   }
+
+   namespace unary {
+
+      template<typename>
+      struct map;
+   }
+}
+
+/* implementations */
+/*===========================================================================*/
 
 namespace type {
    
@@ -70,15 +104,6 @@ namespace type {
 namespace typelist {
    struct nil {};
    
-   template<typename H, typename T = nil>
-   struct cons;
-
-   template<typename head, typename tail = nil>
-   struct last2;
-
-   template<typename list = nil>
-   struct last;
-
    template<typename H, typename T>
    struct cons {
       typedef H head;
@@ -114,9 +139,6 @@ namespace function {
    struct unary_tag {};
    
    namespace binary {
-
-      template<typename F1, typename F2 = nil, typename F3 = nil>
-      struct map;
 
       /*
       template<typename A, typename B>
@@ -182,10 +204,7 @@ namespace function {
    namespace unary {
    
       using namespace typelist;
-   
-      template<typename>
-      struct map;
-  
+
       /**
        * General case. recursively builds a call chain from the supplied list
        * of functors.
@@ -241,6 +260,26 @@ namespace function {
          /* operator() inherited from T */
       };
    }
+}
+
+/**
+ * \todo Should this namespace live in a separate file?
+ */
+namespace util {
+   using function::unary_tag;
+
+   template<typename T>
+   class dereference : public unary_tag
+   //: public std::unary_function<const T *, const T &>
+   {
+     public:
+      typedef T* argument_type;
+      typedef T& result_type;
+
+      result_type operator()(argument_type t) {
+         return *t;
+      }
+   };
 }
 
 #endif /* TEMPLATE_FUNCTIONAL_H */

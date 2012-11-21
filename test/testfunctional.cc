@@ -46,6 +46,7 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(unary_map_should_produce_composite_functor_for_multi_element_list);
    CPPUNIT_TEST(binary_map_should_produce_equivalent_functor_for_null_mapping);
    CPPUNIT_TEST(binary_map_should_do_parameter_mapping);
+   CPPUNIT_TEST(dereference_should_convert_pointer_to_ref);
    CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -161,6 +162,19 @@ class TestFunctional : public CppUnit::TestFixture {
             CPPUNIT_ASSERT(f_bin_null()(twice()(i), twice()(j)) == fc12()(i, j));
          }
       }
+   }
+
+   void dereference_should_convert_pointer_to_ref() {
+      
+      for (int i = 0; i < 10; ++i) {
+         // const correct
+         CPPUNIT_ASSERT(i == util::dereference<const int>()(&i));
+      }
+
+      int j = 2;
+      // supports modification.
+      util::dereference<int>()(&j) = 4;
+      CPPUNIT_ASSERT(4 == j);
    }
 
 };
