@@ -18,6 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <functional>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "functional.h"
@@ -47,6 +48,7 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(binary_map_should_produce_equivalent_functor_for_null_mapping);
    CPPUNIT_TEST(binary_map_should_do_parameter_mapping);
    CPPUNIT_TEST(dereference_should_convert_pointer_to_ref);
+   CPPUNIT_TEST(binary_map_should_work_with_stl_binary_functions);
    CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -164,6 +166,7 @@ class TestFunctional : public CppUnit::TestFixture {
       }
    }
 
+   /// \test ensure that util::dereference functor works as expected.
    void dereference_should_convert_pointer_to_ref() {
       
       for (int i = 0; i < 10; ++i) {
@@ -175,6 +178,18 @@ class TestFunctional : public CppUnit::TestFixture {
       // supports modification.
       util::dereference<int>()(&j) = 4;
       CPPUNIT_ASSERT(4 == j);
+   }
+
+   /// \test ensure that function::binary::map works with stl binary_function functors.
+   void binary_map_should_work_with_stl_binary_functions() {
+      
+      typedef function::binary::map<std::less<int>, util::dereference<int>, util::dereference<int> > ptrless;
+
+      int i = 0;
+      int j = 1;
+
+      CPPUNIT_ASSERT(ptrless()(&i, &j));
+      CPPUNIT_ASSERT(!ptrless()(&j, &i));
    }
 
 };
