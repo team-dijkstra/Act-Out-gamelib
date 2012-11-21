@@ -48,7 +48,14 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE_END();
 
   private:
-
+   struct f_bin_null {
+      typedef int result_type;
+      typedef int first_argument_type;
+      typedef int second_argument_type;
+      result_type operator()(first_argument_type x, second_argument_type y) {
+         return x + y;
+      }
+   };
 
   public:
 
@@ -113,7 +120,6 @@ class TestFunctional : public CppUnit::TestFixture {
    /// \test ensure that function::unary::map properly composes multi-element lists.
    void unary_map_should_produce_composite_functor_for_multi_element_list() {
       using namespace typelist;
-
       
       typedef function::unary::map<cons<twice, cons<twice> > > twice2;
 
@@ -130,20 +136,11 @@ class TestFunctional : public CppUnit::TestFixture {
    /// \test ensure that function::binary::map works for null parameter mapping.
    void binary_map_should_produce_equivalent_functor_for_null_mapping() {
 
-      struct f {
-         typedef int result_type;
-         typedef int first_argument_type;
-         typedef int second_argument_type;
-         result_type operator()(first_argument_type x, second_argument_type y) {
-            return x + y;
-         }
-      };
-
-      typedef function::binary::map<f> fc;
+      typedef function::binary::map<f_bin_null> fc;
 
       for (int i = -2; i < 10; ++i) {
          for (int j = -2; j < 10; ++j) {
-            CPPUNIT_ASSERT(f()(i, j) == fc()(i, j));
+            CPPUNIT_ASSERT(f_bin_null()(i, j) == fc()(i, j));
          }
       }
    }
