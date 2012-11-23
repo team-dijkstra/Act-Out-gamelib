@@ -37,7 +37,7 @@ class UnitOperation {
 
    //destructor
    
-   ~UnitOperation(){}
+   virtual ~UnitOperation(){}
    
    //accessors
 

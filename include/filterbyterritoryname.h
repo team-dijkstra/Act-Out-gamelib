@@ -17,33 +17,45 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file territoryoperation.h
- * Implementation file for TerritoryOperation class
+/** \file filterbyterritoryname.h
+ * Implementation file for FilterByTerritoryName class
  * Detatailed descriptions of each method are in the header file
  */
-#ifndef TERRITORYOPERATION_H
-#define TERRITORYOPERATION_H
+#ifndef FILTERBYTERRITORYNAME_H
+#define FILTERBYTERRITORYNAME_H
 
-class Territory;
+#include "territoryoperation.h"
+
 /**
- * This is a interface class that defines a filtering functor class,
- * territory operations will define a set of territories and return
- * true if the passed territory belongs in the set, false otherwise.
+ * Implements the TerritoryOperation interface class, FilterByTerritoryName
+ * will return true only if the FilterByTerritoryName::operator()(Territory *)
+ * is passed the same name of territory object that was passed in the
+ * constructor and false otherwise.
  */
-class TerritoryOperation {
+class FilterByTerritoryName : public TerritoryOperation {
   public:
+
+   //constructors
+
+   /// \param t -- const string compared to comparing Territory name
+   //
+   /// \post MIL:
+   ///       <br>- sets territoryName to t
+   FilterByTerritoryName(const std::string & t);
 
    //destructor
    
-   virtual ~TerritoryOperation() {}
+   ~FilterByTerritoryName(){}
    
    //accessors
 
    /// \param t -- pointer to Territory that compares to territoryName
    //
    /// \return bool, true if t name and territoryName are same
-   virtual bool operator()(Territory * t) const =0; 
-   
+   bool operator()(Territory * t) const;
+
+  private:
+   const std::string territoryName; ///< const string of Territory name
 };
 
 #endif

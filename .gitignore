@@ -17,6 +17,7 @@ nuserver
 *.slo
 *.lo
 *.o
+*.gch
 
 # Compiled Dynamic libraries
 *.so

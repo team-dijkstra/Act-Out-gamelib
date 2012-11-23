@@ -17,33 +17,18 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file territoryoperation.h
- * Implementation file for TerritoryOperation class
+/** \file filterbyterritoryname.cc
+ * Implementation file for FilterByTerritoryName class
  * Detatailed descriptions of each method are in the header file
  */
-#ifndef TERRITORYOPERATION_H
-#define TERRITORYOPERATION_H
+#include "filterbyterritoryname.h"
+#include "territory.h"
 
-class Territory;
-/**
- * This is a interface class that defines a filtering functor class,
- * territory operations will define a set of territories and return
- * true if the passed territory belongs in the set, false otherwise.
- */
-class TerritoryOperation {
-  public:
+FilterByTerritoryName::FilterByTerritoryName(const std::string & t):territoryName(t)
+{
+}
 
-   //destructor
-   
-   virtual ~TerritoryOperation() {}
-   
-   //accessors
-
-   /// \param t -- pointer to Territory that compares to territoryName
-   //
-   /// \return bool, true if t name and territoryName are same
-   virtual bool operator()(Territory * t) const =0; 
-   
-};
-
-#endif
+bool FilterByTerritoryName::operator()(Territory * t) const
+{
+   return ( t->name() == territoryName);
+}
