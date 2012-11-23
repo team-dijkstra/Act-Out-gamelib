@@ -110,7 +110,7 @@ compile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) -include $(PRECOMPILED_HEADER) -Winvali
 link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 # install search paths
-vpath %.gch include
+#vpath %.gch include
 vpath %.cc src:test:test/util
 vpath %.o $(OBJDIR)
 vpath %.d $(OBJDIR)
@@ -131,7 +131,7 @@ $(foreach d,$(BINDIR) $(OBJDIR) $(LOGDIR) $(MSDIR) $(DOCDIR),$(eval $(call rule_
 include/%.h.gch : include/%.h
 	$(pchcompile)
 
-$(OBJDIR)/%.o: %.cc $(PRECOMPILED_HEADER).gch | $(OBJDIR)
+$(OBJDIR)/%.o: %.cc include/$(PRECOMPILED_HEADER).gch | $(OBJDIR)
 	$(compile)
 
 $(MSDIR)/%.cppunit: % | $(MSDIR) $(LOGDIR)
