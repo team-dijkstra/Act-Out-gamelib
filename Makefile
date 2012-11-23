@@ -110,7 +110,6 @@ compile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) -include $(PRECOMPILED_HEADER) -Winvali
 link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 # install search paths
-#vpath %.gch include
 vpath %.cc src:test:test/util
 vpath %.o $(OBJDIR)
 vpath %.d $(OBJDIR)
@@ -119,6 +118,7 @@ vpath % $(BINDIR)
 
 .DEFAULT_GOAL := all
 .PHONY: all depend test check docs clean clean-commit clean-all
+.INTERMEDIATE: include/$(PRECOMPILED_HEADER).gch
 
 all: $(addprefix $(BINDIR)/,$(PROGS))
 
@@ -128,7 +128,7 @@ $(foreach t,$(PROGS),$(eval $(call rule_t,$(BINDIR)/$t,$(addprefix $(OBJDIR)/,$(
 # generate directory rules
 $(foreach d,$(BINDIR) $(OBJDIR) $(LOGDIR) $(MSDIR) $(DOCDIR),$(eval $(call rule_t,$d,,mkdir -p $d)))
 
-include/%.h.gch : include/%.h
+%.h.gch : %.h
 	$(pchcompile)
 
 $(OBJDIR)/%.o: %.cc include/$(PRECOMPILED_HEADER).gch | $(OBJDIR)
