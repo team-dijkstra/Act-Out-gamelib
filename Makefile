@@ -6,7 +6,8 @@ PROJECT_BRIEF := A turn based strategy game library
 # user config variables
 CXX := g++
 INCLUDE := include test test/util
-CXXFLAGS := -Wall -Wextra -ansi -pedantic -std=c++0x -x c++ -O3 -g
+CXXFLAGS := -Wall -Wextra -ansi -pedantic -std=c++0x -O3 -g
+CPPFLAGS := $(addprefix -I,$(INCLUDE))
 LDFLAGS :=
 OBJDIR := obj
 BINDIR := bin
@@ -18,6 +19,7 @@ CPPCHECK_SEVERITY_ERR := error warning style
 
 PROGS := testrunner driver 
 LIBS := actout
+PRECOMPILED_HEADER := precompile.h
 driver_SRC := src/driver.cc
 actout_SRC := $(filter-out $(driver_SRC),$(wildcard src/*.cc))
 testutil_SRC := $(wildcard test/util/*.cc)
@@ -29,7 +31,7 @@ testrunner_OBJS := $(patsubst %.cc,%.o,$(notdir $(test_SRC))) $(testutil_OBJS) $
 testrunner_LIBS := dl cppunit
 
 # computed config variables
-have_dot := $(if $(shell which dot),YES,NO)
+have_dot := $(if $(shell which dot 2> /dev/null),YES,NO)
 basedir := $(abspath .)
 
 check_PROGS := cppunit cppcheck valgrind cppncss
@@ -103,10 +105,12 @@ $(call create-links,hooks,.git/hooks)
 # the library path searched by the compiler
 cclibpath := $(patsubst =%,%,$(word 6,$(shell $(CXX) -print-search-dirs)))
 
-compile = $(CXX) $(addprefix -I,$(INCLUDE)) $(CXXFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)
+pchcompile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) -x c++-header $< -o $@
+compile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) -include $(PRECOMPILED_HEADER) -Winvalid-pch -c -x c++ $< -o $@ -MMD -MF $(@:.o=.d)
 link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 # install search paths
+vpath %.gch include
 vpath %.cc src:test:test/util
 vpath %.o $(OBJDIR)
 vpath %.d $(OBJDIR)
@@ -124,7 +128,10 @@ $(foreach t,$(PROGS),$(eval $(call rule_t,$(BINDIR)/$t,$(addprefix $(OBJDIR)/,$(
 # generate directory rules
 $(foreach d,$(BINDIR) $(OBJDIR) $(LOGDIR) $(MSDIR) $(DOCDIR),$(eval $(call rule_t,$d,,mkdir -p $d)))
 
-$(OBJDIR)/%.o: %.cc | $(OBJDIR)
+include/%.h.gch : include/%.h
+	$(pchcompile)
+
+$(OBJDIR)/%.o: %.cc $(PRECOMPILED_HEADER).gch | $(OBJDIR)
 	$(compile)
 
 $(MSDIR)/%.cppunit: % | $(MSDIR) $(LOGDIR)
@@ -192,6 +199,9 @@ clean-commit: clean
 
 clean-all: clean-commit
 	rm -rf $(MSDIR)/* $(LOGDIR)/*
+
+decimate: clean-all
+	rm -rf include/*.gch
 
 
 ifneq ($(MAKECMDGOALS),clean)
