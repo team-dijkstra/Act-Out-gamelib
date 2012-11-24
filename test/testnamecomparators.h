@@ -24,7 +24,7 @@ class TestNameComparators : public CppUnit::TestFixture {
   public:
 
    void comparisons_work_for_empty_strings() {
-      using namespace compare;
+      using namespace compare::byname;
       
       CPPUNIT_ASSERT(*empty1 == *empty2);
       CPPUNIT_ASSERT(! (*empty1 < *empty2));
