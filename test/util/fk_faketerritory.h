@@ -40,7 +40,7 @@ class FakeTerritory : public Territory{
    /// \post MIL:
    ///       <br>- sets tName to n
    ///       <br>- sets tOwner to own
-   FakeTerritory(std::string & n, Player * own = NULL):tName(n), tOwner(own){}
+   FakeTerritory(const std::string & n, Player * own = NULL):tName(n), tOwner(own){}
 
    //destructor
    
@@ -57,7 +57,10 @@ class FakeTerritory : public Territory{
    /// \param f -- pointer to UnitOperation for filtering Units returned
    //
    /// \return unitContainer of Units on this Territory
-   unitContainer units(UnitOperation* f) const{ return unitContainer();}
+   unitContainer units(UnitOperation* f) const {
+      (void)f; 
+      return unitContainer();
+   }
 
    //mutators
    
