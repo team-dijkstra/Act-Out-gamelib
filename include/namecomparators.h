@@ -25,7 +25,7 @@
  */
 template<typename T>
 bool operator< (const T & lhs, const T & rhs) {
-   return lhs.name() < rhs.name();
+   return (lhs.name() < rhs.name());
 }
 
 /**
@@ -42,7 +42,7 @@ bool operator< (const T & lhs, const T & rhs) {
  */
 template<typename T>
 bool operator== (const T & lhs, const T & rhs) {
-   return lhs.name() == rhs.name();
+   return (lhs.name() == rhs.name());
 }
 
 /**
@@ -54,7 +54,7 @@ bool operator== (const T & lhs, const T & rhs) {
  */
 template<typename T>
 bool operator<= (const T & lhs, const T & rhs) {
-   return lhs < rhs || lhs == rhs;
+   return ((lhs < rhs) || (lhs == rhs));
 }
 /**
  * Greater than comparison operator. Implemented in terms of 
@@ -64,7 +64,7 @@ bool operator<= (const T & lhs, const T & rhs) {
  * \see operator==
  */
 template<typename T>
-bool operator> (const T & lhs, const T rhs) {
+bool operator> (const T & lhs, const T & rhs) {
    return !(lhs <= rhs);
 }
 
@@ -77,7 +77,7 @@ bool operator> (const T & lhs, const T rhs) {
  */
 template<typename T>
 bool operator>= (const T & lhs, const T & rhs) {
-   return lhs == rhs || lhs > rhs;
+   return ((lhs == rhs) || (lhs > rhs));
 }
 
 #endif /* NAME_COMPARATORS_H */

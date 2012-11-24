@@ -15,12 +15,21 @@
 template<typename T>
 class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestNameComparators);
+   CPPUNIT_TEST(comparisons_work_for_empty_strings);
    CPPUNIT_TEST_SUITE_END();
   protected:
    typedef T Nameable;
    virtual Nameable * createObject(const char * name) =0;
    
   public:
+
+   void comparisons_work_for_empty_strings() {
+      CPPUNIT_ASSERT(*empty1 == *empty2);
+      CPPUNIT_ASSERT(! (*empty1 < *empty2));
+      CPPUNIT_ASSERT(*empty1 <= *empty2);
+      CPPUNIT_ASSERT(! (*empty1 > *empty2));
+      CPPUNIT_ASSERT(*empty1 >= *empty2);
+   }
 
    // let doxygen skip uninteresting methods.
    /// \cond
