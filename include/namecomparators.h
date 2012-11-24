@@ -10,7 +10,7 @@
 #ifndef NAME_COMPARATORS_H
 #define NAME_COMPARATORS_H
 
-//#include <functional>
+namespace compare {
 
 /**
  * Less than operator to compare objects by name.
@@ -44,6 +44,45 @@ template<typename T>
 bool operator== (const T & lhs, const T & rhs) {
    return (lhs.name() == rhs.name());
 }
+}
+
+/**
+ * \namespace compare
+ *
+ * This is an incomplete namespace. it supplies all comparison operators
+ * except '==' and '<', which are expected to be defined elsewhere. All
+ * comparisons are implemented in terms of these two.
+ *
+ * To complete the namespace, reopen it and supply the missing
+ * implementations like so:
+ *
+ * \code
+ * namespace compare {
+ *    template<typename T>
+ *    bool operator== (const T & lhs, const T & rhs) {
+ *       ...
+ *    }
+ *
+ *    template<typename T>
+ *    bool operator== (const T & lhs, const T & rhs) {
+ *       ...
+ *    }
+ * }
+ * \endcode
+ */
+namespace compare {
+
+/**
+ * Less than operator. Expected to be defined elsewhere.
+ */
+template<typename T>
+bool operator< (const T & lhs, const T & rhs);
+
+/**
+ * Equality operator. Expected to be defined elsewhere.
+ */
+template<typename T>
+bool operator== (const T & lhs, const T & rhs);
 
 /**
  * Less than or equal comparison operator. Implemented in terms of 
@@ -78,6 +117,7 @@ bool operator> (const T & lhs, const T & rhs) {
 template<typename T>
 bool operator>= (const T & lhs, const T & rhs) {
    return ((lhs == rhs) || (lhs > rhs));
+}
 }
 
 #endif /* NAME_COMPARATORS_H */
