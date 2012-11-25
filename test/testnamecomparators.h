@@ -18,6 +18,9 @@ class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST(empty_name_comparisons_yeild_equality_only);
    CPPUNIT_TEST(self_comparison_yeilds_equality_only);
    CPPUNIT_TEST(same_name_comparison_yeilds_equality_only);
+   CPPUNIT_TEST(lessthan_operator_preserves_name_ordering);
+   CPPUNIT_TEST(greaterthan_operator_preserves_name_ordering);
+   //CPPUNIT_TEST(inequality_operator_preserves_strict_ordering);
    CPPUNIT_TEST_SUITE_END();
   protected:
    typedef T Nameable;
@@ -53,6 +56,36 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(*obj1 <= *obj1a);
       CPPUNIT_ASSERT(! (*obj1 > *obj1a));
       CPPUNIT_ASSERT(*obj1 >= *obj1a);
+   }
+   
+   void lessthan_operator_preserves_name_ordering() {
+      using namespace compare::byname;
+   
+      if (obj1->name() < obj2->name()) {
+         CPPUNIT_ASSERT(*obj1 < *obj2);
+         CPPUNIT_ASSERT(*obj1 <= *obj2);
+      } else if (obj2->name() < obj1->name()) {
+         CPPUNIT_ASSERT(*obj2 < *obj1);
+         CPPUNIT_ASSERT(*obj2 <= *obj1);
+      } else {
+         CPPUNIT_ASSERT(*obj1 <= *obj2);
+         CPPUNIT_ASSERT(*obj2 <= *obj1);
+      }
+   }
+   
+   void greaterthan_operator_preserves_name_ordering() {
+      using namespace compare::byname;
+   
+      if (obj1->name() > obj2->name()) {
+         CPPUNIT_ASSERT(*obj1 > *obj2);
+         CPPUNIT_ASSERT(*obj1 >= *obj2);
+      } else if (obj2->name() > obj1->name()) {
+         CPPUNIT_ASSERT(*obj2 > *obj1);
+         CPPUNIT_ASSERT(*obj2 >= *obj1);
+      } else {
+         CPPUNIT_ASSERT(*obj1 >= *obj2);
+         CPPUNIT_ASSERT(*obj2 >= *obj1);
+      }
    }
 
    // let doxygen skip uninteresting methods.
