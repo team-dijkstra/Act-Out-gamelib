@@ -22,6 +22,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * \file testnamecomparators.cc
  * Contains tests for name based comparison operators.
  */
+#ifndef TEST_NAME_COMPARATORS_H
+#define TEST_NAME_COMPARATORS_H
+
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "namecomparators.h"
@@ -47,6 +50,8 @@ class TestNameComparators : public CppUnit::TestFixture {
    
   public:
 
+   /// \test ensure that compare::byname comparisons work for empty name 
+   ///   strings.
    void empty_name_comparisons_yeild_equality_only() {
       using namespace compare::byname;
       
@@ -57,6 +62,8 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(*empty1 >= *empty2);
    }
 
+   /// \test ensure that compare::byname comparisons are valid for 
+   ///   reflexive self comparisons.
    void self_comparison_yeilds_equality_only() {
       using namespace compare::byname;
 
@@ -67,6 +74,8 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(*obj1 >= *obj1);
    }
 
+   /// \test ensure that compare::byname comparisons are valid
+   ///   for name strings that should be equal.
    void same_name_comparison_yeilds_equality_only() {
       using namespace compare::byname;
 
@@ -77,6 +86,8 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(*obj1 >= *obj1a);
    }
    
+   /// \test ensure that compare::byname comparisons are consistent for values
+   ///   where one should be less than the other.
    void lessthan_operator_preserves_name_ordering() {
       using namespace compare::byname;
    
@@ -86,12 +97,14 @@ class TestNameComparators : public CppUnit::TestFixture {
       } else if (obj2->name() < obj1->name()) {
          CPPUNIT_ASSERT(*obj2 < *obj1);
          CPPUNIT_ASSERT(*obj2 <= *obj1);
-      } else {
-         CPPUNIT_ASSERT(*obj1 <= *obj2);
-         CPPUNIT_ASSERT(*obj2 <= *obj1);
       }
+
+      CPPUNIT_ASSERT(*obj1 <= *obj1a);
+      CPPUNIT_ASSERT(*obj1a <= *obj1);
    }
-   
+  
+   /// \test ensure that compare::byname comparisons are consistent for values
+   ///   where one should be greater than the other.
    void greaterthan_operator_preserves_name_ordering() {
       using namespace compare::byname;
    
@@ -101,10 +114,10 @@ class TestNameComparators : public CppUnit::TestFixture {
       } else if (obj2->name() > obj1->name()) {
          CPPUNIT_ASSERT(*obj2 > *obj1);
          CPPUNIT_ASSERT(*obj2 >= *obj1);
-      } else {
-         CPPUNIT_ASSERT(*obj1 >= *obj2);
-         CPPUNIT_ASSERT(*obj2 >= *obj1);
       }
+      
+      CPPUNIT_ASSERT(*obj1 >= *obj1a);
+      CPPUNIT_ASSERT(*obj1a >= *obj1);
    }
 
    // let doxygen skip uninteresting methods.
@@ -134,3 +147,4 @@ class TestNameComparators : public CppUnit::TestFixture {
    Nameable * empty2;
 };
 
+#endif /* TEST_NAME_COMPARATORS_H */
