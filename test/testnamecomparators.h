@@ -16,6 +16,8 @@ template<typename T>
 class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestNameComparators);
    CPPUNIT_TEST(comparisons_work_for_empty_strings);
+   CPPUNIT_TEST(self_comparison_yeilds_equality_only);
+   CPPUNIT_TEST(same_name_comparison_yeilds_equality_only);
    CPPUNIT_TEST_SUITE_END();
   protected:
    typedef T Nameable;
@@ -31,6 +33,26 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(*empty1 <= *empty2);
       CPPUNIT_ASSERT(! (*empty1 > *empty2));
       CPPUNIT_ASSERT(*empty1 >= *empty2);
+   }
+
+   void self_comparison_yeilds_equality_only() {
+      using namespace compare::byname;
+
+      CPPUNIT_ASSERT(*obj1 == *obj1);
+      CPPUNIT_ASSERT(! (*obj1 < *obj1));
+      CPPUNIT_ASSERT(*obj1 <= *obj1);
+      CPPUNIT_ASSERT(! (*obj1 > *obj1));
+      CPPUNIT_ASSERT(*obj1 >= *obj1);
+   }
+
+   void same_name_comparison_yeilds_equality_only() {
+      using namespace compare::byname;
+
+      CPPUNIT_ASSERT(*obj1 == *obj1a);
+      CPPUNIT_ASSERT(! (*obj1 < *obj1a));
+      CPPUNIT_ASSERT(*obj1 <= *obj1a);
+      CPPUNIT_ASSERT(! (*obj1 > *obj1a));
+      CPPUNIT_ASSERT(*obj1 >= *obj1a);
    }
 
    // let doxygen skip uninteresting methods.
