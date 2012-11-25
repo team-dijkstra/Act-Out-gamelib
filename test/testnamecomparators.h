@@ -15,7 +15,7 @@
 template<typename T>
 class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestNameComparators);
-   CPPUNIT_TEST(comparisons_work_for_empty_strings);
+   CPPUNIT_TEST(empty_name_comparisons_yeild_equality_only);
    CPPUNIT_TEST(self_comparison_yeilds_equality_only);
    CPPUNIT_TEST(same_name_comparison_yeilds_equality_only);
    CPPUNIT_TEST_SUITE_END();
@@ -25,7 +25,7 @@ class TestNameComparators : public CppUnit::TestFixture {
    
   public:
 
-   void comparisons_work_for_empty_strings() {
+   void empty_name_comparisons_yeild_equality_only() {
       using namespace compare::byname;
       
       CPPUNIT_ASSERT(*empty1 == *empty2);
