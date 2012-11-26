@@ -17,26 +17,27 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file filterbyallunittypes.cc 
- * Implementation file for FilterByAllUnitTypes class
+/** \file filterbyterritoryunit.cc
+ * Implementation file for FilterByTerritoryUnit class
  * Detatailed descriptions of each method are in the header file
  */
+#include "filterbyterritoryunit.h"
 #include "filterbyallunittypes.h"
-#include "unit.h"
+#include "player.h"
+#include "territory.h"
 
-FilterByAllUnitTypes::FilterByAllUnitTypes( Unit *) : fName("AllUnits")
+FilterByTerritoryUnit::FilterByTerritoryUnit(const std::string & t):unitName(t)
 {
 }
 
-FilterByAllUnitTypes::FilterByAllUnitTypes() {}
-
-bool FilterByAllUnitTypes::operator()(Unit * unit) const
+bool FilterByTerritoryUnit::operator()(Territory * t) const
 {
-   return true;
-}
+   // \todo is this the right container type?
+   typedef Territory::unitContainer container;
 
-std::string FilterByAllUnitTypes::name() const
-{
-   return fName;
-}
+   FilterByAllUnitTypes f;
+   container u = t->units(&f);
 
+   container::iterator pos = u.find(unitName);
+   return ((u.end() != pos) && (pos->second->numUnits() > 0));
+}

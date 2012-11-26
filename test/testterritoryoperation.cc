@@ -23,9 +23,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "filterbyterritoryname.h"
-#include "filterbyterritoryownername.h"
+#include "filterbyterritoryowner.h"
+#include "filterbyterritoryunit.h"
 #include "landterritory.h"
 #include "defaultplayer.h"
+#include "traditionalarmy.h"
 
 
 /// Class containing the test cases for Default TerritoryOperation implementations.
@@ -33,17 +35,20 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class TestTerritoryOperation : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestTerritoryOperation);
    CPPUNIT_TEST(filter_territory_name_operation_should_return_properly);
-   CPPUNIT_TEST(filter_territory_owner_name_operation_should_return_properly);
+   CPPUNIT_TEST(filter_territory_owner_operation_should_return_properly);
+   CPPUNIT_TEST(filter_territory_unit_operation_should_return_properly);
    CPPUNIT_TEST_SUITE_END();
    
   private:
    // filter used in testing
    TerritoryOperation * filterTerritory;
    TerritoryOperation * filterOwner;
+   TerritoryOperation * filterUnit;
    Territory * t1;
    Territory * t2;
    Player * p1;
    Player * p2;
+   Unit * u1;
    
   public:
    /// \cond SETUPTEARDOWNTERRITORYOPERATIONTEST
@@ -54,13 +59,17 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
       p2 = new DefaultPlayer("pl2");
       t1 = new LandTerritory(a, p1);
       t2 = new LandTerritory("terr2", p2);
+      u1 = new TraditionalArmy(t1);
+      filterUnit = new FilterByTerritoryUnit(u1->name());
       filterTerritory = new FilterByTerritoryName(t2->name());
-      filterOwner = new FilterByTerritoryOwnerName(p1->name());
+      filterOwner = new FilterByTerritoryOwner(p1->name());
    }
    // frees memory for the filters
    void tearDown() {
       delete filterTerritory;
       delete filterOwner;
+      delete filterUnit;
+      delete u1;
       delete t1;
       delete t2;
       delete p1;
@@ -75,11 +84,16 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
    }
 
    /// \test ensure that the filter filters player correctly
-   void filter_territory_owner_name_operation_should_return_properly()  {
+   void filter_territory_owner_operation_should_return_properly()  {
       CPPUNIT_ASSERT((*filterOwner)(t1) == true);
       CPPUNIT_ASSERT((*filterOwner)(t2) == false);
    }
-   
+
+   /// \test ensure that the filter filters units correctly
+   void filter_territory_unit_operation_should_return_properly()  {
+      CPPUNIT_ASSERT((*filterOwner)(t1) == true);
+      CPPUNIT_ASSERT((*filterOwner)(t2) == false);
+   }
 };
 
 /// \cond TestTerritoryOperationREGISTRATION

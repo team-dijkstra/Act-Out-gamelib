@@ -17,44 +17,44 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file filterbyterritoryowner.h
- * Implementation file for FilterByTerritoryOwner class
+/** \file filterbyterritoryownername.h
+ * Implementation file for FilterByTerritoryOwnerName class
  * Detatailed descriptions of each method are in the header file
  */
-#ifndef FILTERBYTERRITORYOWNER_H
-#define FILTERBYTERRITORYOWNER_H
+#ifndef FILTERBYTERRITORYUNIT_H
+#define FILTERBYTERRITORYUNIT_H
 
 #include "territoryoperation.h"
 
 /**
- * Implements the TerritoryOperation interface class, FilterByTerritoryOwner
- * will return true only if the FilterByTerritoryOwner::operator()(Territory *)
+ * Implements the TerritoryOperation interface class, FilterByTerritoryUnit
+ * will return true only if the FilterByTerritoryUnit::operator()(Territory *)
  * is passed the same name of territory object that was passed in the
  * constructor and false otherwise.
  */
-class FilterByTerritoryOwner : public TerritoryOperation {
+class FilterByTerritoryUnit : public TerritoryOperation {
   public:
 
    //constructors
 
-   /// sets territoryOwner to t
+   /// sets territoryUnit to t
    //
-   /// \param t -- const string compared to comparing Territory owner name
-   FilterByTerritoryOwner(const std::string & t);
+   /// \param t -- const string compared to comparing Territory unit name
+   FilterByTerritoryUnit(const std::string & t);
 
    //destructor
    
-   ~FilterByTerritoryOwner(){}
+   ~FilterByTerritoryUnit(){}
    
    //accessors
 
-   /// \param t -- pointer to Territory that compares to territoryOwner
+   /// \param t -- pointer to the Territory to check for the unit type the operation was constructed with. 
    //
-   /// \return bool, true if t owner name and territoryOwner are same
+   /// \return bool, true if t unit name and unitName are same
    bool operator()(Territory * t) const;
 
   private:
-   const std::string territoryOwner; ///< const string of Territory owner name
+   const std::string unitName; ///< const string of unit name
 };
 
 #endif
