@@ -30,14 +30,14 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class TestGameMap : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestGameMap);
    CPPUNIT_TEST_FAIL(begin_should_return_first_territory_by_lexicographical_order);
-   CPPUNIT_TEST_FAIL(find_returns_marker_token_for_non_existent_items);
+   CPPUNIT_TEST(find_returns_marker_token_for_non_existent_items);
    CPPUNIT_TEST_FAIL(find_returns_position_for_existent_items);
-   CPPUNIT_TEST_FAIL(adjacencies_returns_empty_list_for_non_existent_items);
-   CPPUNIT_TEST_FAIL(adjacencies_returns_empty_list_for_existent_item_with_no_connections);
+   CPPUNIT_TEST(adjacencies_returns_empty_list_for_non_existent_items);
+   CPPUNIT_TEST(adjacencies_returns_empty_list_for_existent_item_with_no_connections);
    CPPUNIT_TEST_FAIL(adjacencies_returns_all_and_only_adjacent_items);
    CPPUNIT_TEST_FAIL(traverse_visits_all_territories);
    CPPUNIT_TEST_FAIL(traverse_applies_operation_transformations);
-   CPPUNIT_TEST_FAIL(filter_returns_empty_list_if_filter_selects_no_elements);
+   CPPUNIT_TEST(filter_returns_empty_list_if_filter_selects_no_elements);
    CPPUNIT_TEST_FAIL(filter_returns_all_elements_if_filter_selects_all_elements);
    CPPUNIT_TEST_FAIL(filter_returns_all_and_only_selected_elements);
    CPPUNIT_TEST_SUITE_END();
