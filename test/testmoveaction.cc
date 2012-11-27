@@ -77,12 +77,15 @@ class TestMoveAction : public CppUnit::TestFixture {
    void tearDown() {
       delete actionA;
       delete actionB;
+      delete o1;
+      delete o2;
       delete p1;
       delete p2;
       delete t1;
       delete t2;
-      delete u1;
-      delete u2;
+      delete t3;
+      //delete u1;
+      //delete u2;
    }
    /// \endcond
    

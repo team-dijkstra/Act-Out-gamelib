@@ -29,8 +29,18 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
-   uActions.push_back(new MoveAction(new DefaultPhase(std::string("Marshall")),this));
+   //uActions.push_back(new MoveAction(new DefaultPhase(std::string("Marshall")),this));
 
+   DefaultPhase dfa(std::string("Marshall"));
+   //MoveAction mva(&dfa,this);
+   //MoveAction mva(new DefaultPhase(std::string("Marshall")),this);
+   //uActions.push_back(&mva);
+   uActions.push_back(new MoveAction(&dfa,this));
+}
+
+TraditionalArmy::~TraditionalArmy(){
+   for(Unit::actionContainer::iterator it=uActions.begin(); it != uActions.end(); ++it)
+      delete *it;
 }
 
 /// \todo implement increase units
@@ -50,13 +60,15 @@ Unit * TraditionalArmy::split (int num){
    if(num > numUnits())
       num = numUnits();
    this->decrease(num);
-   return new TraditionalArmy(whereAt(),num);
+   Unit * newArmy;
+   newArmy = new TraditionalArmy(whereAt(),num);
+   return newArmy;
 }
 /// \todo make this a pointer to a pointer
 int TraditionalArmy::merge (Unit * u){
    int n = u->numUnits();
    this->increase(n);
-   u = NULL;
+   delete u;
    return nUnits;
 }
 

@@ -64,18 +64,24 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       u2 = new TraditionalArmy(t2);
       actionA = new AttritionAttackAction(u1);
       actionB = new AttritionAttackAction(u2);
+
+      //added units to territory unitContainers
+      t1->addUnit(u1);
+      t2->addUnit(u2);
    }
 
    // frees memory for the actions
    void tearDown() {
       delete actionA;
       delete actionB;
+      delete o1;
+      delete o2;
       delete p1;
       delete p2;
       delete t1;
       delete t2;
-      delete u1;
-      delete u2;
+      //delete u1;
+      //delete u2;
    }
    /// \endcond
    
@@ -94,9 +100,7 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
 
    /// \test that doaction() adds units as appropriate
    void action_doaction_should_properly_attrition_attack()  {
-      //added units to territory unitContainers
-      t1->addUnit(u1);
-      t2->addUnit(u2);
+      
 
       //check the owner of each unit->whereAt()
       CPPUNIT_ASSERT(u1->whereAt()->owner() == o1); 

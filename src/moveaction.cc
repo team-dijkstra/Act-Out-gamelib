@@ -31,5 +31,6 @@ void MoveAction::doaction(int nUnits, Territory * T)
    Unit * moving;
    moving = parent->split(nUnits);
    T->addUnit(moving);
+   
 }
    

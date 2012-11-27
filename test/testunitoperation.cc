@@ -62,8 +62,8 @@ class TestUnitOperation : public CppUnit::TestFixture {
       delete filterAll;
       delete filterFakeUnit1;
       delete filterFakeUnit2;
-      delete u1;
-      delete u2;
+      //delete u1;
+      //delete u2;
       delete t;
    }
    /// \endcond

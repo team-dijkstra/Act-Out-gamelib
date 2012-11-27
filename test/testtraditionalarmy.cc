@@ -141,8 +141,8 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
       unitD = unitB->split(8);
       CPPUNIT_ASSERT(unitB->numUnits() == 0);
       CPPUNIT_ASSERT(unitD->numUnits() == 1);
-      delete unitC;
-      delete unitD;
+      //delete unitC;
+      //delete unitD;
    }
 
    /// \test ensure that merge(u) merges two units and preseves quantity

@@ -37,6 +37,8 @@ LandTerritory::LandTerritory(std::string nm, Player* own):tName(nm), tOwner(own)
 
 LandTerritory::~LandTerritory()
 {
+   for(unitContainer::iterator it=tUnits.begin(); it != tUnits.end(); ++it)
+      delete it->second;
    /// \todo is this the correct behaviour for destructor?
 //   delete tOwner;
    
@@ -64,6 +66,7 @@ void LandTerritory::owner(Player* p)
    tOwner = p;
 }
 
+/// \todo do deep copy. delete passed pointer?
 void LandTerritory::addUnit(Unit * u)
 {
    unitContainer::iterator it;
@@ -72,5 +75,5 @@ void LandTerritory::addUnit(Unit * u)
    if(it==tUnits.end())
       tUnits[u->name()]=u;
    else
-      it->second->increase(u->numUnits());
+      it->second->merge(u);
 }

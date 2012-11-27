@@ -43,9 +43,9 @@ bool BuildTraditionalArmyAction::applicable(Phase* p) const
 
 void BuildTraditionalArmyAction::doaction(int nUnits, Territory* T)
 {
-   Unit* newArmy;
+   Unit * newArmy;
    newArmy = new TraditionalArmy(T, nUnits);
+   //TraditionalArmy newArmy(T, nUnits);
    /// \todo put this unit in territory's unit container??
    T->addUnit(newArmy);
-   delete newArmy;//temporary fix
 }

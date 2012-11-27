@@ -51,8 +51,6 @@ class TestBuilderUnit : public CppUnit::TestFixture {
    /// \cond SETUPTEARDOWNUNITTEST
    // initialization for the test unit
    void setUp() {
-      delete unitA;
-      delete unitB;
       p1 = new DefaultPlayer(std::string("player1"));
       p2 = new DefaultPlayer(std::string("player2"));
       t1 = new LandTerritory(std::string("Spain"),p1);
@@ -62,8 +60,8 @@ class TestBuilderUnit : public CppUnit::TestFixture {
    }
    // frees memory for the units
    void tearDown() {
-      delete unitA;
-      delete unitB;
+      //delete unitA;
+      //delete unitB;
       delete t1;
       delete t2;
       delete p1;

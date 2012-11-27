@@ -73,6 +73,7 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
       delete p2;
       delete p3;
       delete t1;
+      delete u1;
    }
    /// \endcond
    
@@ -93,20 +94,21 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
    void action_doaction_should_properly_add_units_to_territory()  {
       Territory::unitContainer myc;
       Territory::unitContainer::iterator myit;
+      FilterByAllUnitTypes f;
       
-      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myc = t1->units(&f);
       myit = myc.find("TraditionalArmy");
       CPPUNIT_ASSERT(myit == myc.end());
 
       actionA->doaction(1,t1);
-      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myc = t1->units(&f);
       myit = myc.find("TraditionalArmy");
       CPPUNIT_ASSERT(myit != myc.end());
       int numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 1);
       
       actionA->doaction(1,t1);
-      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myc = t1->units(&f);
       myit = myc.find("TraditionalArmy");
       numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 2);

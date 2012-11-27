@@ -69,7 +69,7 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
       delete filterTerritory;
       delete filterOwner;
       delete filterUnit;
-      delete u1;
+      //delete u1;
       delete t1;
       delete t2;
       delete p1;

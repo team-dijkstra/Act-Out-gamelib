@@ -17,7 +17,7 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file filterbyterritoryownername.h
+/** \file filterbyterritoryowner.h
  * Implementation file for FilterByTerritoryOwnerName class
  * Detatailed descriptions of each method are in the header file
  */
