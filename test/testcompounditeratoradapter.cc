@@ -44,6 +44,7 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
    typedef std::pair<stype, double> ctype;
    typedef std::vector<ctype> ctype_container;
    typedef ctype_container::iterator ctype_iterator;
+   typedef CompoundIteratorAdapter<ctype_iterator, stype, &ctype::first> test_iterator;
 
    ctype_container tc;
   public:
@@ -96,24 +97,6 @@ class TestCompoundIteratorAdapter : public CppUnit::TestFixture {
          CPPUNIT_ASSERT(ti1++ != ti2++);
       }
       
-   }
-
-   /// \test ensure that the pointer dereference operator works.
-   ///       The value should be the same as the native iterator component value. 
-   void iterator_dereference_should_yield_member_value() {
-      ctype_iterator ci1 = tc.begin();
-      ctype_iterator ci2 = ci1;
-      ctype_iterator ciend = tc.end();
-      
-      test_iterator ti1(ci1);
-      test_iterator tiend(ciend);
-
-      while (ti1 != tiend) {
-         stype si2 = ci2->first;
-         //CPPUNIT_ASSERT(*ti1 == si2);
-         ti1++;
-         ci2++;
-      }
    }
 
    /// \test ensure that the pointer dereference operator works.

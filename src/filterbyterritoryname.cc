@@ -28,7 +28,7 @@ FilterByTerritoryName::FilterByTerritoryName(const std::string & t):territoryNam
 {
 }
 
-bool FilterByTerritoryName::operator()(Territory * t) const
+bool FilterByTerritoryName::operator()(Territory * t)
 {
    return ( t->name() == territoryName);
 }

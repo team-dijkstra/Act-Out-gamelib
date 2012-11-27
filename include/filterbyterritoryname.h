@@ -52,7 +52,7 @@ class FilterByTerritoryName : public TerritoryOperation {
    /// \param t -- pointer to Territory that compares to territoryName
    //
    /// \return bool, true if t name and territoryName are same
-   bool operator()(Territory * t) const;
+   bool operator()(Territory * t);
 
   private:
    const std::string territoryName; ///< const string of Territory name

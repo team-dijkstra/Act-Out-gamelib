@@ -61,6 +61,14 @@ class TestFunctional : public CppUnit::TestFixture {
       }
    };
 
+   struct f1_null {
+      typedef int result_type;
+      typedef int argument_type;
+      result_type operator()(argument_type x) {
+         return x;
+      }
+   };
+
   public:
 
    /// \test ensure that type::eq returns true for same types, and 
@@ -106,18 +114,10 @@ class TestFunctional : public CppUnit::TestFixture {
    void unary_map_should_produce_equivalent_functor_for_single_element_list() {
       using namespace typelist;
 
-      struct f {
-         typedef int result_type;
-         typedef int argument_type;
-         result_type operator()(argument_type x) {
-            return x;
-         }
-      };
-
-      typedef function::unary::map<cons<f> > fc;
+      typedef function::unary::map<cons<f1_null> > fc;
       
       for (int i = 0; i < 10; ++i) {
-         CPPUNIT_ASSERT(f()(i) == fc()(i));
+         CPPUNIT_ASSERT(f1_null()(i) == fc()(i));
       }
    }
 

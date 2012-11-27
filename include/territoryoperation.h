@@ -42,7 +42,7 @@ class TerritoryOperation {
    /// \param t -- pointer to Territory that compares to territoryName
    //
    /// \return bool, true if t name and territoryName are same
-   virtual bool operator()(Territory * t) const =0; 
+   virtual bool operator()(Territory * t) =0; 
    
 };
 
