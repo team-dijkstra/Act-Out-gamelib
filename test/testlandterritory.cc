@@ -90,9 +90,10 @@ public:
    void territory_unit_should_return_a_unitContainer()  {
    /// \todo add test for different types of units in units() function
       Territory::unitContainer a;
-      //Unit * u = new BuilderUnit(territoryA,1);
-      FilterByAllUnitTypes fi;
-      a = territoryA->units(&fi);
+      Unit * u = new BuilderUnit(territoryA,1);
+	 
+      UnitOperation * fi = new FilterByAllUnitTypes(u) ;
+      a = territoryA->units(fi);
       //   territoryA->owner(ply2);
       CPPUNIT_ASSERT(a.size() != 0);
    }
@@ -100,11 +101,11 @@ public:
    /// \test ensure Territory doesn't add existing Unit type
    void territory_should_not_add_new_unit_of_existing_unit_type(){
       Territory::unitContainer a;
-      //Unit * u = new BuilderUnit(territoryA,1);
+      Unit * u = new BuilderUnit(territoryA,1);
       Unit * u2 = new BuilderUnit(territoryA,1);
-      FilterByAllUnitTypes fi;
+      UnitOperation * fi = new FilterByAllUnitTypes(u) ;
       territoryA->addUnit(u2);
-      a = territoryA->units(&fi);
+      a = territoryA->units(fi);
       Territory::unitContainer::iterator it;
       it = a.find("BuilderUnit");
       CPPUNIT_ASSERT(a.size() != 2);

@@ -24,11 +24,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyallunittypes.h"
 #include "unit.h"
 
-FilterByAllUnitTypes::FilterByAllUnitTypes( Unit *) : fName("AllUnits")
+FilterByAllUnitTypes::FilterByAllUnitTypes( Unit * u ) : unitType(u), fName("AllUnits")
 {
 }
-
-FilterByAllUnitTypes::FilterByAllUnitTypes() {}
 
 bool FilterByAllUnitTypes::operator()(Unit * unit) const
 {

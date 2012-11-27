@@ -42,9 +42,7 @@ void AttritionAttackAction::doaction(int nUnits, Territory * T)
    int attackUnits = parent->numUnits();
    if(nUnits > attackUnits)
       nUnits = attackUnits;
-
-   FilterByUnitType filter(this->parent);
-   Territory::unitContainer defendUnits = T->units(&filter);
+   Territory::unitContainer defendUnits = T->units(new FilterByUnitType(this->parent));
    Territory::unitContainer::iterator it;
    it = defendUnits.find(attackUnitName);
    if(it != defendUnits.end())
