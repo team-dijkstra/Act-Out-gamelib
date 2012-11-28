@@ -268,16 +268,50 @@ namespace function {
 namespace util {
    using function::unary_tag;
 
+   /**
+    * Dereferences a pointer to T, so that the value of T can be used and
+    * modified.
+    *
+    * \tparam T The base type to map pointers to references. So if T=int,
+    *  the defined mapping will be from int* to int&
+    */
    template<typename T>
-   class dereference : public unary_tag
-   //: public std::unary_function<const T *, const T &>
-   {
-     public:
+   struct dereference : public unary_tag {
       typedef T* argument_type;
       typedef T& result_type;
 
-      result_type operator()(argument_type t) {
+      result_type operator()(argument_type t) const {
          return *t;
+      }
+   };
+
+   /**
+    * Extracts the first field of an std::pair type.
+    *
+    * \tparam TPair This parameter is expected to be an std::pair type.
+    */
+   template<typename TPair>
+   struct first : public unary_tag {
+      typedef TPair & argument_type;
+      typedef typename TPair::first_type & result_type;
+
+      result_type operator()(argument_type x) const {
+         return x.first;
+      }
+   };
+
+   /**
+    * Extracts the second field of an std::pair type.
+    *
+    * \tparam TPair Expected to be an std::pair type.
+    */
+   template<typename TPair>
+   struct second : public unary_tag {
+      typedef TPair & argument_type;
+      typedef typename TPair::second_type & result_type;
+
+      result_type operator()(argument_type x) const {
+         return x.second;
       }
    };
 }

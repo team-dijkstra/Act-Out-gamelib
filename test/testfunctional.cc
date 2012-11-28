@@ -49,6 +49,8 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(binary_map_should_do_parameter_mapping);
    CPPUNIT_TEST(dereference_should_convert_pointer_to_ref);
    CPPUNIT_TEST(binary_map_should_work_with_stl_binary_functions);
+   CPPUNIT_TEST(util_first_should_retrieve_reference_to_pair_first);
+   CPPUNIT_TEST(util_second_should_retrieve_reference_to_pair_second);
    CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -165,6 +167,17 @@ class TestFunctional : public CppUnit::TestFixture {
          }
       }
    }
+   /// \test ensure that function::binary::map works with stl binary_function functors.
+   void binary_map_should_work_with_stl_binary_functions() {
+      
+      typedef function::binary::map<std::less<int>, util::dereference<int>, util::dereference<int> > ptrless;
+
+      int i = 0;
+      int j = 1;
+
+      CPPUNIT_ASSERT(ptrless()(&i, &j));
+      CPPUNIT_ASSERT(!ptrless()(&j, &i));
+   }
 
    /// \test ensure that util::dereference functor works as expected.
    void dereference_should_convert_pointer_to_ref() {
@@ -180,16 +193,38 @@ class TestFunctional : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(4 == j);
    }
 
-   /// \test ensure that function::binary::map works with stl binary_function functors.
-   void binary_map_should_work_with_stl_binary_functions() {
-      
-      typedef function::binary::map<std::less<int>, util::dereference<int>, util::dereference<int> > ptrless;
+   /// \test ensure that util::first properly maps std::pair.first to a
+   ///   reference type.
+   void util_first_should_retrieve_reference_to_pair_first() {
+      typedef std::pair<int, double> pair_t;
+      typedef util::first<pair_t> first_t;
 
-      int i = 0;
-      int j = 1;
+      pair_t p;
+      p.first = 2;
+      p.second = 3.14;
 
-      CPPUNIT_ASSERT(ptrless()(&i, &j));
-      CPPUNIT_ASSERT(!ptrless()(&j, &i));
+      CPPUNIT_ASSERT(first_t()(p) == p.first);
+
+      // supports modification.
+      first_t()(p) = 3;
+      CPPUNIT_ASSERT(3 == p.first);
+   }
+   
+   /// \test ensure that util::second properly maps std::pair.second to a
+   ///   reference type.
+   void util_second_should_retrieve_reference_to_pair_second() {
+      typedef std::pair<int, double> pair_t;
+      typedef util::second<pair_t> second_t;
+
+      pair_t p;
+      p.first = 2;
+      p.second = 3.14;
+
+      CPPUNIT_ASSERT(second_t()(p) == p.second);
+
+      // supports modification.
+      second_t()(p) = 3.219;
+      CPPUNIT_ASSERT(3.219 == p.second);
    }
 
 };
