@@ -226,7 +226,6 @@ class TestFunctional : public CppUnit::TestFixture {
       second_t()(p) = 3.219;
       CPPUNIT_ASSERT(3.219 == p.second);
    }
-
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestFunctional);

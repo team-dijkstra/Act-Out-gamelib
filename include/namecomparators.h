@@ -34,7 +34,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Supplies comparison methods.
  */
-namespace compare {
 
    /**
     * \namespace compare::byname
@@ -44,8 +43,7 @@ namespace compare {
     * \todo it should be possible to reuse some of these operator definitions
     *    since they are given purely in terms of < and ==.
     */
-   namespace byname {
-
+      
       /**
        * Less than operator to compare objects by name.
        *
@@ -113,7 +111,6 @@ namespace compare {
       bool operator>= (const T & lhs, const T & rhs) {
          return ((lhs == rhs) || (lhs > rhs));
       }
-   }
-}
+
 
 #endif /* NAME_COMPARATORS_H */

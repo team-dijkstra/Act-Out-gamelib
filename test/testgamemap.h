@@ -22,6 +22,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <vector>
+#include <string>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "gamemap.h"
@@ -42,7 +43,7 @@ class TestGameMap : public CppUnit::TestFixture {
    CPPUNIT_TEST_FAIL(filter_returns_all_and_only_selected_elements);
    CPPUNIT_TEST_SUITE_END();
   private:
-   typedef std::vector<const char *> namelist;
+   typedef std::vector<std::string> namelist;
    namelist existing_territories;
    GameMap * game_map;
 

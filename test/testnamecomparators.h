@@ -25,10 +25,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TEST_NAME_COMPARATORS_H
 #define TEST_NAME_COMPARATORS_H
 
+#include <functional>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "namecomparators.h"
 #include "territory.h"
+#include "functional.h"
 
 /**
  * Name based comparison operators test suite.
@@ -42,6 +44,7 @@ class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST(same_name_comparison_yeilds_equality_only);
    CPPUNIT_TEST(lessthan_operator_preserves_name_ordering);
    CPPUNIT_TEST(greaterthan_operator_preserves_name_ordering);
+   CPPUNIT_TEST(comparison_operators_work_with_stl_functional);
    //CPPUNIT_TEST(inequality_operator_preserves_strict_ordering);
    CPPUNIT_TEST_SUITE_END();
   protected:
@@ -53,7 +56,6 @@ class TestNameComparators : public CppUnit::TestFixture {
    /// \test ensure that compare::byname comparisons work for empty name 
    ///   strings.
    void empty_name_comparisons_yeild_equality_only() {
-      using namespace compare::byname;
       
       CPPUNIT_ASSERT(*empty1 == *empty2);
       CPPUNIT_ASSERT(! (*empty1 < *empty2));
@@ -65,7 +67,6 @@ class TestNameComparators : public CppUnit::TestFixture {
    /// \test ensure that compare::byname comparisons are valid for 
    ///   reflexive self comparisons.
    void self_comparison_yeilds_equality_only() {
-      using namespace compare::byname;
 
       CPPUNIT_ASSERT(*obj1 == *obj1);
       CPPUNIT_ASSERT(! (*obj1 < *obj1));
@@ -77,7 +78,6 @@ class TestNameComparators : public CppUnit::TestFixture {
    /// \test ensure that compare::byname comparisons are valid
    ///   for name strings that should be equal.
    void same_name_comparison_yeilds_equality_only() {
-      using namespace compare::byname;
 
       CPPUNIT_ASSERT(*obj1 == *obj1a);
       CPPUNIT_ASSERT(! (*obj1 < *obj1a));
@@ -89,7 +89,6 @@ class TestNameComparators : public CppUnit::TestFixture {
    /// \test ensure that compare::byname comparisons are consistent for values
    ///   where one should be less than the other.
    void lessthan_operator_preserves_name_ordering() {
-      using namespace compare::byname;
    
       if (obj1->name() < obj2->name()) {
          CPPUNIT_ASSERT(*obj1 < *obj2);
@@ -106,7 +105,6 @@ class TestNameComparators : public CppUnit::TestFixture {
    /// \test ensure that compare::byname comparisons are consistent for values
    ///   where one should be greater than the other.
    void greaterthan_operator_preserves_name_ordering() {
-      using namespace compare::byname;
    
       if (obj1->name() > obj2->name()) {
          CPPUNIT_ASSERT(*obj1 > *obj2);
@@ -118,6 +116,45 @@ class TestNameComparators : public CppUnit::TestFixture {
       
       CPPUNIT_ASSERT(*obj1 >= *obj1a);
       CPPUNIT_ASSERT(*obj1a >= *obj1);
+   }
+
+   /// \test ensure that operators are accessible from foreign namespaces.
+   void comparison_operators_work_with_stl_functional() {
+      using function::binary::map;
+      using util::dereference;
+
+      map<std::less<Nameable>, 
+         dereference<Nameable>, 
+         dereference<Nameable> > less;
+      map<std::greater<Nameable>,
+         dereference<Nameable>,
+         dereference<Nameable> > greater;
+      map<std::less_equal<Nameable>, 
+         dereference<Nameable>, 
+         dereference<Nameable> > less_eq;
+      map<std::equal_to<Nameable>, 
+         dereference<Nameable>, 
+         dereference<Nameable> > equal;
+      map<std::greater_equal<Nameable>, 
+         dereference<Nameable>, 
+         dereference<Nameable> > greater_eq;
+      
+      CPPUNIT_ASSERT(less(obj2, obj1));
+      CPPUNIT_ASSERT(!less(obj1, obj2));
+      CPPUNIT_ASSERT(!less(obj1, obj1a));
+      CPPUNIT_ASSERT(greater(obj1, obj2));
+      CPPUNIT_ASSERT(!greater(obj2, obj1));
+      CPPUNIT_ASSERT(!greater(obj1, obj1a));
+      CPPUNIT_ASSERT(less_eq(obj2, obj1));
+      CPPUNIT_ASSERT(less_eq(obj1, obj1a));
+      CPPUNIT_ASSERT(!less_eq(obj1, obj2));
+      CPPUNIT_ASSERT(greater_eq(obj1, obj2));
+      CPPUNIT_ASSERT(greater_eq(obj1, obj1a));
+      CPPUNIT_ASSERT(!greater_eq(obj2, obj1));
+      CPPUNIT_ASSERT(equal(obj1, obj1a));
+      CPPUNIT_ASSERT(!equal(obj1, obj2));
+      CPPUNIT_ASSERT(!equal(obj2, obj1));
+
    }
 
    // let doxygen skip uninteresting methods.
