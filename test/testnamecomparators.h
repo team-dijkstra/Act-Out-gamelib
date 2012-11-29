@@ -46,7 +46,7 @@ class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST(greaterthan_operator_preserves_name_ordering);
    CPPUNIT_TEST(comparison_operators_work_with_stl_functional);
    //CPPUNIT_TEST(inequality_operator_preserves_strict_ordering);
-   CPPUNIT_TEST_SUITE_END();
+   CPPUNIT_TEST_SUITE_END_ABSTRACT();
   protected:
    typedef T Nameable;
    virtual Nameable * createObject(const char * name) =0;

@@ -47,5 +47,4 @@ void BuildTraditionalArmyAction::doaction(int nUnits, Territory* T)
    newArmy = new TraditionalArmy(T, nUnits);
    /// \todo put this unit in territory's unit container??
    T->addUnit(newArmy);
-   delete newArmy;//temporary fix
 }

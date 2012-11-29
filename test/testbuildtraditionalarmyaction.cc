@@ -93,7 +93,8 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
    void action_doaction_should_properly_add_units_to_territory()  {
       Territory::unitContainer myc;
       Territory::unitContainer::iterator myit;
-      
+      int numberOfUnits;      
+
       myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
       myit = myc.find("TraditionalArmy");
       CPPUNIT_ASSERT(myit == myc.end());
@@ -102,22 +103,17 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
       myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
       myit = myc.find("TraditionalArmy");
       CPPUNIT_ASSERT(myit != myc.end());
-      int numberOfUnits = myit->second->numUnits();
+      numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 1);
-      
+    
       actionA->doaction(1,t1);
       myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
       myit = myc.find("TraditionalArmy");
       numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 2);
-
-      //CPPUNIT_ASSERT(actionB->applicable(p3) == true);
    }
-
-   
-   
-
 };
+
 /// \cond TestBuildTraditionalArmyActionREGISTRATION
 CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildTraditionalArmyAction);
 /// \endcond

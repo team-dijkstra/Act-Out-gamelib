@@ -64,11 +64,6 @@ void TestGameMap::tearDown() {
    delete game_map;
 }
 
-GameMap* TestGameMap::createGameMap(const GameMap::AdjacencyList &) {
-    /// \todo throw an appropriate exception?
-    return NULL;
-}
-
 /// \test ensure that find works for non-existent elements.
 void TestGameMap::find_returns_marker_token_for_non_existent_items() {
    Territory* temp = game_map->find("foobar");

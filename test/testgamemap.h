@@ -41,7 +41,7 @@ class TestGameMap : public CppUnit::TestFixture {
    CPPUNIT_TEST(filter_returns_empty_list_if_filter_selects_no_elements);
    CPPUNIT_TEST_FAIL(filter_returns_all_elements_if_filter_selects_all_elements);
    CPPUNIT_TEST_FAIL(filter_returns_all_and_only_selected_elements);
-   CPPUNIT_TEST_SUITE_END();
+   CPPUNIT_TEST_SUITE_END_ABSTRACT();
   private:
    typedef std::vector<std::string> namelist;
    namelist existing_territories;
@@ -62,7 +62,7 @@ class TestGameMap : public CppUnit::TestFixture {
    ///        for each concrete type.
    virtual GameMap* createGameMap(
       const GameMap::AdjacencyList & tal
-   );
+   ) =0;
 
    /// \test make sure that begin returns a valid element, and that it is
    ///       first in sort order by name.

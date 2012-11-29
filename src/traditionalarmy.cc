@@ -52,11 +52,13 @@ Unit * TraditionalArmy::split (int num){
    this->decrease(num);
    return new TraditionalArmy(whereAt(),num);
 }
-/// \todo make this a pointer to a pointer
+/// \todo this should throw an exception if an invalid unit was passed.
 int TraditionalArmy::merge (Unit * u){
    int n = u->numUnits();
-   this->increase(n);
-   u = NULL;
+   if (this != u && u->name() == name()) {
+      this->increase(n);
+      delete u;
+   }
    return nUnits;
 }
 
