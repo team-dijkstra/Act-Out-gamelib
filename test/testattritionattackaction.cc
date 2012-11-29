@@ -74,8 +74,8 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       delete p2;
       delete t1;
       delete t2;
-      delete u1;
-      delete u2;
+      //delete u1;
+      //delete u2;
    }
    /// \endcond
    

@@ -38,8 +38,9 @@ LandTerritory::LandTerritory(std::string nm, Player* own):tName(nm), tOwner(own)
 LandTerritory::~LandTerritory()
 {
    /// \todo is this the correct behaviour for destructor?
-//   delete tOwner;
-   
+   unitContainer::iterator it;
+   for(it = tUnits.begin(); it != tUnits.end(); ++it)
+      delete it->second;
 }
 
 Player* LandTerritory::owner() const
