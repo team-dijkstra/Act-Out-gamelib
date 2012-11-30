@@ -44,7 +44,7 @@ class BuilderUnit : public Unit {
 
    //destructor
    
-   ~BuilderUnit() {}
+   ~BuilderUnit();
 
    //mutators
    

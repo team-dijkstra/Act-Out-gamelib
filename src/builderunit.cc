@@ -29,6 +29,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 BuilderUnit::BuilderUnit(Territory * t, int nunit):  uTerritory(t), nUnits(nunit), uName("BuilderUnit")
 {}
 
+BuilderUnit::~BuilderUnit(){
+   actionContainer::iterator it;
+   for(it = uActions.begin(); it != uActions.end(); ++it)
+      delete *it;
+}
+			     
 int BuilderUnit::increase (int u)
 {
    nUnits += u;
