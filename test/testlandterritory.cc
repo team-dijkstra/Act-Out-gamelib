@@ -91,26 +91,25 @@ public:
    /// \todo add test for different types of units in units() function
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
-	 
-      UnitOperation * fi = new FilterByAllUnitTypes(u) ;
+      FilterByAllUnitTypes fat(u);
+      UnitOperation * fi = &fat;
       a = territoryA->units(fi);
-      //   territoryA->owner(ply2);
       CPPUNIT_ASSERT(a.size() != 0);
+      delete u;
    }
 
    /// \test ensure Territory doesn't add existing Unit type
    void territory_should_not_add_new_unit_of_existing_unit_type(){
       Territory::unitContainer a;
       Unit * u = new BuilderUnit(territoryA,1);
-      Unit * u2 = new BuilderUnit(territoryA,1);
-      UnitOperation * fi = new FilterByAllUnitTypes(u) ;
-      territoryA->addUnit(u2);
+      FilterByAllUnitTypes fat(u);
+      UnitOperation * fi = &fat;
+      territoryA->addUnit(u);
       a = territoryA->units(fi);
       Territory::unitContainer::iterator it;
       it = a.find("BuilderUnit");
       CPPUNIT_ASSERT(a.size() != 2);
       CPPUNIT_ASSERT(it->second->numUnits() == 2);
-      
    }
    
 };

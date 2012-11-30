@@ -58,9 +58,6 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
       p2 = new DefaultPhase(std::string("phase two"));
       p3 = new DefaultPhase(std::string("phase three"));
       u1 = new BuilderUnit(t1);
-      //u2 = new BuilderUnit(t1);
-      //delete actionA;
-      //delete actionB;
       actionA = new BuildTraditionalArmyAction(p1, u1);
       actionB = new BuildTraditionalArmyAction(p2, u1);
    }
@@ -73,6 +70,7 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
       delete p2;
       delete p3;
       delete t1;
+      delete u1;
    }
    /// \endcond
    
@@ -94,20 +92,20 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
       Territory::unitContainer myc;
       Territory::unitContainer::iterator myit;
       int numberOfUnits;      
-
-      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      FilterByAllUnitTypes fat;
+      myc = t1->units( &fat);
       myit = myc.find("TraditionalArmy");
       CPPUNIT_ASSERT(myit == myc.end());
 
       actionA->doaction(1,t1);
-      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myc = t1->units( &fat);
       myit = myc.find("TraditionalArmy");
       CPPUNIT_ASSERT(myit != myc.end());
       numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 1);
     
       actionA->doaction(1,t1);
-      myc = t1->units(new FilterByAllUnitTypes(new TraditionalArmy(t1)));
+      myc = t1->units( &fat);
       myit = myc.find("TraditionalArmy");
       numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 2);

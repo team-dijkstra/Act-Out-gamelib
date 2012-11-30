@@ -31,8 +31,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
 {
-   phases.push_back(new DefaultPhase("Marshall"));
-   phases.push_back(new DefaultPhase("Attack"));
+   DefaultPhase dp1("Marshall");
+   DefaultPhase dp2("Attack");
+   phases.push_back(&dp1);
+   phases.push_back(&dp2);
    currentPhase = phases.begin();
 }
 

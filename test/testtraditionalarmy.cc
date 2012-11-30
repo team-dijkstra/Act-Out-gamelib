@@ -138,6 +138,7 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(unitB->numUnits() == 1);
       CPPUNIT_ASSERT(unitC->numUnits() == 1);
       CPPUNIT_ASSERT(unitD->numUnits() == 3);
+      delete unitD;
       unitD = unitB->split(8);
       CPPUNIT_ASSERT(unitB->numUnits() == 0);
       CPPUNIT_ASSERT(unitD->numUnits() == 1);
@@ -151,7 +152,6 @@ class TestTraditionalArmy : public CppUnit::TestFixture {
       unitA->merge(unitB->split(4));
       CPPUNIT_ASSERT(unitA->numUnits() == 5);
       CPPUNIT_ASSERT(unitB->numUnits() == 0);
-      //CPPUNIT_ASSERT(unitB == NULL);
    }
    
 };

@@ -38,7 +38,7 @@ class TraditionalArmy : public Unit {
 
    //destructor
    
-   ~TraditionalArmy(){}
+   ~TraditionalArmy();
 
    //mutators
 

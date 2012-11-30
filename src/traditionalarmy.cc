@@ -29,8 +29,15 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
-   uActions.push_back(new MoveAction(new DefaultPhase(std::string("Marshall")),this));
+   DefaultPhase dp(std::string("Marshall"));
+   uActions.push_back(new MoveAction(&dp, this));
 
+}
+
+TraditionalArmy::~TraditionalArmy(){
+   actionContainer::iterator it;
+   for(it = uActions.begin(); it != uActions.end(); ++it)
+      delete *it;
 }
 
 /// \todo implement increase units

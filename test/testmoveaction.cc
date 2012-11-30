@@ -48,8 +48,6 @@ class TestMoveAction : public CppUnit::TestFixture {
    Player * o1, * o2;
    Territory * t1, * t2, * t3;
    Unit * u1, * u2, * u3;
-   //Territory::unitContainer t3sUnits;
-   //Territory::unitContainer::iterator it;
    
   public:
    /// \cond SETUPTEARDOWNACTIONTEST
@@ -67,10 +65,6 @@ class TestMoveAction : public CppUnit::TestFixture {
       u3 = new TraditionalArmy(t3);
       actionA = new MoveAction(p2, u1);
       actionB = new MoveAction(p2, u2);
-
-      //t3sUnits = t3->units(new FilterByUnitType(u1));
-      //it = t3sUnits.find("TraditionalArmy");
-      //u3 = it->second;
    }
 
    // frees memory for the actions
@@ -81,8 +75,9 @@ class TestMoveAction : public CppUnit::TestFixture {
       delete p2;
       delete t1;
       delete t2;
-      //delete u1;
-      //delete u2;
+      delete t3;
+      delete o1;
+      delete o2;
    }
    /// \endcond
    
@@ -90,6 +85,9 @@ class TestMoveAction : public CppUnit::TestFixture {
    void actionname_should_be_as_constructed()  {
       CPPUNIT_ASSERT(actionA->name() == "Move");
       CPPUNIT_ASSERT(actionB->name() == "Move");
+      delete u1;
+      delete u2;
+      delete u3;
    }
    
    /// \test ensure that the action phases are correct
@@ -97,6 +95,9 @@ class TestMoveAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionA->applicable(p2) == true);
       CPPUNIT_ASSERT(actionB->applicable(p1) == false);
       CPPUNIT_ASSERT(actionB->applicable(p2) == true);
+      delete u1;
+      delete u2;
+      delete u3;
    }
 
    /// \test that doaction() adds units as appropriate

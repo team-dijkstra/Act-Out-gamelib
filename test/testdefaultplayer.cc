@@ -55,6 +55,8 @@ class TestPlayer : public CppUnit::TestFixture {
    void tearDown() {
       delete playerA;
       delete playerB;
+      for (it=Plist.begin();it!=Plist.end();++it)
+	 delete *it;
    }
    /// \endcond
    
@@ -75,13 +77,6 @@ class TestPlayer : public CppUnit::TestFixture {
    /// \test checks that phaselist is correctly returned
    void player_remainingPhases_should_return_a_phaselist()
    {
-      //CPPUNIT_ASSERT(playerA->alive() == true);
-      //CPPUNIT_ASSERT(playerB->alive() == true);
-/*      for(it = Plist.begin();it!=Plist.end();it++)
-      {
-	 
-      }
-*/
       Player::phaselist Pl2;
       Pl2 = playerA->remainingPhases();
       CPPUNIT_ASSERT(Plist.size() == Pl2.size());

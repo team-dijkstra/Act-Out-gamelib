@@ -74,8 +74,8 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       delete p2;
       delete t1;
       delete t2;
-      //delete u1;
-      //delete u2;
+      delete o1;
+      delete o2;
    }
    /// \endcond
    
@@ -83,6 +83,8 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
    void actionname_should_be_as_constructed()  {
       CPPUNIT_ASSERT(actionA->name() == "AttritionAttack");
       CPPUNIT_ASSERT(actionB->name() == "AttritionAttack");
+      delete u1;
+      delete u2;
    }
    
    /// \test ensure that only correct Phase objects return true
@@ -90,6 +92,8 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionA->applicable(p1) == true);
       CPPUNIT_ASSERT(actionB->applicable(p2) == false);
       CPPUNIT_ASSERT(actionB->applicable(p1) == true);
+      delete u1;
+      delete u2;
    }
 
    /// \test that doaction() adds units as appropriate

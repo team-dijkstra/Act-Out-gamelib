@@ -40,8 +40,8 @@ class FilterByAllUnitTypes : public UnitOperation {
    /// \post MIL:
    ///       <br>- sets unitType to u
    ///       <br>- sets fName to "AllUnits"
-   FilterByAllUnitTypes(Unit * u);
-
+   FilterByAllUnitTypes(Unit * u = NULL);
+   
    //destructor
    
    ~FilterByAllUnitTypes(){}
@@ -58,7 +58,7 @@ class FilterByAllUnitTypes : public UnitOperation {
 
   private:
 
-   Unit * unitType; //! @copydoc FilterByUnitType::unitType
+   
    std::string fName; //! @copydoc FilterByUnitType::fName
    
 };
