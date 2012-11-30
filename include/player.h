@@ -29,9 +29,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include "unit.h"
 
-class Phase;
-class Action;
 class TerritoryOperation;
+
+namespace game {
+
+class Action;
+class Phase;
 
 /// Player Interface Class specified the Player Behaviours
 class Player {
@@ -66,5 +69,7 @@ class Player {
    ///       othersise.
    virtual bool nextPhase() =0;
 };
+
+}
 
 #endif

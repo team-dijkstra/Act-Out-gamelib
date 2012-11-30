@@ -27,6 +27,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "moveaction.h"
 #include "defaultphase.h"
 
+using namespace game;
+
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
    DefaultPhase dp(std::string("Marshall"));
@@ -84,3 +86,4 @@ std::string TraditionalArmy::name() const{
 std::vector<Action*> TraditionalArmy::actions() const{
    return uActions;
 }
+

@@ -27,9 +27,13 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define ATTRITIONATTACKACTION_H
 
 #include <string>
-#include "territory.h"
-#include "phase.h"
 #include "action.h"
+
+namespace game {
+
+class Phase;
+class Territory;
+class Unit;
 
 /**
  * Implements Action interface class
@@ -37,7 +41,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * AttritionAttackAction attacks with numUnits from a unit on one territory
  * to another unit of the same type on another territory.
  */
-class AttritionAttackAction : public Action{
+class AttritionAttackAction : public Action {
 /// \todo template AttritionAttackAction class for different types of unit and store the parent unit object
   public:
 
@@ -86,5 +90,6 @@ class AttritionAttackAction : public Action{
    const Phase * aPhase; ///< pointer to the Phase that applies to this action
 };
 
-//#include "../src/moveaction.cc"
+}
+
 #endif

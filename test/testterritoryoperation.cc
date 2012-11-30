@@ -27,6 +27,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "landterritory.h"
 #include "defaultplayer.h"
 
+using namespace game;
 
 /// Class containing the test cases for Default TerritoryOperation implementations.
 /// The implementation is exercised through its interface TerritoryOperation.

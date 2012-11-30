@@ -27,6 +27,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
+namespace game {
+
 class Unit;
 class Territory;
 class Phase;
@@ -65,5 +67,7 @@ class Action {
    virtual void doaction(int nUnits, Territory * T) =0;
     
 };
+
+}
 
 #endif

@@ -9,7 +9,7 @@
 /// \tparam T this is just a dummy param so that this class will be
 //      treated as a template class.
 template<typename T = int>
-class FakePlayer : public Player {
+class FakePlayer : public game::Player {
   public:
    
    FakePlayer(const char * nm) : pName(nm) {}
@@ -22,8 +22,8 @@ class FakePlayer : public Player {
    phaselist remainingPhases() const {
       return phaselist();
    }
-   Unit::actionContainer actions(TerritoryOperation *) const {
-      return Unit::actionContainer();
+   game::Unit::actionContainer actions(TerritoryOperation *) const {
+      return game::Unit::actionContainer();
    }
    bool nextPhase() {
       return false;    

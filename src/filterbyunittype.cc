@@ -24,6 +24,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyunittype.h"
 #include "unit.h"
 
+using namespace game;
+
 FilterByUnitType::FilterByUnitType(Unit * u):unitType(u),fName( u->name() )
 {
 }

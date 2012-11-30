@@ -24,7 +24,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TERRITORYOPERATION_H
 #define TERRITORYOPERATION_H
 
-class Territory;
+namespace game {
+   class Territory;
+}
+
 /**
  * This is a interface class that defines a filtering functor class,
  * territory operations will define a set of territories and return
@@ -42,7 +45,7 @@ class TerritoryOperation {
    /// \param t -- pointer to Territory that compares to territoryName
    //
    /// \return bool, true if t name and territoryName are same
-   virtual bool operator()(Territory * t) =0; 
+   virtual bool operator()(game::Territory * t) =0; 
    
 };
 

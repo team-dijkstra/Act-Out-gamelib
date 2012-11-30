@@ -26,6 +26,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyunittype.h"
 #include "landterritory.h"
 #include "traditionalarmy.h"
+#include "phase.h"
+
+using namespace game;
 
 MoveAction::MoveAction(Phase * p, Unit * par): aPhase(p), parent(par)
 {}

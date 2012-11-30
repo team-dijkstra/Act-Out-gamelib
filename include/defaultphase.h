@@ -26,10 +26,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "phase.h"
 
+namespace game {
+
 /**
  * Implements the Phase interface class 
  */
-class DefaultPhase : public Phase{
+class DefaultPhase : public Phase {
   public:
 
    //constructors
@@ -52,5 +54,7 @@ class DefaultPhase : public Phase{
   private:
    std::string phasename; ///< string, name of Phase
 };
+
+}
 
 #endif

@@ -25,6 +25,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "action.h"
 
 using namespace std;
+using namespace game;
 
 //FakeUnit::FakeUnit(int nunit, Territory * t,  vector<Action*> uActs):nUnits(nunit), tWhere(t), uActions(uActs)
 FakeUnit::FakeUnit(int nunit, Territory * t, string s):nUnits(nunit), tWhere(t), uName(s)

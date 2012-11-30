@@ -30,6 +30,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include "builderunit.h"
 
+using namespace game;
+
 /// Class containing the test cases for BuildTraditionalArmyAction. The BuildTraditionalArmyAction
 /// is exercised through its interface Action.
 class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {

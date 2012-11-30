@@ -29,6 +29,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 //#include "phase.h"
 
+using namespace game;
+
 DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
 {
    DefaultPhase dp1("Marshall");

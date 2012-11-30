@@ -34,7 +34,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Supplies comparison methods.
  */
-
+namespace game {
    /**
     * \namespace compare::byname
     *
@@ -111,6 +111,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
       bool operator>= (const T & lhs, const T & rhs) {
          return ((lhs == rhs) || (lhs > rhs));
       }
-
+}
 
 #endif /* NAME_COMPARATORS_H */

@@ -26,10 +26,13 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define MOVEACTION_H
 
 #include <string>
-#include "territory.h"
-#include "phase.h"
 #include "action.h"
-#include "builderunit.h"
+
+namespace game {
+
+class Unit;
+class Territory;
+class Phase;
 
 /**
  * Implements Action interface class.
@@ -37,7 +40,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * This class is responsible for moving units of one type between
  * territories
  */
-class MoveAction : public Action{
+class MoveAction : public Action {
 /** \todo template this for different types of unit and store the parent unit object
           template<typename U> */
  public:
@@ -74,10 +77,11 @@ class MoveAction : public Action{
    void doaction(int nUnits, Territory * T);
 
 
-      private:
+  private:
    Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
    Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
 
-//#include "../src/moveaction.cc"
+}
+
 #endif

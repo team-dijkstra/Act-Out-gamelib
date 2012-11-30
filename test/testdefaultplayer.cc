@@ -25,6 +25,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultplayer.h"
 #include "defaultphase.h"
 
+using namespace game;
+
 /// Class containing the test cases for DefaultPlayer. The DefaultPlayer
 /// is exercised through its interface Player.
 class TestPlayer : public CppUnit::TestFixture {

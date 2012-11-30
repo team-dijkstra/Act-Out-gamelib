@@ -28,7 +28,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
-class Player;
+namespace game {
+   class Player;
+}
 class GameMap;
 
 /// PlayerName typedef is for clarity and code readability
@@ -38,7 +40,7 @@ class GameMap;
 class Game {
   public:
    typedef std::string PlayerName;
-   typedef std::vector<Player*> playerlist;
+   typedef std::vector<game::Player*> playerlist;
    
    virtual ~Game() {}
 
@@ -50,19 +52,20 @@ class Game {
    virtual playerlist players() const =0;
 
    /// \return if the game has winner and who it is
-   virtual Player* winner() const =0;
+   virtual game::Player* winner() const =0;
 
    /// \return the player which has the current turn
-   virtual Player* currentTurn() const =0;
+   virtual game::Player* currentTurn() const =0;
 
    /// \return the GameMap of the current game.
    virtual GameMap* currentGame() const =0;
    
    //mutators
+   /// 
+   /// performs all operations needed to initialize game state
+   ///
    /// \param playerlist -- all the players playing this game
-   //
-   /// \post performs all operations needed to initialize game state
-   virtual void SetupGame(std::vector<PlayerName> playerlist) =0;
+   virtual void SetupGame(const std::vector<PlayerName> & playerlist) =0;
    
 };
 

@@ -20,6 +20,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "trivialterritoryfilter.h"
 
+using namespace game;
+
 bool TerritoryPassFilter::operator()(Territory *) {
     return true;
 }

@@ -24,6 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultphase.h"
 
 using namespace std;
+using namespace game;
 
 DefaultPhase::DefaultPhase (const string & nm): phasename(nm) {}
 

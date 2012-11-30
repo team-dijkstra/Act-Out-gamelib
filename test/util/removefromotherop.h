@@ -19,7 +19,7 @@ class RemoveFromOther : public TerritoryOperation {
    ///      Matches are performed by name.
    RemoveFromOther(const C & o) : other(o) {}
 
-   bool operator()(Territory * t) {
+   bool operator()(game::Territory * t) {
       typename C::iterator pos;
       pos = std::find(other.begin(), other.end(), t->name());
       if (other.end() != pos) other.erase(pos);

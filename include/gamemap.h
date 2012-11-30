@@ -29,8 +29,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include <string>
 
-class Player;
-class Territory;
+namespace game {
+   class Player;
+   class Territory;
+}
+
 class TerritoryOperation;
 
 /// TerritoryName typedef is for clarity and code readability
@@ -43,8 +46,8 @@ typedef std::string TerritoryName;
 class GameMap {
   public:
    
-   typedef std::vector<Territory*> TerritoryList;
-   typedef std::pair<Territory*, Territory*> Adjacency;
+   typedef std::vector<game::Territory*> TerritoryList;
+   typedef std::pair<game::Territory*, game::Territory*> Adjacency;
    typedef std::vector<Adjacency> AdjacencyList;
 
 
@@ -52,25 +55,25 @@ class GameMap {
     
    //constants
    /// \return a sentinel node. Used to indicate non-existent values.
-   static const Territory* end() {return NULL;}
+   static const game::Territory* end() {return NULL;}
 
    //accessors
    /// \return the start territory. Which territory this is is implementation
    ///       defined.
-   virtual Territory* begin() const =0;
+   virtual game::Territory* begin() const =0;
    
    /// Finds the specified Territory
    //
    /// \param tname -- string representing the TerritoryName
    /// \return the specified Territory, or a sentinel if not found.
    /// \see StlGameMap::end the sentinel node of this class.
-   virtual Territory* find(TerritoryName) const =0;
+   virtual game::Territory* find(TerritoryName) const =0;
 
    /// Finds all Territories that are adjacent to the specified Territory
    //
    /// \param t -- pointer to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
-   virtual TerritoryList adjacencies(Territory *) const =0;
+   virtual TerritoryList adjacencies(game::Territory *) const =0;
 
    /// Finds all Territories that are owned by the specified Player
    //
@@ -79,8 +82,9 @@ class GameMap {
    ///
    /// \todo do we need this? if we do, it's badly named. using 'filter'
    ///       method should be just as easy.
-   /// \depracated
-   virtual TerritoryList players(Player *) const =0;
+   /// \deprecated This operation can be easily replaced by filter() with
+   ///       a player name filter.
+   virtual TerritoryList players(game::Player *) const =0;
 
    /// Retrieves all Territories that match the specified predicate.
    ///
@@ -94,7 +98,7 @@ class GameMap {
    //
    /// \param op -- operation to be performed
    /// \param start -- Territory to start with
-   virtual void traverse(TerritoryOperation * op, Territory * start) =0;
+   virtual void traverse(TerritoryOperation * op, game::Territory * start) =0;
 
 };
 

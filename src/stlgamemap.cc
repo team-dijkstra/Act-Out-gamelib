@@ -25,6 +25,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "stlgamemap.h"
 
+using namespace game;
+
 StlGameMap::StlGameMap(const AdjacencyList & tal) {
     typedef MapNode::first_type key_t;
     typedef MapNode::second_type value_t;

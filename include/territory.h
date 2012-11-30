@@ -27,11 +27,13 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define TERRITORY_H
 
 #include <string>
-#include <vector>
 #include <map>
 
-class Player;
 class UnitOperation;
+
+namespace game {
+
+class Player;
 class Unit;
 
 /// An interface class to represent a Territory 
@@ -69,5 +71,7 @@ class Territory {
    /// \post adds Unit pointer to this Territory's unitContainer
    virtual void addUnit(Unit * u) =0;
 };
+
+}
 
 #endif

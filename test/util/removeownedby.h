@@ -6,7 +6,9 @@
 #include <algorithm>
 #include "territoryoperation.h"
 
-class Territory;
+namespace game {
+   class Territory;
+}
 
 /// Removes the names from the supplied list that correspond to territories
 /// owned by the specified owner.
@@ -15,7 +17,7 @@ class RemoveOwnedBy : public TerritoryOperation {
   public:
    RemoveOwnedBy(const std::string & nm, const C & c) : pName(nm), remaining(c) {}
 
-   bool operator()(Territory * t) {
+   bool operator()(game::Territory * t) {
       if (t->owner()->name() == pName) {
          typename C::iterator pos = std::find(remaining.begin(), remaining.end(), t->name());
          if (remaining.end() != pos) remaining.erase(pos);

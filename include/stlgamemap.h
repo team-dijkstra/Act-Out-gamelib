@@ -26,14 +26,15 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define STL_GAMEMAP_H
 
 #include <vector>
-#include <string>
 #include <utility>
 #include "gamemap.h"
 
-class Player;
-class Territory;
-class TerritoryOperation;
+namespace game {
+   class Player;
+   class Territory;
+}
 
+class TerritoryOperation;
 
 /// \copydoc
 class StlGameMap : public GameMap {
@@ -48,26 +49,26 @@ class StlGameMap : public GameMap {
 
    //accessors
    /// \copydoc
-   Territory* begin() const;
+   game::Territory* begin() const;
 
    //accessors
    /// \copydoc 
-   Territory* find(TerritoryName) const;
+   game::Territory* find(TerritoryName) const;
 
    /// \copydoc 
-   TerritoryList adjacencies(Territory *) const;
+   TerritoryList adjacencies(game::Territory *) const;
 
    /// \copydoc 
-   TerritoryList players(Player *) const;
+   TerritoryList players(game::Player *) const;
 
    /// \copydocstd::vector<std::pair<Territory*, Territory*> >::iterator
    TerritoryList filter(TerritoryOperation * op) const; 
       
    //mutators
    /// \copydoc 
-   void traverse(TerritoryOperation * op, Territory * start);
+   void traverse(TerritoryOperation * op, game::Territory * start);
   private:
-   typedef std::pair<Territory*, TerritoryList> MapNode;
+   typedef std::pair<game::Territory*, TerritoryList> MapNode;
    typedef std::vector<MapNode> MapType;
 
    MapType territories;

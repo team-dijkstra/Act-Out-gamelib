@@ -26,6 +26,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "action.h"
 
+using namespace game;
+
 BuilderUnit::BuilderUnit(Territory * t, int nunit):  uTerritory(t), nUnits(nunit), uName("BuilderUnit")
 {}
 
@@ -81,3 +83,4 @@ std::string BuilderUnit::name() const{
 Unit::actionContainer BuilderUnit::actions() const{ 
    return Unit::actionContainer();
 }
+

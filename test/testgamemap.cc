@@ -35,6 +35,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "removeownedby.h"
 #include "trivialterritoryfilter.h"
 
+using namespace game;
+
 const char * TestGameMap::territories[TestGameMap::nterritories] = {
    "spain", "italy", "brazil", "narnia",
    "gotham city", "metropolis", "alexandria", 

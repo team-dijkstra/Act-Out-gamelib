@@ -26,11 +26,13 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "player.h"
 
-
-class Phase;
-class Action;
 class TerritoryOperation;
 class Game;
+
+namespace game {
+
+class Action;
+class Phase;
 
 /**
  * Implements the Player interface class.
@@ -91,5 +93,7 @@ class DefaultPlayer : public Player {
    phaselist::const_iterator currentPhase; ///< stores iterator to current Phase
    
 };
+
+}
 
 #endif

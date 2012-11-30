@@ -24,6 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/extensions/HelperMacros.h>
 #include "defaultphase.h"
 
+using namespace game;
 
 /// Class containing the test cases for DefaultPhase. The DefaultPhase
 /// is exercised through its interface Phase.

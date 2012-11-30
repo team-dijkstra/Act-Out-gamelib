@@ -28,6 +28,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include "defaultphase.h"
 
+using namespace game;
+
 AttritionAttackAction::AttritionAttackAction(Unit * p): parent(p)
 {
    aPhase = new DefaultPhase(std::string("Attack"));

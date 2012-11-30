@@ -34,6 +34,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "util/fk_fakeunit.h"
 #include "defaultphase.h"
 
+using namespace game;
+
 /// Test suite for Territory::name() comparisons.
 class TestTerritoryNameComparators : public TestNameComparators<Territory> {
    CPPUNIT_TEST_SUB_SUITE(TestTerritoryNameComparators, TestNameComparators<Territory>);

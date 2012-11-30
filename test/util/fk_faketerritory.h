@@ -26,10 +26,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "player.h"
 
-class Unit;
+namespace game {
+   class Unit;
+}
 
 /// An interface class to represent a Territory 
-class FakeTerritory : public Territory{
+class FakeTerritory : public game::Territory{
   public:
 
    //constructors
@@ -40,18 +42,18 @@ class FakeTerritory : public Territory{
    /// \post MIL:
    ///       <br>- sets tName to n
    ///       <br>- sets tOwner to own
-   FakeTerritory(const std::string & n, Player * own = NULL):tName(n), tOwner(own){}
+   FakeTerritory(const std::string & n, game::Player * own = NULL):tName(n), tOwner(own){}
 
    //destructor
    
    virtual ~FakeTerritory() {delete tOwner;}
-   FakeTerritory(const char * n, Player * own = NULL)
+   FakeTerritory(const char * n, game::Player * own = NULL)
       :tName(std::string(n)), tOwner(own){}
 
    //accessors
    
    /// \return pointer to Player that owns this Territory
-   Player* owner() const{ return tOwner;}
+   game::Player* owner() const{ return tOwner;}
    
    /// \return string, name of Territory
    std::string name() const{ return tName;}
@@ -69,17 +71,17 @@ class FakeTerritory : public Territory{
    /// \param p -- pointer to Player
    //
    /// \post sets Territory owner to passed Player
-   void owner(Player* p){(void)p;}
+   void owner(game::Player* p){(void)p;}
 
    
    /// \param u -- pointer to Unit
    //
    /// \post adds Unit pointer to this Territory's unitContainer
-   void addUnit(Unit* u){(void)u;}
+   void addUnit(game::Unit* u){(void)u;}
 
   private:
    std::string tName; ///< string, name of Territory
-   Player * tOwner; ///< pointer to Player that is owner of this Territory
+   game::Player * tOwner; ///< pointer to Player that is owner of this Territory
    
 };
 

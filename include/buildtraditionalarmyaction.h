@@ -25,7 +25,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define BUILD_TRADITIONAL_ARMY_ACTION_H
 
 #include "action.h"
-#include "unit.h"
+
+namespace game {
+
+class Unit;
+class Phase;
+class Territory;
 
 /**
  * Implements Action interface class.
@@ -34,7 +39,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * TraditionalArmy and placing them on specific instances of
  * LandTerritory
  */
-class BuildTraditionalArmyAction : public Action{
+class BuildTraditionalArmyAction : public Action {
   public:
 
    //constructors
@@ -46,7 +51,7 @@ class BuildTraditionalArmyAction : public Action{
    ///       <br>- sets aName to name of this action
    ///       <br>- sets aPhase to a p
    ///       <br>- sets parent to par
-   BuildTraditionalArmyAction(Phase * p, Unit * par);
+   BuildTraditionalArmyAction(game::Phase * p, game::Unit * par);
 
    //destructor
 	
@@ -58,7 +63,7 @@ class BuildTraditionalArmyAction : public Action{
    std::string name() const;
 
    //! @copydoc Action::applicable()
-   bool applicable(Phase * p) const;
+   bool applicable(game::Phase * p) const;
 
    const Unit * unit() const;
    const Territory * source() const;
@@ -66,13 +71,15 @@ class BuildTraditionalArmyAction : public Action{
    //mutators
    
    //! @copydoc Action::doaction()
-   void doaction(int nUnits, Territory * T);
+   void doaction(int nUnits, game::Territory * T);
 
   private:
 
    std::string aName; ///< name of this Action
-   Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
-   Unit * parent; //! @copydoc AttritionAttackAction::parent
+   game::Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
+   game::Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
+
+}
 
 #endif

@@ -25,7 +25,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
-class Unit;
+namespace game {
+   class Unit;
+}
 
 /**
  * This is an interface class that defines a filtering functor class,
@@ -44,7 +46,7 @@ class UnitOperation {
    /// \param unit -- pointer to Unit that compares to this parent Unit
    //
    /// \return bool, true if unit and parent Unit are same type
-   virtual bool operator()(Unit * unit) const =0;
+   virtual bool operator()(game::Unit * unit) const =0;
 
    /// \return string, name of parent Unit
    virtual std::string name() const =0;

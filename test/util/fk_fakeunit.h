@@ -25,11 +25,13 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "unit.h"
 
-class Territory;
-class Action;
+namespace game {
+   class Territory;
+   class Action;
+}
 
 ///An interface to specify the behaviour of the game units
-class FakeUnit : public Unit{
+class FakeUnit : public game::Unit {
   public:
 
    //constructors
@@ -43,7 +45,7 @@ class FakeUnit : public Unit{
    ///       <br>- sets nUnits to nunits
    ///       <br>- sets uTerritory to t
    ///       <br>- sets uName to "FakeUnit"
-   FakeUnit(int nunit, Territory * t, std::string s="FakeUnit");
+   FakeUnit(int nunit, game::Territory * t, std::string s="FakeUnit");
 
    //destructor
    
@@ -78,7 +80,7 @@ class FakeUnit : public Unit{
    ///       action with num count
    //
    /// \return Unit that was split from this Unit
-   Unit * split(int num){return new FakeUnit(num, tWhere);}
+   game::Unit * split(int num){return new FakeUnit(num, tWhere);}
 
    /// \brief Merges the Units together
    //
@@ -87,7 +89,7 @@ class FakeUnit : public Unit{
    /// \post this Unit now has count increased by the count of u, u is deleted
    //
    /// \return integer of the count in this Unit after the merge 
-   int merge(Unit * u){return u->numUnits();}
+   int merge(game::Unit * u){return u->numUnits();}
    
    //accessors
    
@@ -95,17 +97,17 @@ class FakeUnit : public Unit{
    int numUnits() const;
 
    /// \return pointer to the Territory where this Unit is located
-   Territory* whereAt() const;
+   game::Territory* whereAt() const;
 
    /// \return type name of this object
    std::string name() const;
 
    /// \return vector of pointers of all possible actions this unit can perform
-   std::vector<Action*> actions() const;
+   std::vector<game::Action*> actions() const;
 
   private:
    int nUnits; ///< count of this Unit
-   Territory * tWhere; ///< pointer to Territory Unit is placed
+   game::Territory * tWhere; ///< pointer to Territory Unit is placed
    std::string uName; ///< type name of this Unit
    Unit::actionContainer uActions; ///< list of actions Unit can perform
 

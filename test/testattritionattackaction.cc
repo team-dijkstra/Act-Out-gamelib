@@ -31,6 +31,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include "defaultplayer.h"
 
+using namespace game;
+
 /// Class containing the test cases for AttritionAttackAction. The AttritionAttackAction
 /// is exercised through its interface Action.
 class TestAttritionAttackAction : public CppUnit::TestFixture {

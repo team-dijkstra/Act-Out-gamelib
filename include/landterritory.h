@@ -24,11 +24,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LAND_TERRITORY_H
 #define LAND_TERRITORY_H
 
-#include <map>
 #include "territory.h"
 
+namespace game {
+
 /// An interface class to represent a Territory 
-class LandTerritory : public Territory{
+class LandTerritory : public Territory {
   public:
 
    //constructors
@@ -72,5 +73,7 @@ class LandTerritory : public Territory{
    unitContainer tUnits; ///< unitContainer of Units on this Territory
    
 };
+
+}
 
 #endif

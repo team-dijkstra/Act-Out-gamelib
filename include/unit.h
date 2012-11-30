@@ -28,8 +28,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 
-class Territory;
+namespace game {
+
 class Action;
+class Territory;
 
 ///An interface to specify the behaviour of the game units
 class Unit {
@@ -93,5 +95,7 @@ class Unit {
    virtual actionContainer actions() const =0;
    
 };
+
+}
 
 #endif

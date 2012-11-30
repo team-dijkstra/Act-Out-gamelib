@@ -26,7 +26,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultplayer.h"
 #include "landterritory.h"
 
-
+using namespace game;
 
 /// Class containing the test cases for BuilderUnit. The BuilderUnit
 /// is exercised through its interface Unit.

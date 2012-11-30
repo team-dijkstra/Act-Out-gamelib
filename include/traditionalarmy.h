@@ -27,6 +27,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "unit.h"
 
+namespace game {
+
 ///An interface to specify the behaviour of the game units
 class TraditionalArmy : public Unit {
   public:
@@ -75,5 +77,7 @@ class TraditionalArmy : public Unit {
    Unit::actionContainer uActions;  //! @copydoc BuilderUnit::uAction
    
 };
+
+}
 
 #endif

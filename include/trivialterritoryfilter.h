@@ -27,15 +27,15 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 class TerritoryPassFilter : public TerritoryOperation {
   public:
-   bool operator()(Territory * t);
+   bool operator()(game::Territory * t);
 };
 
 class TerritoryBlockFilter : public TerritoryOperation {
   public:
-   bool operator()(Territory * t);
+   bool operator()(game::Territory * t);
 };
 
-/// Selects the set of territories match one of the supplied names.
+/// Selects the set of territories that match one of the supplied names.
 ///
 /// \tparam C a container containing names to filter by.
 ///
@@ -44,7 +44,7 @@ class TerritoryNameFilter: public TerritoryOperation {
   public:
    TerritoryNameFilter(const C & nms) : names(nms) {}
    
-   bool operator()(Territory * t) {
+   bool operator()(game::Territory * t) {
       typename C::iterator it = names.begin();
       bool bfound = false;
       

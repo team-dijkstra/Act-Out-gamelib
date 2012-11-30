@@ -24,6 +24,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyterritoryname.h"
 #include "territory.h"
 
+using namespace game;
+
 FilterByTerritoryName::FilterByTerritoryName(const std::string & t):territoryName(t)
 {
 }

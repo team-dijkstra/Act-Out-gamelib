@@ -20,7 +20,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /** \file testtraditionalarmy.cc
  * Contains tests for the TraditionalArmy class
  */
-#include <cassert>
+//#include <cassert>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "traditionalarmy.h"
@@ -28,6 +28,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultplayer.h"
 #include "action.h"
 
+using namespace game;
 
 /// Class containing the test cases for TraditionalArmyUnit. The TraditionalArmyUnit
 /// is exercised through its interface Unit.

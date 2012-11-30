@@ -37,6 +37,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 
 using namespace std;
+using namespace game;
 
 /// adjacency list of territories
 typedef vector< pair< Territory*, Territory* > > adjList;

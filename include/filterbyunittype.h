@@ -26,6 +26,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "unitoperation.h"
 
+namespace game {
+   class Unit;
+}
+
 /**
  * Implements the UnitOperation interface class, FilterByUnitType
  * will return true only if the FilterByUnitType::operator()(Unit *)
@@ -42,7 +46,7 @@ class FilterByUnitType : public UnitOperation {
    /// \post MIL:
    ///       <br>- sets unitType to u
    ///       <br>- sets fName to name of u
-   FilterByUnitType(Unit * u);
+   FilterByUnitType(game::Unit * u);
 
    //destructor
    
@@ -53,13 +57,13 @@ class FilterByUnitType : public UnitOperation {
    /// \param unit -- pointer to Unit that compares to this parent Unit
    //
    /// \return bool, true if unit and parent Unit are same type
-   bool operator()(Unit * unit) const;
+   bool operator()(game::Unit * unit) const;
 
    //! @copydoc UnitOperation::name()
    std::string name() const;
    
   private:
-   Unit * unitType; ///< pointer to parent Unit
+   game::Unit * unitType; ///< pointer to parent Unit
    std::string fName; ///< string, name of u
 };
 

@@ -27,6 +27,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
+namespace game {
+
 /// An interface class to represent the different game phases
 class Phase{
   public:
@@ -40,5 +42,7 @@ class Phase{
    /// \return name of Phase
    virtual std::string name() const =0;
 };
+
+}
 
 #endif

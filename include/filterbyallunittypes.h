@@ -40,8 +40,8 @@ class FilterByAllUnitTypes : public UnitOperation {
    /// \post MIL:
    ///       <br>- sets unitType to u
    ///       <br>- sets fName to "AllUnits"
-   FilterByAllUnitTypes(Unit * u = NULL);
-   
+   FilterByAllUnitTypes(game::Unit * u = NULL);
+
    //destructor
    
    ~FilterByAllUnitTypes(){}
@@ -51,7 +51,7 @@ class FilterByAllUnitTypes : public UnitOperation {
    /// \param unit -- pointer to Unit that compares to this parent Unit
    //
    /// \return bool, always true
-   bool operator()(Unit *) const;
+   bool operator()(game::Unit *) const;
 
    //! @copydoc UnitOperation::name()
    std::string name() const;

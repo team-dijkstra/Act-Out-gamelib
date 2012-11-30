@@ -29,6 +29,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include <map>
 
+using namespace game;
 
 /// Class containing the test cases for LandTerritory. The LandTerritory
 /// is exercised through its interface Territory.
