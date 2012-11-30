@@ -41,6 +41,16 @@ bool BuildTraditionalArmyAction::applicable(Phase* p) const
    return false;
 }
 
+const Unit * BuildTraditionalArmyAction::unit() const
+{
+   return parent;
+}
+
+const Territory * BuildTraditionalArmyAction::source() const
+{
+   return parent->whereAt();
+}
+
 void BuildTraditionalArmyAction::doaction(int nUnits, Territory* T)
 {
    Unit* newArmy;

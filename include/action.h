@@ -27,6 +27,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
+class Unit;
 class Territory;
 class Phase;
 
@@ -52,6 +53,9 @@ class Action {
    ///         otherwise
    virtual bool applicable(Phase * p) const =0;
 
+   virtual const Unit * unit() const =0;
+   virtual const Territory * source() const =0;
+   
    //mutators
    
    /// \param nUnits -- integer of the count to do the current action

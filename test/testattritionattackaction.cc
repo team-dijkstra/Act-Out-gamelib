@@ -37,6 +37,8 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestAttritionAttackAction);
    CPPUNIT_TEST(actionname_should_be_as_constructed);
    CPPUNIT_TEST(actionphase_should_be_applicable_if_attack);
+   CPPUNIT_TEST(action_unit_should_return_parent);
+   CPPUNIT_TEST(action_source_should_return_parent_location);
    CPPUNIT_TEST(action_doaction_should_properly_attrition_attack);
    CPPUNIT_TEST_SUITE_END();
    
@@ -96,6 +98,22 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       delete u2;
    }
 
+   /// \test ensure that unit is correctly reported
+   void action_unit_should_return_parent()  {
+      CPPUNIT_ASSERT(actionA->unit() == u1);
+      CPPUNIT_ASSERT(actionB->unit() == u2);
+      delete u1;
+      delete u2;
+   }
+
+   /// \test ensure that source is correctly reported
+   void action_source_should_return_parent_location()  {
+      CPPUNIT_ASSERT(actionA->source() == t1);
+      CPPUNIT_ASSERT(actionB->source() == t2);
+      delete u1;
+      delete u2;
+   }
+   
    /// \test that doaction() adds units as appropriate
    void action_doaction_should_properly_attrition_attack()  {
       //added units to territory unitContainers

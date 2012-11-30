@@ -54,6 +54,7 @@ typedef set<Territory* > territorylist;
  * incorporated into the implementations of those clases and will be removed from the final driver program
  * other elements such as DriverGameMap::print() are more appropriate for the driver program and will remain
  */
+
 class DriverGameMap{
 public:
    /// param a -- adjList
@@ -200,10 +201,20 @@ void nextPhase(DriverGameMap *&, playerList &, Player *&);
 void attack(DriverGameMap *&, playerList &, Player *&);
 bool playGame(DriverGameMap *&, playerList &, comList&, Player *&);
 bool isWinner(DriverGameMap *&, playerList&, Player *);
+void shutupcppcheck()
+{
+   LandTerritory la;
+   TraditionalArmy ta(la);
+   AttritionAttackAction aaa(ta);
+   MoveAction ma(ta);
+   BuildTraditionalArmyAction btaa(ta);
+   aaa.unit();aaa.source();ma.unit();ma.source();btaa.unit();btaa.source();
+}
 
 /// Main driver funtion
 int main()
 {
+   shutupcppcheck();
    map< string, int > commands;
    
    init(commands);

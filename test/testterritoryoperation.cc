@@ -23,7 +23,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "filterbyterritoryname.h"
+#include "filterbyterritoryowner.h"
 #include "landterritory.h"
+#include "defaultplayer.h"
 
 
 /// Class containing the test cases for Default TerritoryOperation implementations.
@@ -31,26 +33,39 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class TestTerritoryOperation : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestTerritoryOperation);
    CPPUNIT_TEST(filter_operator_should_be_return_properly);
+   CPPUNIT_TEST(filter_owner_operator_should_be_return_properly);
    CPPUNIT_TEST_SUITE_END();
    
   private:
    // filter used in testing
    TerritoryOperation * filterTerritory;
+   TerritoryOperation * filterOwner;
    Territory * t1;
    Territory * t2;
+   Player * p1;
+   Player * p2;
    
   public:
    /// \cond SETUPTEARDOWNTERRITORYOPERATIONTEST
    // initialization for the test filter
    void setUp() {
+      p1 = new DefaultPlayer(std::string("ply1"));
+      p2 = new DefaultPlayer(std::string("ply2"));
       std::string a = "terr1";
-      t1 = new LandTerritory(a);
-      t2 = new LandTerritory("terr2");
+      t1 = new LandTerritory(a, p1);
+      t2 = new LandTerritory("terr2", p2);
+      //p1 = t2->owner();
       filterTerritory = new FilterByTerritoryName(t2->name());
+      std::string n = t2->owner()->name();
+      
+      filterOwner = new FilterByTerritoryOwner(n);
    }
    // frees memory for the filters
    void tearDown() {
       delete filterTerritory;
+      delete filterOwner;
+      delete p1;
+      delete p2;
       delete t1;
       delete t2;
    }
@@ -62,6 +77,12 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
       CPPUNIT_ASSERT((*filterTerritory)(t2) == true);
    }
 
+   /// \test ensure that the filter filters correctly
+   void filter_owner_operator_should_be_return_properly()  {
+      CPPUNIT_ASSERT((*filterOwner)(t1) == false);
+      CPPUNIT_ASSERT((*filterOwner)(t2) == true);
+   }
+   
 };
 
 /// \cond TestTerritoryOperationREGISTRATION

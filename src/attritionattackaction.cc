@@ -51,6 +51,15 @@ bool AttritionAttackAction::applicable(Phase* p) const
    return (p->name() == aPhase->name());
 }
 
+const Unit * AttritionAttackAction::unit() const
+{
+   return parent;
+}
+
+const Territory * AttritionAttackAction::source() const
+{
+   return parent->whereAt();
+}
 void AttritionAttackAction::doaction(int nUnits, Territory * T)
 {
    std::string attackUnitName = parent->name();

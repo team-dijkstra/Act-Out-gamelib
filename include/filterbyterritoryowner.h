@@ -17,44 +17,44 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file filterbyterritoryownername.h
- * Implementation file for FilterByTerritoryOwnerName class
+/** \file filterbyterritoryowner.h
+ * Implementation file for FilterByTerritoryOwner class
  * Detatailed descriptions of each method are in the header file
  */
-#ifndef FILTERBYTERRITORYOWNERNAME_H
-#define FILTERBYTERRITORYOWNERNAME_H
+#ifndef FILTERBYTERRITORYOWNER_H
+#define FILTERBYTERRITORYOWNER_H
 
 #include "territoryoperation.h"
 
 /**
- * Implements the TerritoryOperation interface class, FilterByTerritoryOwnerName
- * will return true only if the FilterByTerritoryOwnerName::operator()(Territory *)
+ * Implements the TerritoryOperation interface class, FilterByTerritoryOwner
+ * will return true only if the FilterByTerritoryOwner::operator()(Territory *)
  * is passed the same name of territory object that was passed in the
  * constructor and false otherwise.
  */
-class FilterByTerritoryOwnerName : public TerritoryOperation {
+class FilterByTerritoryOwner : public TerritoryOperation {
   public:
 
    //constructors
 
-   /// sets territoryOwnerName to t
+   /// sets territoryOwner to t
    //
    /// \param t -- const string compared to comparing Territory owner name
-   FilterByTerritoryOwnerName(const std::string & t);
+   FilterByTerritoryOwner(const std::string & t);
 
    //destructor
    
-   ~FilterByTerritoryOwnerName(){}
+   ~FilterByTerritoryOwner(){}
    
    //accessors
 
-   /// \param t -- pointer to Territory that compares to territoryOwnerName
+   /// \param t -- pointer to Territory that compares to territoryOwner
    //
-   /// \return bool, true if t owner name and territoryOwnerName are same
-   bool operator()(Territory * t) const;
+   /// \return bool, true if t owner name and territoryOwner are same
+   bool operator()(Territory * t);
 
   private:
-   const std::string territoryOwnerName; ///< const string of Territory owner name
+   const std::string territoryOwner; ///< const string of Territory owner name
 };
 
 #endif

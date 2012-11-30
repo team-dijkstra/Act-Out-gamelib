@@ -17,19 +17,19 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file filterbyterritoryname.cc
- * Implementation file for FilterByTerritoryOwnerName class
+/** \file filterbyterritoryowner.cc
+ * Implementation file for FilterByTerritoryOwner class
  * Detatailed descriptions of each method are in the header file
  */
 #include "filterbyterritoryowner.h"
 #include "player.h"
 #include "territory.h"
 
-FilterByTerritoryOwnerName::FilterByTerritoryOwnerName(const std::string & t):territoryOwnerName(t)
+FilterByTerritoryOwner::FilterByTerritoryOwner(const std::string & t):territoryOwner(t)
 {
 }
 
-bool FilterByTerritoryOwnerName::operator()(Territory * t) const
+bool FilterByTerritoryOwner::operator()(Territory * t)
 {
-   return ( t->owner()->name() == territoryOwnerName);
+   return ( t->owner()->name() == territoryOwner);
 }

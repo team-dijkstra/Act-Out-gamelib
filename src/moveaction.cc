@@ -40,6 +40,16 @@ bool MoveAction::applicable(Phase* p) const
    return (p->name() == aPhase->name());
 }
 
+const Unit * MoveAction::unit() const
+{
+   return parent;
+}
+
+const Territory * MoveAction::source() const
+{
+   return parent->whereAt();
+}
+
 void MoveAction::doaction(int nUnits, Territory * T)
 {
    Player * here, * there;

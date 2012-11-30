@@ -36,6 +36,8 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestBuildTraditionalArmyAction);
    CPPUNIT_TEST(actionname_should_be_as_constructed);
    CPPUNIT_TEST(actionphase_should_be_as_constructed);
+   CPPUNIT_TEST(action_unit_should_return_parent);
+   CPPUNIT_TEST(action_source_should_return_parent_location);
    CPPUNIT_TEST(action_doaction_should_properly_add_units_to_territory);
    CPPUNIT_TEST_SUITE_END();
    
@@ -87,6 +89,16 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionB->applicable(p2) == true);
    }
 
+   /// \test ensure that unit is correctly reported
+   void action_unit_should_return_parent()  {
+      CPPUNIT_ASSERT(actionA->unit() == u1);
+   }
+
+   /// \test ensure that source is correctly reported
+   void action_source_should_return_parent_location()  {
+      CPPUNIT_ASSERT(actionA->source() == t1);
+   }
+   
    /// \test that doaction() adds units as appropriate
    void action_doaction_should_properly_add_units_to_territory()  {
       Territory::unitContainer myc;

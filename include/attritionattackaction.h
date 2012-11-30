@@ -72,6 +72,9 @@ class AttritionAttackAction : public Action{
    //! @copydoc Action::applicable()
    bool applicable(Phase* p) const;
 
+   const Unit * unit() const;
+   const Territory * source() const;
+
    //mutators
    
    //! @copydoc Action::doaction()
