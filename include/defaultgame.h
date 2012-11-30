@@ -17,53 +17,63 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file
- *  \brief Interface file for game class -- game.h
+/** \file defaultgame.h
+ *  \brief extends Game interface class
  * 
- *  Game Interface class 
+ *  DefaultGame class 
  */
-#ifndef GAME_H
-#define GAME_H
+#ifndef DEFAULT_GAME_H
+#define DEFAULT_GAME_H
 
 #include <vector>
 #include <string>
 
-class Player;
-class GameMap;
+					   //#include "defaultplayer.h"
+#include "game.h"
+					   //#include "gamemap.h"
+//class Player;
+//class GameMap;
 
-/// PlayerName typedef is for clarity and code readability
 
-
-/// Game Interface class specifies the bahavior of the game object
-class Game {
+/// \todo comment DefaultGame class
+class DefaultGame : public Game {
   public:
-   typedef std::string PlayerName;
-   typedef std::vector<Player*> playerlist;
+   /// PlayerName typedef is for clarity and code readability
+   typedef Game::PlayerName PlayerName;
    
-   virtual ~Game() {}
+   typedef Game::playerlist playerlist;
 
+   //constructor
+   DefaultGame(GameMap * g);
+   //destructor
+   ~DefaultGame();
+   
    //accessors
    /// \return all the system Players
-   virtual playerlist systemPlayers() const =0;
+   playerlist systemPlayers() const;
 
    /// \return all the regular Players
-   virtual playerlist players() const =0;
+   playerlist players() const;
 
    /// \return if the game has winner and who it is
-   virtual Player* winner() const =0;
+   Player* winner() const;
 
    /// \return the player which has the current turn
-   virtual Player* currentTurn() const =0;
+   Player* currentTurn() const;
 
    /// \return the GameMap of the current game.
-   virtual GameMap* currentGame() const =0;
+   GameMap* currentGame() const;
    
    //mutators
-   /// \param playerlist -- all the players playing this game
+   /// \param playernames -- all the players playing this game
    //
-   /// \post performs all operations needed to initialize game state
-   virtual void SetupGame(std::vector<PlayerName> playerlist) =0;
-   
+   /// Performs all operations needed to initialize game state
+   void SetupGame(std::vector<PlayerName> playernames);
+
+  private:
+   GameMap * gMap;
+   playerlist gPlayers;
+   playerlist sysPlayers;
 };
 
 #endif
