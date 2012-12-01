@@ -25,6 +25,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "player.h"
 #include "territory.h"
 
+using namespace game;
+
 FilterByTerritoryOwner::FilterByTerritoryOwner(const std::string & t):territoryOwner(t)
 {
 }

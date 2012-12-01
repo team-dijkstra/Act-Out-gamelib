@@ -26,6 +26,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "territoryoperation.h"
 
+namespace game {
+   class Territory;
+}
+
 /**
  * Implements the TerritoryOperation interface class, FilterByTerritoryOwner
  * will return true only if the FilterByTerritoryOwner::operator()(Territory *)
@@ -51,7 +55,7 @@ class FilterByTerritoryOwner : public TerritoryOperation {
    /// \param t -- pointer to Territory that compares to territoryOwner
    //
    /// \return bool, true if t owner name and territoryOwner are same
-   bool operator()(Territory * t);
+   bool operator()(game::Territory * t);
 
   private:
    const std::string territoryOwner; ///< const string of Territory owner name

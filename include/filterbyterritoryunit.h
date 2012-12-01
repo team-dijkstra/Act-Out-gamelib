@@ -24,7 +24,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef FILTERBYTERRITORYUNIT_H
 #define FILTERBYTERRITORYUNIT_H
 
+#include <string>
 #include "territoryoperation.h"
+
+namespace game {
+   class Territory;
+}
 
 /**
  * Implements the TerritoryOperation interface class, FilterByTerritoryUnit
@@ -51,7 +56,7 @@ class FilterByTerritoryUnit : public TerritoryOperation {
    /// \param t -- pointer to Territory that compares to territoryUnit
    //
    /// \return bool, true if t unit name and territoryUnit are same
-   bool operator()(Territory * t);
+   bool operator()(game::Territory * t);
 
   private:
    const std::string territoryUnit; ///< const string of Territory unit name

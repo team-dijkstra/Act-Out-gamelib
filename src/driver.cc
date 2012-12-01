@@ -35,6 +35,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 //#include "stlgamemap.h"
 #include "attritionattackaction.h"
 #include "traditionalarmy.h"
+#include "moveaction.h"
 
 using namespace std;
 using namespace game;
@@ -202,20 +203,22 @@ void nextPhase(DriverGameMap *&, playerList &, Player *&);
 void attack(DriverGameMap *&, playerList &, Player *&);
 bool playGame(DriverGameMap *&, playerList &, comList&, Player *&);
 bool isWinner(DriverGameMap *&, playerList&, Player *);
+/*
 void shutupcppcheck()
 {
-   LandTerritory la;
-   TraditionalArmy ta(la);
-   AttritionAttackAction aaa(ta);
-   MoveAction ma(ta);
-   BuildTraditionalArmyAction btaa(ta);
+   LandTerritory la(string(""));
+   TraditionalArmy ta(&la);
+   AttritionAttackAction aaa(&ta);
+   MoveAction ma(&ta);
+   BuildTraditionalArmyAction btaa(&ta);
    aaa.unit();aaa.source();ma.unit();ma.source();btaa.unit();btaa.source();
 }
+*/
 
 /// Main driver funtion
 int main()
 {
-   shutupcppcheck();
+   //shutupcppcheck();
    map< string, int > commands;
    
    init(commands);

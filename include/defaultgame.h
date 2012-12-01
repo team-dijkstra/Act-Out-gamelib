@@ -27,13 +27,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <string>
-
-					   //#include "defaultplayer.h"
 #include "game.h"
-					   //#include "gamemap.h"
-//class Player;
-//class GameMap;
 
+namespace game {
+   class Player;
+}
+class GameMap;
 
 /// \todo comment DefaultGame class
 class DefaultGame : public Game {
@@ -56,10 +55,10 @@ class DefaultGame : public Game {
    playerlist players() const;
 
    /// \return if the game has winner and who it is
-   Player* winner() const;
+   game::Player* winner() const;
 
    /// \return the player which has the current turn
-   Player* currentTurn() const;
+   game::Player* currentTurn() const;
 
    /// \return the GameMap of the current game.
    GameMap* currentGame() const;

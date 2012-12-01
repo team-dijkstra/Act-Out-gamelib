@@ -1,5 +1,7 @@
 #include "defaultgame.h"
 
+using namespace game;
+
 DefaultGame::DefaultGame(GameMap * g=NULL):gMap(g){}
 
 DefaultGame::~DefaultGame() {}
