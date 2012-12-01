@@ -44,7 +44,7 @@ class DefaultGame : public Game {
    typedef Game::playerlist playerlist;
 
    //constructor
-   DefaultGame(GameMap * g);
+   DefaultGame(GameMap * g = NULL);
    //destructor
    ~DefaultGame();
    
@@ -59,7 +59,7 @@ class DefaultGame : public Game {
    Player* winner() const;
 
    /// \return the player which has the current turn
-   Player* currentTurn() const;
+   //Player* currentTurn() const;
 
    /// \return the GameMap of the current game.
    GameMap* currentGame() const;
