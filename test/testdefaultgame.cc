@@ -61,6 +61,7 @@ class TestDefaultGame : public CppUnit::TestFixture {
    void tearDown() {
       delete gameA;
       delete gameB;
+      delete un;
    }
    /// \endcond
    
