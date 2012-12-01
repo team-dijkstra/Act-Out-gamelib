@@ -34,6 +34,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultphase.h"
 //#include "stlgamemap.h"
 #include "attritionattackaction.h"
+#include "moveaction.h"
+#include "buildtraditionalarmyaction.h"
 #include "traditionalarmy.h"
 
 using namespace std;
@@ -203,12 +205,18 @@ bool playGame(DriverGameMap *&, playerList &, comList&, Player *&);
 bool isWinner(DriverGameMap *&, playerList&, Player *);
 void shutupcppcheck()
 {
-   LandTerritory la;
-   TraditionalArmy ta(la);
+   Player * p1 = new DefaultPlayer("p1");
+   Territory * la = new LandTerritory("la", p1);
+   Unit * ta = new TraditionalArmy(la);
+   Phase * ph1 = new DefaultPhase("phase");
    AttritionAttackAction aaa(ta);
-   MoveAction ma(ta);
-   BuildTraditionalArmyAction btaa(ta);
+   MoveAction ma(ph1, ta);
+   BuildTraditionalArmyAction btaa(ph1, ta);
    aaa.unit();aaa.source();ma.unit();ma.source();btaa.unit();btaa.source();
+   delete p1;
+   delete la;
+   delete ta;
+   delete ph1;
 }
 
 /// Main driver funtion
