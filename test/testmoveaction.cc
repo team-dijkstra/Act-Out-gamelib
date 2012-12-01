@@ -108,6 +108,7 @@ class TestMoveAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionB->unit() == u2);
       delete u1;
       delete u2;
+      delete u3;
    }
 
    /// \test ensure that source is correctly reported
@@ -116,6 +117,7 @@ class TestMoveAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionB->source() == t2);
       delete u1;
       delete u2;
+      delete u3;
    }
    
    /// \test that doaction() adds units as appropriate
