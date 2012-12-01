@@ -32,10 +32,12 @@ FilterByTerritoryUnit::FilterByTerritoryUnit(const std::string & t):territoryUni
 
 bool FilterByTerritoryUnit::operator()(Territory * t)
 {
+   Territory::unitContainer uCont;
    Territory::unitContainer::iterator it;
    UnitOperation * f;
    f = new FilterByAllUnitTypes();
-   for(it = t->units(f).begin(); it != t->units(f).end(); ++it)
+   uCont = t->units(f);
+   for(it =uCont.begin(); it != uCont.end(); ++it)
       if(it->second->name() == territoryUnit)
       {
 	 delete f;

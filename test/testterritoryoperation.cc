@@ -24,9 +24,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/extensions/HelperMacros.h>
 #include "filterbyterritoryname.h"
 #include "filterbyterritoryowner.h"
+#include "filterbyterritoryunit.h"
 #include "landterritory.h"
 #include "defaultplayer.h"
-
+#include "traditionalarmy.h"
 
 /// Class containing the test cases for Default TerritoryOperation implementations.
 /// The implementation is exercised through its interface TerritoryOperation.
@@ -34,12 +35,14 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestTerritoryOperation);
    CPPUNIT_TEST(filter_operator_should_be_return_properly);
    CPPUNIT_TEST(filter_owner_operator_should_be_return_properly);
+   CPPUNIT_TEST(filter_unit_operator_should_return_true_if_unit_is_on_territory);
    CPPUNIT_TEST_SUITE_END();
    
   private:
    // filter used in testing
    TerritoryOperation * filterTerritory;
    TerritoryOperation * filterOwner;
+ 
    Territory * t1;
    Territory * t2;
    Player * p1;
@@ -59,6 +62,7 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
       std::string n = t2->owner()->name();
       
       filterOwner = new FilterByTerritoryOwner(n);
+
    }
    // frees memory for the filters
    void tearDown() {
@@ -82,6 +86,17 @@ class TestTerritoryOperation : public CppUnit::TestFixture {
       CPPUNIT_ASSERT((*filterOwner)(t1) == false);
       CPPUNIT_ASSERT((*filterOwner)(t2) == true);
    }
+							\
+   /// \test ensure that filter by territory unit returns true if the territory has a unit of the specified type, false otherwise.
+   void filter_unit_operator_should_return_true_if_unit_is_on_territory()  {
+      TerritoryOperation * filterUnit;
+      filterUnit = new FilterByTerritoryUnit(std::string("TraditionalArmy"));
+      Unit * trad = new TraditionalArmy(t2);
+      t2->addUnit(trad);
+      CPPUNIT_ASSERT((*filterUnit)(t1) == false);
+      CPPUNIT_ASSERT((*filterUnit)(t2) == true);
+      delete filterUnit;
+ }
    
 };
 
