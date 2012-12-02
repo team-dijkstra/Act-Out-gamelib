@@ -54,6 +54,10 @@ template<
    typename AttrR = AttrL, 
    AttrR (R::*Rattr)() const = Lattr>
 class Compare {
+    typedef Compare<L, AttrL, Lattr, R, AttrR, Rattr> self_type;
+    typedef Compare<L, AttrL, Lattr> left_type;
+    typedef Compare<R, AttrR, Rattr> right_type;
+    typedef L value_type;
   public:
 
    /**
@@ -63,8 +67,8 @@ class Compare {
     * \param _lhs An instance of the object to be used on the left hand side
     *    of the comparison.
     */
-   Compare(const L & _lhs) : lhs(_lhs) {}
-   Compare(const L * _lhs) : lhs(*_lhs) {}
+   Compare(const value_type & _lhs) : lhs(_lhs) {}
+   Compare(const value_type * _lhs) : lhs(*_lhs) {}
    
    /**
     * Less than operator to compare objects by name.
@@ -77,7 +81,7 @@ class Compare {
     *
     * \return true if \begincode lhs.name() < rhs.name() \endcode. false otherwise.
     */
-   bool operator< (const Compare<R, AttrR, Rattr> & rhs) const {
+   bool operator< (const right_type & rhs) const {
       return attr(*this) < attr(rhs);
       //return ((lhs.*Lattr)() < ((rhs.lhs).*Rattr)());
    }
@@ -94,7 +98,7 @@ class Compare {
     * \return true if \begincode lhs.name() == rhs.name() \endcode. false
     *    otherwise.
     */
-   bool operator== (const Compare<R, AttrR, Rattr> & rhs) const {
+   bool operator== (const right_type & rhs) const {
       return attr(*this) == attr(rhs);
       //return ((lhs.*Lattr)() == ((rhs.lhs).*Rattr)());
    }
@@ -106,7 +110,7 @@ class Compare {
     * \see operator<
     * \see operator==
     */
-   bool operator<= (const Compare<R, AttrR, Rattr> & rhs) const {
+   bool operator<= (const right_type & rhs) const {
       return ((*this < rhs) || (*this == rhs));
    }
    /**
@@ -116,7 +120,7 @@ class Compare {
     * \see operator<
     * \see operator==
     */
-   bool operator> (const Compare<R, AttrR, Rattr> & rhs) const {
+   bool operator> (const right_type & rhs) const {
       return !(*this <= rhs);
    }
 
@@ -127,7 +131,7 @@ class Compare {
     * \see operator<
     * \see operator==
     */
-   bool operator>= (const Compare<R, AttrR, Rattr> & rhs) const {
+   bool operator>= (const right_type & rhs) const {
       return ((*this == rhs) || (*this > rhs));
    }
 
@@ -142,7 +146,7 @@ class Compare {
       return ((item.lhs).*Tattr)();
    }
 
-   const L & lhs;
+   const value_type & lhs;
 };
 
 #endif /* NAME_COMPARATORS_H */
