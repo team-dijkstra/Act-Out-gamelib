@@ -142,7 +142,7 @@ class Compare {
     * \todo Candidate for extraction to a policy class.
     */
    template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
-   AttrT attr(const Compare<T, AttrT, Tattr> & item) const {
+   const AttrT attr(const Compare<T, AttrT, Tattr> & item) const {
       return ((item.lhs).*Tattr)();
    }
 
