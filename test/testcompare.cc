@@ -24,7 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include "testnamecomparators.h"
+#include "testcompare.h"
 #include "territory.h"
 #include "unit.h"
 #include "player.h"

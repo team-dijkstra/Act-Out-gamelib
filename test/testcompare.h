@@ -19,7 +19,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
- * \file testnamecomparators.cc
+ * \file testcompare.cc
  * Contains tests for name based comparison operators.
  */
 #ifndef TEST_NAME_COMPARATORS_H
@@ -30,8 +30,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include "namecomparators.h"
-#include "territory.h"
+#include "compare.h"
 #include "functional.h"
 
 /**
@@ -49,7 +48,6 @@ class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST(comparison_operators_work_with_stl_functional);
    CPPUNIT_TEST(comparison_operators_work_with_stl_containers);
    CPPUNIT_TEST(comparison_wrapper_is_convertible_from_wrapped_type);
-   //CPPUNIT_TEST(inequality_operator_preserves_strict_ordering);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
   protected:
    typedef T Nameable;
