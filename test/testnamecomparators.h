@@ -26,6 +26,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define TEST_NAME_COMPARATORS_H
 
 #include <functional>
+#include <string>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include "namecomparators.h"
@@ -45,10 +46,13 @@ class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST(lessthan_operator_preserves_name_ordering);
    CPPUNIT_TEST(greaterthan_operator_preserves_name_ordering);
    CPPUNIT_TEST(comparison_operators_work_with_stl_functional);
+   CPPUNIT_TEST(comparison_wrapper_is_convertible_to_wrapped_type);
+   CPPUNIT_TEST(comparison_wrapper_is_convertible_from_wrapped_type);
    //CPPUNIT_TEST(inequality_operator_preserves_strict_ordering);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
   protected:
    typedef T Nameable;
+   typedef Compare<Nameable, std::string, &Nameable::name> cmp_t;
    virtual Nameable * createObject(const char * name) =0;
    
   public:
@@ -57,85 +61,86 @@ class TestNameComparators : public CppUnit::TestFixture {
    ///   strings.
    void empty_name_comparisons_yeild_equality_only() {
       
-      CPPUNIT_ASSERT(*empty1 == *empty2);
-      CPPUNIT_ASSERT(! (*empty1 < *empty2));
-      CPPUNIT_ASSERT(*empty1 <= *empty2);
-      CPPUNIT_ASSERT(! (*empty1 > *empty2));
-      CPPUNIT_ASSERT(*empty1 >= *empty2);
+      CPPUNIT_ASSERT(cmp_t(*empty1) == cmp_t(*empty2));
+      CPPUNIT_ASSERT(! (cmp_t(*empty1) < cmp_t(*empty2)));
+      CPPUNIT_ASSERT(cmp_t(*empty1) <= cmp_t(*empty2));
+      CPPUNIT_ASSERT(! (cmp_t(*empty1) > cmp_t(*empty2)));
+      CPPUNIT_ASSERT(cmp_t(*empty1) >= cmp_t(*empty2));
    }
 
    /// \test ensure that compare::byname comparisons are valid for 
    ///   reflexive self comparisons.
    void self_comparison_yeilds_equality_only() {
 
-      CPPUNIT_ASSERT(*obj1 == *obj1);
-      CPPUNIT_ASSERT(! (*obj1 < *obj1));
-      CPPUNIT_ASSERT(*obj1 <= *obj1);
-      CPPUNIT_ASSERT(! (*obj1 > *obj1));
-      CPPUNIT_ASSERT(*obj1 >= *obj1);
+      CPPUNIT_ASSERT(cmp_t(*obj1) == cmp_t(*obj1));
+      CPPUNIT_ASSERT(! (cmp_t(*obj1) < cmp_t(*obj1)));
+      CPPUNIT_ASSERT(cmp_t(*obj1) <= cmp_t(*obj1));
+      CPPUNIT_ASSERT(! (cmp_t(*obj1) > cmp_t(*obj1)));
+      CPPUNIT_ASSERT(cmp_t(*obj1) >= cmp_t(*obj1));
    }
 
    /// \test ensure that compare::byname comparisons are valid
    ///   for name strings that should be equal.
    void same_name_comparison_yeilds_equality_only() {
 
-      CPPUNIT_ASSERT(*obj1 == *obj1a);
-      CPPUNIT_ASSERT(! (*obj1 < *obj1a));
-      CPPUNIT_ASSERT(*obj1 <= *obj1a);
-      CPPUNIT_ASSERT(! (*obj1 > *obj1a));
-      CPPUNIT_ASSERT(*obj1 >= *obj1a);
+      CPPUNIT_ASSERT(cmp_t(*obj1) == cmp_t(*obj1a));
+      CPPUNIT_ASSERT(! (cmp_t(*obj1) < cmp_t(*obj1a)));
+      CPPUNIT_ASSERT(cmp_t(*obj1) <= cmp_t(*obj1a));
+      CPPUNIT_ASSERT(! (cmp_t(*obj1) > cmp_t(*obj1a)));
+      CPPUNIT_ASSERT(cmp_t(*obj1) >= cmp_t(*obj1a));
    }
    
    /// \test ensure that compare::byname comparisons are consistent for values
    ///   where one should be less than the other.
    void lessthan_operator_preserves_name_ordering() {
-   
+      
       if (obj1->name() < obj2->name()) {
-         CPPUNIT_ASSERT(*obj1 < *obj2);
-         CPPUNIT_ASSERT(*obj1 <= *obj2);
+         CPPUNIT_ASSERT(cmp_t(*obj1) < cmp_t(*obj2));
+         CPPUNIT_ASSERT(cmp_t(*obj1) <= cmp_t(*obj2));
       } else if (obj2->name() < obj1->name()) {
-         CPPUNIT_ASSERT(*obj2 < *obj1);
-         CPPUNIT_ASSERT(*obj2 <= *obj1);
+         CPPUNIT_ASSERT(cmp_t(*obj2) < cmp_t(*obj1));
+         CPPUNIT_ASSERT(cmp_t(*obj2) <= cmp_t(*obj1));
       }
 
-      CPPUNIT_ASSERT(*obj1 <= *obj1a);
-      CPPUNIT_ASSERT(*obj1a <= *obj1);
+      CPPUNIT_ASSERT(cmp_t(*obj1) <= cmp_t(*obj1a));
+      CPPUNIT_ASSERT(cmp_t(*obj1a) <= cmp_t(*obj1));
    }
   
    /// \test ensure that compare::byname comparisons are consistent for values
    ///   where one should be greater than the other.
    void greaterthan_operator_preserves_name_ordering() {
-   
+      
       if (obj1->name() > obj2->name()) {
-         CPPUNIT_ASSERT(*obj1 > *obj2);
-         CPPUNIT_ASSERT(*obj1 >= *obj2);
+         CPPUNIT_ASSERT(cmp_t(*obj1) > cmp_t(*obj2));
+         CPPUNIT_ASSERT(cmp_t(*obj1) >= cmp_t(*obj2));
       } else if (obj2->name() > obj1->name()) {
-         CPPUNIT_ASSERT(*obj2 > *obj1);
-         CPPUNIT_ASSERT(*obj2 >= *obj1);
+         CPPUNIT_ASSERT(cmp_t(*obj2) > cmp_t(*obj1));
+         CPPUNIT_ASSERT(cmp_t(*obj2) >= cmp_t(*obj1));
       }
       
-      CPPUNIT_ASSERT(*obj1 >= *obj1a);
-      CPPUNIT_ASSERT(*obj1a >= *obj1);
+      CPPUNIT_ASSERT(cmp_t(*obj1) >= cmp_t(*obj1a));
+      CPPUNIT_ASSERT(cmp_t(*obj1a) >= cmp_t(*obj1));
    }
 
-   /// \test ensure that operators are accessible from foreign namespaces.
+   /// \test ensure that operators cooperate with the stl functional
+   ///   comparators.
    void comparison_operators_work_with_stl_functional() {
       using function::binary::map;
       using util::dereference;
 
-      map<std::less<Nameable>, 
+      map<std::less<cmp_t>, 
          dereference<Nameable>, 
          dereference<Nameable> > less;
-      map<std::greater<Nameable>,
+      map<std::greater<cmp_t>,
          dereference<Nameable>,
          dereference<Nameable> > greater;
-      map<std::less_equal<Nameable>, 
+      map<std::less_equal<cmp_t>, 
          dereference<Nameable>, 
          dereference<Nameable> > less_eq;
-      map<std::equal_to<Nameable>, 
+      map<std::equal_to<cmp_t>, 
          dereference<Nameable>, 
          dereference<Nameable> > equal;
-      map<std::greater_equal<Nameable>, 
+      map<std::greater_equal<cmp_t>, 
          dereference<Nameable>, 
          dereference<Nameable> > greater_eq;
       
@@ -154,6 +159,15 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(equal(obj1, obj1a));
       CPPUNIT_ASSERT(!equal(obj1, obj2));
       CPPUNIT_ASSERT(!equal(obj2, obj1));
+   }
+
+   /// \test ensure that it is possible to unwrap compared types.
+   void comparison_wrapper_is_convertible_to_wrapped_type() {
+      
+   }
+ 
+   /// \test ensure that it is possible to automatically wrap types.
+   void comparison_wrapper_is_convertible_from_wrapped_type() {
 
    }
 

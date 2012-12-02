@@ -30,87 +30,119 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define NAME_COMPARATORS_H
 
 /**
- * \namespace compare
- *
- * Supplies comparison methods.
+ * A class template wrapper that allows any two arbitrary objects to be
+ * compared by any pair of attributes, so long as comparison is defined
+ * for the two attribute types. Each attribute is expected to be exposed
+ * as an accessible member function taking taking 0 arguments.
+ * 
+ * \tparam L The type of the left hand side comparison object.
+ * \tparam AttrL The type of the left hand side object attribute under
+ *    comparison.
+ * \tparam Lattr A pointer to a member function of L accepting 0 arguments,
+ *    and returning an AttrL value.
+ * \tparam R The type of the right hand side comparison object. Defaults to L.
+ * \tparam AttrR The type of the right hand side object attribute under
+ *    comparison. defaults to AttrL.
+ * \tparam Rattr A pointer to a member function of R accepting 0 arguments,
+ *    and returning an AttrR value. defaults to Lattr.
  */
+template<
+   typename L, 
+   typename AttrL, 
+   AttrL (L::*Lattr)() const, 
+   typename R = L, 
+   typename AttrR = AttrL, 
+   AttrR (R::*Rattr)() const = Lattr>
+class Compare {
+  public:
 
    /**
-    * \namespace compare::byname
-    *
-    * Supplies comparison methods that operate on a 'name()' member.
+    * Conversion constructor. Accepts an instance of the underlying type of the
+    * left hand comparison object.
     * 
-    * \todo it should be possible to reuse some of these operator definitions
-    *    since they are given purely in terms of < and ==.
+    * \param _lhs An instance of the object to be used on the left hand side
+    *    of the comparison.
     */
-      
-      /**
-       * Less than operator to compare objects by name.
-       *
-       * \tparam T the type of the objects to compare. T must supply a 'name()' 
-       *    method that takes no arguments and returns a std::string.
-       *
-       * \param lhs The left hand side operand.
-       * \param rhs The right hand side operand.
-       *
-       * \return true if \begincode lhs.name() < rhs.name() \endcode. false otherwise.
-       */
-      template<typename T>
-      bool operator< (const T & lhs, const T & rhs) {
-         return (lhs.name() < rhs.name());
-      }
+   Compare(const L & _lhs) : lhs(_lhs) {}
+   Compare(const L * _lhs) : lhs(*_lhs) {}
+   
+   /**
+    * Less than operator to compare objects by name.
+    *
+    * \tparam T the type of the objects to compare. T must supply a 'name()' 
+    *    method that takes no arguments and returns a std::string.
+    *
+    * \param lhs The left hand side operand.
+    * \param rhs The right hand side operand.
+    *
+    * \return true if \begincode lhs.name() < rhs.name() \endcode. false otherwise.
+    */
+   bool operator< (const Compare<R, AttrR, Rattr> & rhs) const {
+      return attr(*this) < attr(rhs);
+      //return ((lhs.*Lattr)() < ((rhs.lhs).*Rattr)());
+   }
 
-      /**
-       * Equality operator to compare objects by name.
-       *
-       * \tparam T the type of the objects to compare. T must supply a 'name()'
-       *    method that takes no arguments and returns a std::string.
-       *
-       * \param lhs The left hand side operand.
-       * \param rhs The right hand side operand.
-       *
-       * \return true if \begincode lhs.name() == rhs.name() \endcode. false
-       *    otherwise.
-       */
-      template<typename T>
-      bool operator== (const T & lhs, const T & rhs) {
-         return (lhs.name() == rhs.name());
-      }
+   /**
+    * Equality operator to compare objects by name.
+    *
+    * \tparam T the type of the objects to compare. T must supply a 'name()'
+    *    method that takes no arguments and returns a std::string.
+    *
+    * \param lhs The left hand side operand.
+    * \param rhs The right hand side operand.
+    *
+    * \return true if \begincode lhs.name() == rhs.name() \endcode. false
+    *    otherwise.
+    */
+   bool operator== (const Compare<R, AttrR, Rattr> & rhs) const {
+      return attr(*this) == attr(rhs);
+      //return ((lhs.*Lattr)() == ((rhs.lhs).*Rattr)());
+   }
 
-      /**
-       * Less than or equal comparison operator. Implemented in terms of 
-       * operator< and operator==.
-       * 
-       * \see operator<
-       * \see operator==
-       */
-      template<typename T>
-      bool operator<= (const T & lhs, const T & rhs) {
-         return ((lhs < rhs) || (lhs == rhs));
-      }
-      /**
-       * Greater than comparison operator. Implemented in terms of 
-       * operator< and operator==.
-       * 
-       * \see operator<
-       * \see operator==
-       */
-      template<typename T>
-      bool operator> (const T & lhs, const T & rhs) {
-         return !(lhs <= rhs);
-      }
+   /**
+    * Less than or equal comparison operator. Implemented in terms of 
+    * operator< and operator==.
+    * 
+    * \see operator<
+    * \see operator==
+    */
+   bool operator<= (const Compare<R, AttrR, Rattr> & rhs) const {
+      return ((*this < rhs) || (*this == rhs));
+   }
+   /**
+    * Greater than comparison operator. Implemented in terms of 
+    * operator< and operator==.
+    * 
+    * \see operator<
+    * \see operator==
+    */
+   bool operator> (const Compare<R, AttrR, Rattr> & rhs) const {
+      return !(*this <= rhs);
+   }
 
-      /**
-       * Greater than or equal comparison operator. Implemented in terms of 
-       * operator< and operator==.
-       * 
-       * \see operator<
-       * \see operator==
-       */
-      template<typename T>
-      bool operator>= (const T & lhs, const T & rhs) {
-         return ((lhs == rhs) || (lhs > rhs));
-      }
+   /**
+    * Greater than or equal comparison operator. Implemented in terms of 
+    * operator< and operator==.
+    * 
+    * \see operator<
+    * \see operator==
+    */
+   bool operator>= (const Compare<R, AttrR, Rattr> & rhs) const {
+      return ((*this == rhs) || (*this > rhs));
+   }
 
+  private:
+   /**
+    * Convenience accessor to make access more uniform. 
+    * 
+    * \todo Candidate for extraction to a policy class.
+    */
+   template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
+   AttrT attr(const Compare<T, AttrT, Tattr> & item) const {
+      return ((item.lhs).*Tattr)();
+   }
+
+   const L & lhs;
+};
 
 #endif /* NAME_COMPARATORS_H */
