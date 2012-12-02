@@ -25,6 +25,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TEST_NAME_COMPARATORS_H
 #define TEST_NAME_COMPARATORS_H
 
+#include <map>
 #include <functional>
 #include <string>
 #include <cppunit/TestFixture.h>
@@ -46,7 +47,7 @@ class TestNameComparators : public CppUnit::TestFixture {
    CPPUNIT_TEST(lessthan_operator_preserves_name_ordering);
    CPPUNIT_TEST(greaterthan_operator_preserves_name_ordering);
    CPPUNIT_TEST(comparison_operators_work_with_stl_functional);
-   CPPUNIT_TEST(comparison_wrapper_is_convertible_to_wrapped_type);
+   CPPUNIT_TEST(comparison_operators_work_with_stl_containers);
    CPPUNIT_TEST(comparison_wrapper_is_convertible_from_wrapped_type);
    //CPPUNIT_TEST(inequality_operator_preserves_strict_ordering);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
@@ -161,14 +162,28 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(!equal(obj2, obj1));
    }
 
-   /// \test ensure that it is possible to unwrap compared types.
-   void comparison_wrapper_is_convertible_to_wrapped_type() {
-      
-   }
- 
-   /// \test ensure that it is possible to automatically wrap types.
-   void comparison_wrapper_is_convertible_from_wrapped_type() {
+   void comparison_operators_work_with_stl_containers() {
+      typedef std::map<Nameable*, int, std::greater<cmp_t> > map_t;
 
+      map_t mymap;
+      mymap.insert(std::make_pair(obj2, 2));
+      mymap.insert(std::make_pair(obj1, 1));
+      mymap.insert(std::make_pair(empty1, 3));
+      
+      typename map_t::iterator it2 = mymap.begin();
+      typename map_t::iterator it1 = it2;
+      ++it2;
+      while (it2 != mymap.end()) {
+         CPPUNIT_ASSERT(cmp_t((it1++)->first) > cmp_t((it2++)->first));
+      }
+   }
+
+   /// \test ensure that it is possible to automatically wrap value 
+   ///   and pointer types.
+   void comparison_wrapper_is_convertible_from_wrapped_type() {
+      cmp_t c1(obj1);
+      cmp_t c2(*obj1);
+      CPPUNIT_ASSERT(c1 == c2);
    }
 
    // let doxygen skip uninteresting methods.
