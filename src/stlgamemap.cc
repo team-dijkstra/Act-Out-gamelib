@@ -19,17 +19,20 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <map>
-#include <set>
+#include <functional>
 #include <utility>
 #include <algorithm>
+#include <string>
 #include "territory.h"
 #include "stlgamemap.h"
+#include "compare.h"
 
 StlGameMap::StlGameMap(const AdjacencyList & tal) {
     typedef MapNode::first_type key_t;
     typedef MapNode::second_type value_t;
-    typedef std::map<key_t, value_t> map_t;
-    /// \todo define a comparator for this map.
+    typedef Compare<Territory, std::string, &Territory::name> cmp_t;
+    typedef std::map<key_t, value_t, std::less<cmp_t> > map_t;
+    
     map_t tmap;
 
     // build adjacency lists for each node.
@@ -44,7 +47,7 @@ StlGameMap::StlGameMap(const AdjacencyList & tal) {
     for (map_t::iterator it = tmap.begin(); it != tmap.end(); it++) {
         /// \todo need to implement comparator for unique
         value_t & vt = it->second;
-        value_t::iterator res = std::unique(vt.begin(), vt.end());
+        value_t::iterator res = std::unique(vt.begin(), vt.end(), std::equal_to<cmp_t>());
         vt.resize(res - vt.begin());
 
         territories.push_back(std::make_pair(it->first, vt));

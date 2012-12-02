@@ -30,7 +30,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// GameMap test suite.
 class TestGameMap : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestGameMap);
-   CPPUNIT_TEST_FAIL(begin_should_return_first_territory_by_lexicographical_order);
+   CPPUNIT_TEST(begin_should_return_first_territory_by_lexicographical_order);
    CPPUNIT_TEST(find_returns_marker_token_for_non_existent_items);
    CPPUNIT_TEST_FAIL(find_returns_position_for_existent_items);
    CPPUNIT_TEST(adjacencies_returns_empty_list_for_non_existent_items);
