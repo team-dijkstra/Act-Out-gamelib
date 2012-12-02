@@ -22,8 +22,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * \file testcompare.cc
  * Contains tests for name based comparison operators.
  */
-#ifndef TEST_NAME_COMPARATORS_H
-#define TEST_NAME_COMPARATORS_H
+#ifndef TEST_COMPARE_H
+#define TEST_COMPARE_H
 
 #include <map>
 #include <functional>
@@ -56,7 +56,7 @@ class TestNameComparators : public CppUnit::TestFixture {
    
   public:
 
-   /// \test ensure that compare::byname comparisons work for empty name 
+   /// \test ensure that Compare byname comparisons work for empty name 
    ///   strings.
    void empty_name_comparisons_yeild_equality_only() {
       
@@ -67,7 +67,7 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(cmp_t(*empty1) >= cmp_t(*empty2));
    }
 
-   /// \test ensure that compare::byname comparisons are valid for 
+   /// \test ensure that Compare byname comparisons are valid for 
    ///   reflexive self comparisons.
    void self_comparison_yeilds_equality_only() {
 
@@ -78,7 +78,7 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(cmp_t(*obj1) >= cmp_t(*obj1));
    }
 
-   /// \test ensure that compare::byname comparisons are valid
+   /// \test ensure that Compare byname comparisons are valid
    ///   for name strings that should be equal.
    void same_name_comparison_yeilds_equality_only() {
 
@@ -89,7 +89,7 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(cmp_t(*obj1) >= cmp_t(*obj1a));
    }
    
-   /// \test ensure that compare::byname comparisons are consistent for values
+   /// \test ensure that Compare byname comparisons are consistent for values
    ///   where one should be less than the other.
    void lessthan_operator_preserves_name_ordering() {
       
@@ -105,7 +105,7 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(cmp_t(*obj1a) <= cmp_t(*obj1));
    }
   
-   /// \test ensure that compare::byname comparisons are consistent for values
+   /// \test ensure that Compare byname comparisons are consistent for values
    ///   where one should be greater than the other.
    void greaterthan_operator_preserves_name_ordering() {
       
@@ -160,6 +160,7 @@ class TestNameComparators : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(!equal(obj2, obj1));
    }
 
+   /// \test ensure that the operators work with stl containers.
    void comparison_operators_work_with_stl_containers() {
       typedef std::map<Nameable*, int, std::greater<cmp_t> > map_t;
 
@@ -181,6 +182,8 @@ class TestNameComparators : public CppUnit::TestFixture {
    void comparison_wrapper_is_convertible_from_wrapped_type() {
       cmp_t c1(obj1);
       cmp_t c2(*obj1);
+      // note: the real test is that the object constructions above compile.
+      // the following is almost a dummy test.
       CPPUNIT_ASSERT(c1 == c2);
    }
 
@@ -211,4 +214,4 @@ class TestNameComparators : public CppUnit::TestFixture {
    Nameable * empty2;
 };
 
-#endif /* TEST_NAME_COMPARATORS_H */
+#endif /* TEST_COMPARE_H */

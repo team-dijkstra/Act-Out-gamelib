@@ -19,21 +19,21 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
- * \file namecomparators.h
+ * \file compare.h
  * 
- * contains implementations of comparators based on a 'name' member function
- * of the supplied types.
+ * contains implementations of comparators based on arbitrary pairs of 
+ * member functions of the supplied types.
  *
  */
 
-#ifndef NAME_COMPARATORS_H
-#define NAME_COMPARATORS_H
+#ifndef COMPARE_H
+#define COMPARE_H
 
 /**
  * A class template wrapper that allows any two arbitrary objects to be
  * compared by any pair of attributes, so long as comparison is defined
  * for the two attribute types. Each attribute is expected to be exposed
- * as an accessible member function taking taking 0 arguments.
+ * as an accessible const member function taking taking 0 arguments.
  * 
  * \tparam L The type of the left hand side comparison object.
  * \tparam AttrL The type of the left hand side object attribute under
@@ -71,36 +71,26 @@ class Compare {
    Compare(const value_type * _lhs) : lhs(*_lhs) {}
    
    /**
-    * Less than operator to compare objects by name.
+    * Less than operator to compare objects by attribute pair.
     *
-    * \tparam T the type of the objects to compare. T must supply a 'name()' 
-    *    method that takes no arguments and returns a std::string.
-    *
-    * \param lhs The left hand side operand.
     * \param rhs The right hand side operand.
     *
-    * \return true if \begincode lhs.name() < rhs.name() \endcode. false otherwise.
+    * \return true if \begincode lhs.Lattr() < rhs.Rattr() \endcode. false otherwise.
     */
    bool operator< (const right_type & rhs) const {
       return attr(*this) < attr(rhs);
-      //return ((lhs.*Lattr)() < ((rhs.lhs).*Rattr)());
    }
 
    /**
-    * Equality operator to compare objects by name.
+    * Equality operator to compare objects by attribute pair.
     *
-    * \tparam T the type of the objects to compare. T must supply a 'name()'
-    *    method that takes no arguments and returns a std::string.
-    *
-    * \param lhs The left hand side operand.
     * \param rhs The right hand side operand.
     *
-    * \return true if \begincode lhs.name() == rhs.name() \endcode. false
+    * \return true if \begincode lhs.Lattr() == rhs.Rattr() \endcode. false
     *    otherwise.
     */
    bool operator== (const right_type & rhs) const {
       return attr(*this) == attr(rhs);
-      //return ((lhs.*Lattr)() == ((rhs.lhs).*Rattr)());
    }
 
    /**
@@ -149,4 +139,4 @@ class Compare {
    const value_type & lhs;
 };
 
-#endif /* NAME_COMPARATORS_H */
+#endif /* COMPARE_H */
