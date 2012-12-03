@@ -34,7 +34,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace util {
    
-   template<typename> 
+   template<typename T, typename U = T> 
    class dereference;
 }
 
@@ -44,6 +44,11 @@ namespace type {
 
    template<typename, typename> 
    struct eq;
+
+   namespace qualifier {
+      template<typename T> 
+      struct strip;
+   }
 }
 
 namespace typelist {
@@ -96,6 +101,36 @@ namespace type {
       typedef true_tag type;
       static const bool value = true;
    };
+
+   namespace qualifier {
+      
+      template<typename T>
+      struct strip { typedef T type; };
+
+      template<typename T>
+      struct strip<const T> { typedef typename strip<T>::type type; };
+
+      template<typename T>
+      struct strip<volatile T> { typedef typename strip<T>::type type; };
+
+      template<typename T>
+      struct strip<const volatile T> { typedef typename strip<T>::type type; };
+
+      template<typename T> 
+      struct strip<T *> { typedef typename strip<T>::type type; };
+
+      template<typename T>
+      struct strip<T const*> { typedef typename strip<T>::type type; };
+
+      template<typename T>
+      struct strip<T *const> { typedef typename strip<T>::type type; };
+
+      template<typename T>
+      struct strip<T &> { typedef typename strip<T>::type type; };
+
+      template<typename T>
+      struct strip<T const &> { typedef typename strip<T>::type type; };
+   }
 }
 
 /**
@@ -135,8 +170,8 @@ namespace function {
 
    using namespace typelist;
    
-   struct binary_tag {};
-   struct unary_tag {};
+   //struct binary_tag {};
+   //struct unary_tag {};
    
    namespace binary {
 
@@ -149,7 +184,7 @@ namespace function {
       */
       
       template<typename F1, typename F2, typename F3>
-      struct map : public binary_tag, private F1, private F2, private F3 {
+      struct map : private F1, private F2, private F3 {
          typedef typename F1::result_type result_type;
          typedef typename F2::argument_type first_argument_type;
          typedef typename F3::argument_type second_argument_type;
@@ -160,7 +195,7 @@ namespace function {
       };
 
       template<typename F1, typename F2>
-      struct map<F1, F2, F2> : public binary_tag, private F1, private F2 {
+      struct map<F1, F2, F2> : private F1, private F2 {
          typedef typename F1::result_type result_type;
          typedef typename F2::argument_type first_argument_type;
          typedef typename F2::argument_type second_argument_type;
@@ -171,7 +206,7 @@ namespace function {
       };
       
       template<typename F1, typename F3>
-      struct map<F1, nil, F3> : public binary_tag, private F1, private F3 {
+      struct map<F1, nil, F3> : private F1, private F3 {
          typedef typename F1::result_type result_type;
          typedef typename F1::first_argument_type first_argument_type;
          typedef typename F3::argument_type second_argument_type;
@@ -182,7 +217,7 @@ namespace function {
       };
       
       template<typename F1, typename F2>
-      struct map<F1, F2, nil> : public binary_tag, private F1, private F2 {
+      struct map<F1, F2, nil> : private F1, private F2 {
          typedef typename F1::result_type result_type;
          typedef typename F2::argument_type first_argument_type;
          typedef typename F1::second_argument_type second_argument_type;
@@ -193,7 +228,7 @@ namespace function {
       };
       
       template<typename F1>
-      struct map<F1, nil, nil> : public binary_tag, public F1 {
+      struct map<F1, nil, nil> : public F1 {
          typedef typename F1::result_type result_type;
          typedef typename F1::first_argument_type first_argument_type;
          typedef typename F1::second_argument_type second_argument_type;
@@ -254,13 +289,15 @@ namespace function {
        * \todo is it possible to do this without virtual inheritance?
        */
       template<typename T>
-      struct map<cons<T, nil> > : public unary_tag, public virtual T {
+      struct map<cons<T, nil> > : public virtual T {
          typedef typename T::result_type result_type;
          typedef typename T::argument_type argument_type;
          /* operator() inherited from T */
       };
    }
 }
+
+#include <utility>
 
 /**
  * \todo Should this namespace live in a separate file?
@@ -270,14 +307,17 @@ namespace util {
 
    /**
     * Dereferences a pointer to T, so that the value of T can be used and
-    * modified.
+    * modified. This operation also optionally converts from a source type
+    * to a destination type. By default source and desination types are the
+    * same.
     *
-    * \tparam T The base type to map pointers to references. So if T=int,
+    * \tparam T The source type to map pointers to references. So if T=int,
     *  the defined mapping will be from int* to int&
+    * \tparam U The destination type. defaults to T.
     */
-   template<typename T>
-   struct dereference : public unary_tag {
-      typedef T* argument_type;
+   template<typename T, typename U>
+   struct dereference {
+      typedef U* argument_type;
       typedef T& result_type;
 
       result_type operator()(argument_type t) const {
@@ -291,9 +331,19 @@ namespace util {
     * \tparam TPair This parameter is expected to be an std::pair type.
     */
    template<typename TPair>
-   struct first : public unary_tag {
+   struct first {
       typedef TPair & argument_type;
       typedef typename TPair::first_type & result_type;
+
+      result_type operator()(argument_type x) const {
+         return x.first;
+      }
+   };
+
+   template<typename T1, typename T2>
+   struct first2 {
+      typedef const std::pair<T1, T2> & argument_type;
+      typedef const T1 & result_type;
 
       result_type operator()(argument_type x) const {
          return x.first;
@@ -306,12 +356,22 @@ namespace util {
     * \tparam TPair Expected to be an std::pair type.
     */
    template<typename TPair>
-   struct second : public unary_tag {
+   struct second {
       typedef TPair & argument_type;
       typedef typename TPair::second_type & result_type;
 
       result_type operator()(argument_type x) const {
          return x.second;
+      }
+   };
+
+   template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
+   struct member {
+      typedef const T & argument_type;
+      typedef AttrT result_type;
+
+      result_type operator()(argument_type x) const {
+         return (x.*Tattr)();
       }
    };
 }

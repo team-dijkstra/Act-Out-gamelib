@@ -40,6 +40,7 @@ struct twice {
 class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestFunctional);
    CPPUNIT_TEST(eq_should_discriminate_types);
+   CPPUNIT_TEST(strip_should_remove_all_qualifiers);
    CPPUNIT_TEST(last_should_return_nil_for_empty_list);
    CPPUNIT_TEST(last_should_return_head_for_one_element_list);
    CPPUNIT_TEST(last_should_return_last_for_multi_element_list);
@@ -83,6 +84,74 @@ class TestFunctional : public CppUnit::TestFixture {
 
       result = type::eq<bool, char>::value;
       CPPUNIT_ASSERT(!result);
+   }
+
+   void strip_should_remove_all_qualifiers() {
+      using namespace type::qualifier;
+      typedef int base_t;
+
+      const bool base_case = type::eq<
+         strip<base_t>::type, 
+         base_t
+      >::value;
+      const bool remove_const = type::eq<
+         strip<const base_t>::type, 
+         base_t
+      >::value;
+      const bool remove_volatile = type::eq<
+         strip<volatile base_t>::type, 
+         base_t
+      >::value;
+      const bool remove_const_volatile = type::eq<
+         strip<const volatile base_t>::type,
+         base_t
+      >::value;
+      const bool remove_pointer = type::eq<
+         strip<base_t *>::type,
+         base_t>::value;
+      const bool remove_pointer_pointer = type::eq<
+         strip<base_t **>::type, 
+         base_t
+      >::value;
+      const bool remove_const_pointer = type::eq<
+         strip<base_t const *>::type,
+         base_t
+      >::value;
+      const bool remove_pointer_const = type::eq<
+         strip<base_t * const>::type,
+         base_t
+      >::value;
+      const bool remove_const_pointer_const = type::eq<
+         strip<base_t const * const>::type,
+         base_t
+      >::value;
+      const bool remove_reference = type::eq<
+         strip<base_t &>::type,
+         base_t
+      >::value;
+      const bool remove_const_reference = type::eq<
+         strip<base_t const &>::type,
+         base_t
+      >::value;
+      
+      //const bool base_case = type::eq<strip<base_t>::type, base_t>::value;
+      //const bool base_case = type::eq<strip<base_t>::type, base_t>::value;
+      //const bool base_case = type::eq<strip<base_t>::type, base_t>::value;
+
+      CPPUNIT_ASSERT(base_case);
+      CPPUNIT_ASSERT(remove_const);
+      CPPUNIT_ASSERT(remove_volatile);
+      CPPUNIT_ASSERT(remove_const_volatile);
+      CPPUNIT_ASSERT(remove_pointer);
+      CPPUNIT_ASSERT(remove_pointer_pointer);
+      CPPUNIT_ASSERT(remove_const_pointer);
+      CPPUNIT_ASSERT(remove_pointer_const);
+      CPPUNIT_ASSERT(remove_const_pointer_const);
+      CPPUNIT_ASSERT(remove_reference);
+      CPPUNIT_ASSERT(remove_const_reference);
+      
+      //CPPUNIT_ASSERT(remove_);
+      //CPPUNIT_ASSERT(remove_);
    }
 
    /// \test ensure that typelist::last works for empty lists.
