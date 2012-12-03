@@ -46,8 +46,25 @@ namespace type {
    struct eq;
 
    namespace qualifier {
-      template<typename T> 
+
+      /**
+       * Strip the qualifiers of U from T.
+       * 
+       * \tparam T The type to strip qualifiers from.
+       * \tparam U A type specifiying the qualifiers to strip. Defaults to T. 
+       */
+      template<typename T, typename U = T>
       struct strip;
+
+      /**
+       * Copy the qualifiers of T onto U that are present in V.
+       * 
+       * \tparam T The type whose qualifiers will be copied.
+       * \tparam U The type to copy the qualifiers of T to.
+       * \tparam V A type specifying the qualifiers to copy. Defaults to T.
+       */
+      template<typename T, typename U, typename V = T>
+      struct copy;
    }
 }
 
@@ -104,32 +121,124 @@ namespace type {
 
    namespace qualifier {
       
-      template<typename T>
+      template<typename T, typename U>
       struct strip { typedef T type; };
 
-      template<typename T>
-      struct strip<const T> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<const T, const U> { typedef typename strip<T, U>::type type; };
 
-      template<typename T>
-      struct strip<volatile T> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<T, const U> { typedef typename strip<T, U>::type type; };
 
-      template<typename T>
-      struct strip<const volatile T> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<volatile T, volatile U> { typedef typename strip<T, U>::type type; };
 
-      template<typename T> 
-      struct strip<T *> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<T, volatile U> { typedef typename strip<T, U>::type type; };
+      
+      template<typename T, typename U>
+      struct strip<const volatile T, const volatile U> { typedef typename strip<T, U>::type type; };
 
-      template<typename T>
-      struct strip<T const*> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<T, const volatile U> { typedef typename strip<T, U>::type type; };
 
-      template<typename T>
-      struct strip<T *const> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<T *, U *> { typedef typename strip<T, U>::type type; };
 
-      template<typename T>
-      struct strip<T &> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<T, U *> { typedef typename strip<T, U>::type type; };
 
-      template<typename T>
-      struct strip<T const &> { typedef typename strip<T>::type type; };
+      template<typename T, typename U>
+      struct strip<T const *, U const *> { typedef typename strip<T, U>::type type; };
+
+      template<typename T, typename U>
+      struct strip<T, U const *> { typedef typename strip<T, U>::type type; };
+
+      template<typename T, typename U>
+      struct strip<T * const, U * const> { typedef typename strip<T, U>::type type; };
+      
+      template<typename T, typename U>
+      struct strip<T, U * const> { typedef typename strip<T, U>::type type; };
+
+      template<typename T, typename U>
+      struct strip<T &, U &> { typedef typename strip<T, U>::type type; };
+      
+      template<typename T, typename U>
+      struct strip<T, U &> { typedef typename strip<T, U>::type type; };
+
+      template<typename T, typename U>
+      struct strip<T const &, U const &> { typedef typename strip<T, U>::type type; };
+      
+      template<typename T, typename U>
+      struct strip<T, U const &> { typedef typename strip<T, U>::type type; };
+
+
+
+      template<typename T, typename U, typename V>
+      struct copy { typedef U type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<const T, U, const V> { typedef typename copy<T, const U, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T, U, const V> { typedef typename copy<T, U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<volatile T, U, volatile V> { typedef typename copy<T, volatile U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T, U, volatile V> { typedef typename copy<T, U, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<const volatile T, U, const volatile V> { typedef typename copy<T, const volatile U, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T, U, const volatile V> { typedef typename copy<T, U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T *, U, V *> { typedef typename copy<T, U *, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T, U, V *> { typedef typename copy<T, U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T const *, U, V const *> { typedef typename copy<T, U const *, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T, U, V const *> { typedef typename copy<T, U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T * const, U, V * const> { typedef typename copy<T, U * const, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T, U, V * const> { typedef typename copy<T, U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T &, U, V &> { typedef typename copy<T, U &, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T, U, V &> { typedef typename copy<T, U, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T &, U &, V &> { typedef typename copy<T, U &, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T, U &, V &> { typedef typename copy<T, U &, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T const &, U, V const &> { typedef typename copy<T, U const &, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T, U, V const &> { typedef typename copy<T, U, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T const &, U const &, V const &> { typedef typename copy<T, U const &, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T, U const &, V const &> { typedef typename copy<T, U const &, V>::type type; };
+
+      template<typename T, typename U, typename V>
+      struct copy<T const &, U &, V const &> { typedef typename copy<T, U const &, V>::type type; };
    }
 }
 
