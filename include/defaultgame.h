@@ -28,7 +28,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
-					   //#include "defaultplayer.h"
+#include "player.h"
 #include "game.h"
 					   //#include "gamemap.h"
 //class Player;
@@ -44,6 +44,7 @@ class DefaultGame : public Game {
    typedef Game::playerlist playerlist;
 
    //constructor
+   // DefaultGame(playerlist pl, GameMap * g = NULL);
    DefaultGame(GameMap * g = NULL);
    //destructor
    ~DefaultGame();
@@ -68,12 +69,14 @@ class DefaultGame : public Game {
    /// \param playernames -- all the players playing this game
    //
    /// Performs all operations needed to initialize game state
-   void SetupGame(std::vector<PlayerName> playernames);
+   void setupGame(std::vector<PlayerName> playernames, std::vector< PlayerName > territoryNames );
 
   private:
    GameMap * gMap;
    playerlist gPlayers;
    playerlist sysPlayers;
+   Player::phaselist phases;
+   
 };
 
 #endif
