@@ -32,6 +32,7 @@ nuserver
 *.swo
 *.swp
 \#*
+.#*
 
 #doc files
 *pdf
