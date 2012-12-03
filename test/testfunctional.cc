@@ -41,6 +41,7 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST_SUITE(TestFunctional);
    CPPUNIT_TEST(eq_should_discriminate_types);
    CPPUNIT_TEST(strip_should_remove_all_qualifiers);
+   CPPUNIT_TEST(copy_should_copy_all_qualifiers);
    CPPUNIT_TEST(last_should_return_nil_for_empty_list);
    CPPUNIT_TEST(last_should_return_head_for_one_element_list);
    CPPUNIT_TEST(last_should_return_last_for_multi_element_list);
@@ -86,6 +87,8 @@ class TestFunctional : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(!result);
    }
 
+   /// \test ensure that type::qualifier::strip removes all qualifiers leaving
+   ///  only the base unqualified type.
    void strip_should_remove_all_qualifiers() {
       using namespace type::qualifier;
       typedef int base_t;
@@ -125,19 +128,15 @@ class TestFunctional : public CppUnit::TestFixture {
          strip<base_t const * const>::type,
          base_t
       >::value;
-      const bool remove_reference = type::eq<
+      const bool remove_lvalue_reference = type::eq<
          strip<base_t &>::type,
          base_t
       >::value;
-      const bool remove_const_reference = type::eq<
+      const bool remove_const_lvalue_reference = type::eq<
          strip<base_t const &>::type,
          base_t
       >::value;
       
-      //const bool base_case = type::eq<strip<base_t>::type, base_t>::value;
-      //const bool base_case = type::eq<strip<base_t>::type, base_t>::value;
-      //const bool base_case = type::eq<strip<base_t>::type, base_t>::value;
-
       CPPUNIT_ASSERT(base_case);
       CPPUNIT_ASSERT(remove_const);
       CPPUNIT_ASSERT(remove_volatile);
@@ -147,11 +146,73 @@ class TestFunctional : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(remove_const_pointer);
       CPPUNIT_ASSERT(remove_pointer_const);
       CPPUNIT_ASSERT(remove_const_pointer_const);
-      CPPUNIT_ASSERT(remove_reference);
-      CPPUNIT_ASSERT(remove_const_reference);
+      CPPUNIT_ASSERT(remove_lvalue_reference);
+      CPPUNIT_ASSERT(remove_const_lvalue_reference);
+   }
+
+   /// \test unsure that type::qualifiers::copy properly transfers qualifiers between types.
+   void copy_should_copy_all_qualifiers() {
+      using namespace type::qualifier;
+
+      typedef void src_t;
+      typedef void dst_t;
       
-      //CPPUNIT_ASSERT(remove_);
-      //CPPUNIT_ASSERT(remove_);
+      const bool base_case = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_const = type::eq<
+         copy<const src_t, dst_t>::type,
+         const dst_t
+      >::value;
+      const bool copy_volatile = type::eq<
+         copy<volatile src_t, dst_t>::type,
+         volatile dst_t
+      >::value;
+      const bool copy_const_volatile = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_pointer = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_pointer_pointer = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_const_pointer = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_pointer_const = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_const_pointer_const = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_lvalue_reference = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+      const bool copy_const_lvalue_reference = type::eq<
+         copy<src_t, dst_t>::type,
+         dst_t
+      >::value;
+
+      CPPUNIT_ASSERT(base_case);
+      CPPUNIT_ASSERT(copy_const);
+      CPPUNIT_ASSERT(copy_volatile);
+      CPPUNIT_ASSERT(copy_const_volatile);
+      CPPUNIT_ASSERT(copy_pointer);
+      CPPUNIT_ASSERT(copy_pointer_pointer);
+      CPPUNIT_ASSERT(copy_const_pointer);
+      CPPUNIT_ASSERT(copy_pointer_const);
+      CPPUNIT_ASSERT(copy_const_pointer_const);
+      CPPUNIT_ASSERT(copy_lvalue_reference);
+      CPPUNIT_ASSERT(copy_const_lvalue_reference);
    }
 
    /// \test ensure that typelist::last works for empty lists.
