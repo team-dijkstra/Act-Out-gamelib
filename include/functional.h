@@ -120,7 +120,9 @@ namespace type {
    };
 
    namespace qualifier {
-      
+     
+      // type::qualifier::strip implementation
+      /*=====================================================================*/
       template<typename T, typename U>
       struct strip { typedef T type; };
 
@@ -173,7 +175,8 @@ namespace type {
       struct strip<T, U const &> { typedef typename strip<T, U>::type type; };
 
 
-
+      // type::qualifier::copy implemenatation
+      /*=====================================================================*/
       template<typename T, typename U, typename V>
       struct copy { typedef U type; };
 
@@ -212,6 +215,14 @@ namespace type {
       
       template<typename T, typename U, typename V>
       struct copy<T, U, V * const> { typedef typename copy<T, U, V>::type type; };
+
+      // \todo this should not be needed.
+      template<typename T, typename U, typename V>
+      struct copy<T const * const, U, V const * const> { typedef typename copy<T, U const * const, V>::type type; };
+      
+      template<typename T, typename U, typename V>
+      struct copy<T, U, V const * const> { typedef typename copy<T, U, V>::type type; };
+      // end unneeded
 
       template<typename T, typename U, typename V>
       struct copy<T &, U, V &> { typedef typename copy<T, U &, V>::type type; };

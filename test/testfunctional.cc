@@ -154,8 +154,8 @@ class TestFunctional : public CppUnit::TestFixture {
    void copy_should_copy_all_qualifiers() {
       using namespace type::qualifier;
 
-      typedef void src_t;
-      typedef void dst_t;
+      typedef char src_t;
+      typedef double dst_t;
       
       const bool base_case = type::eq<
          copy<src_t, dst_t>::type,
@@ -170,36 +170,36 @@ class TestFunctional : public CppUnit::TestFixture {
          volatile dst_t
       >::value;
       const bool copy_const_volatile = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<const volatile src_t, dst_t>::type,
+         const volatile dst_t
       >::value;
       const bool copy_pointer = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t *, dst_t>::type,
+         dst_t *
       >::value;
       const bool copy_pointer_pointer = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t **, dst_t>::type,
+         dst_t **
       >::value;
       const bool copy_const_pointer = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t const *, dst_t>::type,
+         dst_t const *
       >::value;
       const bool copy_pointer_const = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t * const, dst_t>::type,
+         dst_t * const
       >::value;
       const bool copy_const_pointer_const = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t const * const, dst_t>::type,
+         dst_t const * const
       >::value;
       const bool copy_lvalue_reference = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t &, dst_t>::type,
+         dst_t &
       >::value;
       const bool copy_const_lvalue_reference = type::eq<
-         copy<src_t, dst_t>::type,
-         dst_t
+         copy<src_t const &, dst_t>::type,
+         dst_t const &
       >::value;
 
       CPPUNIT_ASSERT(base_case);

@@ -26,6 +26,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "stlgamemap.h"
 #include "compare.h"
+#include "functional.h"
 
 StlGameMap::StlGameMap(const AdjacencyList & tal) {
     typedef MapNode::first_type key_t;
@@ -45,7 +46,8 @@ StlGameMap::StlGameMap(const AdjacencyList & tal) {
 
     // copy out the results in sorted order.
     for (map_t::iterator it = tmap.begin(); it != tmap.end(); it++) {
-        /// \todo need to implement comparator for unique
+        /// \todo need to change comparator to delete elements that compare
+        /// equal to prevent memory leaks.
         value_t & vt = it->second;
         value_t::iterator res = std::unique(vt.begin(), vt.end(), std::equal_to<cmp_t>());
         vt.resize(res - vt.begin());
@@ -69,6 +71,7 @@ StlGameMap::~StlGameMap() {
       rem.push_back(it->first);
    }
 
+   /// \todo there shouldn't be any straglers... verify that this is so.
    // since there is overlap between parent nodes and their adjacencies, we
    // need to remove the overlap to identify any remaining straglers that still 
    // need to be deleted.
@@ -86,11 +89,54 @@ StlGameMap::~StlGameMap() {
 }
 
 Territory* StlGameMap::begin() const {
-    return (territories.begin())->first;
+   return (territories.begin())->first;
 }
 
-Territory* StlGameMap::find(TerritoryName) const {
-   return NULL; 
+Territory* StlGameMap::find(TerritoryName tname) const {
+   using namespace function;
+   using namespace typelist;
+   using namespace util;
+
+   typedef Territory element_t;
+   typedef unary::map<
+      cons<member<element_t, std::string, &Territory::name>,
+      cons<dereference<element_t> > > 
+   > territory_name_t;
+
+   typedef unary::map<
+      cons<territory_name_t,
+      cons<first<MapNode> > >
+   > mapnode_first_attr_t;
+
+   territory_name_t()(territories.begin()->first);
+
+   /*
+   first2<Territory*, std::vector<Territory*> >()(*territories.begin());
+   first<const std::pair<Territory*, std::vector<Territory*> > >()(*territories.begin());
+   //mapnode_first_attr_t()(*territories.begin());
+   */
+   /*
+   typedef binary::map<
+      std::less<std::string>,
+      mapnode_first_attr_t> cmp_t;
+    
+   // do binary search.
+   MapType::iterator pos = std::lower_bound(
+      territories.begin(), 
+      territories.end(), 
+      tname,
+      cmp_t()
+   ); 
+
+   // check results.
+   if (pos->first->name() == tname) {
+       return pos->first; 
+   } else {
+       GameMap::end();
+   }
+   */
+
+   return NULL;
 }
 
 GameMap::TerritoryList StlGameMap::adjacencies(Territory *) const {
