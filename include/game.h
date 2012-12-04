@@ -60,9 +60,11 @@ class Game {
    
    //mutators
    /// \param playerlist -- all the players playing this game
+   /// \param territoryNames -- a vector containing all the territories in this game;
    //
    /// \post performs all operations needed to initialize game state
-   virtual void SetupGame(std::vector<PlayerName> playerlist) =0;
+   //virtual void setupGame(std::vector<PlayerName> playerlist) =0;
+   virtual void setupGame(std::vector<PlayerName> playernames, std::vector< PlayerName > territoryNames) =0;
    
 };
 
