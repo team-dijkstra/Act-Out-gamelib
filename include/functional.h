@@ -35,7 +35,19 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 namespace util {
    
    template<typename T, typename U = T> 
-   class dereference;
+   struct dereference;
+
+   template<typename>
+   struct delete_if;
+
+   template<typename>
+   struct first;
+
+   template<typename>
+   struct second;
+
+   template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
+   struct member;
 }
 
 namespace type {
@@ -418,6 +430,7 @@ namespace function {
 }
 
 #include <utility>
+class Territory;
 
 /**
  * \todo Should this namespace live in a separate file?
@@ -446,6 +459,33 @@ namespace util {
    };
 
    /**
+    * This functor deletes it's second argument if the result of the
+    * inherited operation is true.
+    *
+    * \tparam T A binary predicate conforming the the stl functional 
+    *    conventions. This parameter is expected to be a binary function
+    *    supplying typedefs for \c first_argument_type, \c second_argument_type
+    *    and \c result_type. \c first_argument_type and \c second_argument_type
+    *    will be mapped to pointer types since this functor does not make any
+    *    sense otherwise.
+    */
+   template<typename T>
+   struct delete_if : public T {
+      typedef typename type::qualifier::strip<typename T::first_argument_type>::type * first_argument_type;
+      typedef typename type::qualifier::strip<typename T::second_argument_type>::type * second_argument_type;
+      typedef typename T::result_type result_type;
+
+      result_type operator()(Territory* x, Territory* y) const {
+         result_type result = T::operator()(*x, *y);
+         
+         if (static_cast<bool>(result))
+            delete y;
+         
+         return result;
+      }
+   };
+
+   /**
     * Extracts the first field of an std::pair type.
     *
     * \tparam TPair This parameter is expected to be an std::pair type.
@@ -453,7 +493,7 @@ namespace util {
    template<typename TPair>
    struct first {
       typedef TPair & argument_type;
-      typedef typename TPair::first_type & result_type;
+      typedef typename type::qualifier::copy<TPair, typename TPair::first_type, const void>::type & result_type;
 
       result_type operator()(argument_type x) const {
          return x.first;
