@@ -23,6 +23,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultplayer.h"
 #include "landterritory.h"
 #include "defaultphase.h"
+#include "config.h"
 
 //AltDefaultGame::AltDefaultGame(playerlist pl, GameMap * g): gPlayers(pl), gMap(g){}
 AltDefaultGame::AltDefaultGame()
@@ -116,9 +117,9 @@ void AltDefaultGame::setupGame( std::vector< PlayerName > playernames,std::vecto
    sysPlayers.push_back(sysp);
 
    //create phases
-   phases.push_back(new DefaultPhase("Marshall"));
-   phases.push_back(new DefaultPhase("Attack"));
-   phases.push_back(new DefaultPhase("Redeploy"));
+   phases.push_back(new DefaultPhase(phase::MARSHAL));
+   phases.push_back(new DefaultPhase(phase::ATTACK));
+   phases.push_back(new DefaultPhase(phase::REDEPLOY));
    
    typedef std::vector<PlayerName >::iterator ter_it_t;
    //create the territories

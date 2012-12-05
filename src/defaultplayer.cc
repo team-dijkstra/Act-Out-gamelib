@@ -30,12 +30,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "altgamemap.h"
 #include "filterbyallunittypes.h"
 #include "territory.h"
-//#include "phase.h"
+#include "config.h"
 
 DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
 {
-   DefaultPhase dp1("Marshall");
-   DefaultPhase dp2("Attack");
+   DefaultPhase dp1(phase::MARSHAL);
+   DefaultPhase dp2(phase::ATTACK);
    phases.push_back(&dp1);
    phases.push_back(&dp2);
    currentPhase = phases.begin();

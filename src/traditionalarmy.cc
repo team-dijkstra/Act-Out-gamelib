@@ -28,7 +28,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "attritionattackaction.h"
 #include "defaultphase.h"
 #include "buildtraditionalarmyaction.h"
-
+#include "config.h"
 
 
  //debugging
@@ -38,7 +38,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
-   DefaultPhase dp(std::string("Marshall"));
+   DefaultPhase dp(std::string(phase::MARSHAL));
    uActions.push_back(new MoveAction(&dp, this));
    //uActions.push_back(new AttritionAttackAction(this));
 }
@@ -130,7 +130,7 @@ void TraditionalArmy::setActions(Unit::actionContainer acts)
 	 uActions.push_back(a);
 	 /*
 	 //debugging code:
-	   DefaultPhase dp(std::string("Marshall"));
+	   DefaultPhase dp(std::string(phase::MARSHAL));
 	 uActions.push_back(new MoveAction(&dp, this));
 	 uActions.push_back(new BuildTraditionalArmyAction(&dp, this));
 	 uActions.push_back(new AttritionAttackAction(this,&dp));

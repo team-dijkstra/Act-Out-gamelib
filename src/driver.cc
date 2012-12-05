@@ -37,6 +37,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "moveaction.h"
 #include "buildtraditionalarmyaction.h"
 #include "traditionalarmy.h"
+#include "config.h"
 
 using namespace std;
 
@@ -290,9 +291,9 @@ void help()
 void setup(DriverGameMap *& gm ,playerList& pL, phaseList& phsL)
 {
    //setup phaselist
-   phsL.push_back(new DefaultPhase(string("Marshal")));
-   phsL.push_back(new DefaultPhase(string("Attack")));
-   phsL.push_back(new DefaultPhase(string("Redeploy")));
+   phsL.push_back(new DefaultPhase(string(phase::MARSHAL)));
+   phsL.push_back(new DefaultPhase(string(phase::ATTACK)));
+   phsL.push_back(new DefaultPhase(string(phase::REDEPLOY)));
    
    string pn1,pn2;
    cout << "This game has 2 players"<<endl;
