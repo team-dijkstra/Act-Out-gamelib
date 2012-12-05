@@ -20,6 +20,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultgame.h"
 #include "defaultplayer.h"
 #include "landterritory.h"
+#include "altgamemap.h"
 
 //DefaultGame::DefaultGame(playerlist pl, GameMap * g): gPlayers(pl), gMap(g){}
 DefaultGame::DefaultGame(GameMap * g):gMap(g){}

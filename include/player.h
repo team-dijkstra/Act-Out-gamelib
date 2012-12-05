@@ -45,7 +45,7 @@ class Player {
    //accessors
    
    /// \return true if Player is alive (i.e. still in the game, false otherwise
-   virtual bool alive() const =0;
+   virtual bool alive() =0;
 
    /// \return name of Player
    virtual std::string name() const =0;
@@ -56,7 +56,7 @@ class Player {
    /// \param op -- pointer to a TerritoryOperation that filters out
    ///              unapplicable actions
    /// \return valid actions this Player can perform given this UnitOperation
-   virtual Unit::actionContainer actions(TerritoryOperation * op) const =0;
+   virtual Unit::actionContainer actions(TerritoryOperation * op) /*const*/ =0; 
 
    //mutators
    

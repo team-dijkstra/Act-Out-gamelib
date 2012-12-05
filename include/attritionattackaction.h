@@ -39,7 +39,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  */
 class AttritionAttackAction : public Action{
 /// \todo template AttritionAttackAction class for different types of unit and store the parent unit object
-  public:
+      public:
 
    //constructors
 
@@ -80,10 +80,11 @@ class AttritionAttackAction : public Action{
    //! @copydoc Action::doaction()
    void doaction(int nUnits, Territory * T);
 
-  private:
+      private:
    
    Unit * parent; ///< pointer to the Unit that does this action
-   const Phase * aPhase; ///< pointer to the Phase that applies to this action
+   Phase * aPhase; ///< pointer to the Phase that applies to this action
+   bool mustDelete;
 };
 
 //#include "../src/moveaction.cc"

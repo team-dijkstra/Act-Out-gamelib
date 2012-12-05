@@ -79,10 +79,10 @@ public:
    }
    // frees memory for the territorys
    void tearDown() {
-      delete t1;
-      delete t2;
-      delete t3;
-      delete t4;
+      //delete t1;
+      //delete t2;
+      //delete t3;
+      //delete t4;
       delete g;
       delete p1;
       delete p2;  

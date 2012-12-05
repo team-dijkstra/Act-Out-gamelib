@@ -27,6 +27,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "game.h"
 #include "defaultphase.h"
 #include "debug.h"
+#include "altgamemap.h"
+#include "filterbyallunittypes.h"
+#include "territory.h"
 //#include "phase.h"
 
 DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
@@ -36,16 +39,26 @@ DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
    phases.push_back(&dp1);
    phases.push_back(&dp2);
    currentPhase = phases.begin();
+   ourGame = NULL;
 }
 
-DefaultPlayer::DefaultPlayer(std::string nm, const Player::phaselist & Plist):pName(nm),isAlive(true), phases(Plist)
+DefaultPlayer::DefaultPlayer(std::string nm, const Player::phaselist & Plist, GameMap * gmp):pName(nm),isAlive(true), phases(Plist), ourGame(gmp)
 {
    currentPhase = phases.begin();
 }
 
-bool DefaultPlayer::alive() const{
-   /// \todo if isAlive, need to have it check # of territories owned if zero, set isAlive to false. call GameMap::(list territories by player method)
+bool DefaultPlayer::alive(){
+   /// \todo this fuction should throw an exception if ourGame is NULL
+   // this checks # of territories owned, if zero, return false. call GameMap::(list territories by player method)
+   if ( ourGame != NULL && isAlive) //make sure we have gamemap object and are still alive
+   {
+      AltGameMap::TerritoryList checkT;
+      checkT = ourGame->players(this);
+      if (checkT.empty() )
+	 isAlive = false;
+   }
    return isAlive;
+
 }
 
 /// \return the name of the player
@@ -61,7 +74,7 @@ DefaultPlayer::phaselist DefaultPlayer::remainingPhases() const{
    it = currentPhase;
 //   it++;
 //   std::copy(it, phases.end(), newlist.begin());
-   for(it ; it!=phases.end() ; ++it)
+   for( ; it!=phases.end() ; ++it)
    {
       newlist.push_back(*it);
    }
@@ -71,13 +84,49 @@ DefaultPlayer::phaselist DefaultPlayer::remainingPhases() const{
 
 /// \return the valid actions that this player can perform given
 ///         this unitoperation.
-Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) const
+Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gives errors
 {
-   /// \todo implement this
-   /// \todo I put this stuff here bcs. I wanted the 'nonvoid function not returning' warnings to shutup
-   (void)op; // \todo
-   Unit::actionContainer test; // \todo
-   return test; // \todo
+   Unit::actionContainer ourActions;
+   
+   /// \todo this fuction should throw an exception if ourGame is NULL
+   if ( ourGame != NULL )
+   {
+      UnitOperation * unitFilter =  new FilterByAllUnitTypes ;
+      //get the territories
+      GameMap::TerritoryList territories = ourGame->filter(op);
+
+      //loop through the territories
+      GameMap::TerritoryList::iterator it;
+      for (it = territories.begin(); it != territories.end(); ++it)
+      {
+	 //loop through all units in territory
+	 Territory::unitContainer list_of_units;
+	 list_of_units = (*it)->units(unitFilter);
+	 Territory::unitContainer::iterator unIT;
+	 for (unIT = list_of_units.begin(); unIT != list_of_units.end(); ++unIT)
+	 {
+	    //get actions
+	    Unit::actionContainer unitsActions =  (*unIT).second->actions();
+	    //loop through actions to see what is applicable for the currentPhase
+	    Unit::actionContainer::iterator acIT;
+	    for (acIT = unitsActions.begin(); acIT != unitsActions.end(); ++acIT)
+	    {
+	       Action * currAction = (*acIT);
+	       bool appl = currAction->applicable(*currentPhase);
+		  
+	       if (appl)
+	       {
+		  ourActions.push_back( (*acIT) );
+	       }
+	    }
+
+	 }
+	 
+      }
+
+      delete unitFilter;
+   }
+   return ourActions; // \todo
 }
 
 //Mutator

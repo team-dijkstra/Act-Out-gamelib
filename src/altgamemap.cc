@@ -41,7 +41,12 @@ AltGameMap::AltGameMap(m_adjList list): altMap(list)
 }
 			     
 AltGameMap::~AltGameMap() {
- 
+   //gamemap should delete its own territories
+   m_adjList::iterator it;
+   for (it=  altMap.begin(); it != altMap.end(); ++it)
+   {
+      delete (it->first);
+   }
 }
   
 //accessors

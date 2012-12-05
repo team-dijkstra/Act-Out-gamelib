@@ -36,6 +36,8 @@ class TraditionalArmy : public Unit {
    //! @copydoc BuilderUnit::BuilderUnit()
    TraditionalArmy(Territory * t, int nunit=1);
 
+   TraditionalArmy(Territory * t, int nunit, Unit::actionContainer applicableActions );
+
    //destructor
    
    ~TraditionalArmy();
@@ -67,6 +69,10 @@ class TraditionalArmy : public Unit {
 
    //! @copydoc Unit::actions()
    std::vector<Action*> actions() const;
+
+   //TraditionalArmy specific mutator
+   void setActions(Unit::actionContainer acts);
+   
 
   private:
    int nUnits; //! @copydoc BuilderUnit::nUnits

@@ -31,6 +31,7 @@ class Phase;
 class Action;
 class TerritoryOperation;
 class Game;
+class GameMap;
 
 /**
  * Implements the Player interface class.
@@ -56,7 +57,7 @@ class DefaultPlayer : public Player {
    ///       <br>- sets isAlive to true
    ///       <br>- sets phases to Plist
    ///       <br>sets currentPhase to first Phase
-   DefaultPlayer(std::string nm, const phaselist & Plist);
+   DefaultPlayer(std::string nm, const phaselist & Plist, GameMap * gmp = NULL );
 
    /// Destructor
    ~DefaultPlayer() {}
@@ -64,7 +65,7 @@ class DefaultPlayer : public Player {
    //accessors
    
    //! @copydoc Player::alive()
-   bool alive() const;
+   bool alive();
 
    //! @copydoc Player::name()
    std::string name() const;
@@ -73,7 +74,7 @@ class DefaultPlayer : public Player {
    phaselist remainingPhases() const;
 
    //! @copydoc Player::actions()
-   Unit::actionContainer actions(TerritoryOperation * op) const;
+   Unit::actionContainer actions(TerritoryOperation * op) ;//const; gives problems
 
    //mutators
    
@@ -89,6 +90,7 @@ class DefaultPlayer : public Player {
    bool isAlive; ///< bool, whether Player is alive or dead
    phaselist phases; ///< phaselist of all Phases
    phaselist::const_iterator currentPhase; ///< stores iterator to current Phase
+   GameMap * ourGame;
    
 };
 

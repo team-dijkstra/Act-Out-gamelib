@@ -31,14 +31,16 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 AttritionAttackAction::AttritionAttackAction(Unit * p): parent(p)
 {
    aPhase = new DefaultPhase(std::string("Attack"));
+   mustDelete = true;
 }
 
-AttritionAttackAction::AttritionAttackAction(Unit * p, Phase * ph): parent(p), aPhase(ph)
+AttritionAttackAction::AttritionAttackAction(Unit * p, Phase * ph): parent(p), aPhase(ph), mustDelete(false)
 {}
 
 AttritionAttackAction::~AttritionAttackAction()
 {
-   delete aPhase;
+   if(mustDelete)
+      delete aPhase; //avoid double deleting
 }
 
 std::string AttritionAttackAction::name() const
