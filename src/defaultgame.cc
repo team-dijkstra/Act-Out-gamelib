@@ -46,7 +46,7 @@ DefaultGame::playerlist DefaultGame::players() const{
 }
 
 /// \return if the game has winner and who it is
-// cppcheck-suppress unusedFunction 
+// cpp check -suppress unusedFunction 
 Player* DefaultGame::winner() const{
 
    /// \todo fix to return the actual winner
@@ -54,7 +54,7 @@ Player* DefaultGame::winner() const{
 }
 
 // /// \return the player which has the current turn
-// cppcheck-suppress unusedFunction
+// cpp check -suppress unusedFunction
 /*Player* DefaultGame::currentTurn() const
 {
    return cTurn;
