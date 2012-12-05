@@ -31,6 +31,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "altgamemap.h"
 #include "defaultplayer.h"
 #include "gamemap.h"
+#include "filterbyterritoryall.h"
+#include "landterritory.h"
 
 
 
@@ -67,9 +69,9 @@ class TestAltDefaultGame : public CppUnit::TestFixture {
       names.push_back(c);
       //territories
       a = "Bender" ; b = "Fry" ; c = "Hermies";
-      names.push_back(a);
-      names.push_back(b);
-      names.push_back(c);
+      terrNames.push_back(a);
+      terrNames.push_back(b);
+      terrNames.push_back(c);
       gameA->setupGame(names, terrNames);
    }
    // frees memory for the games
@@ -102,6 +104,7 @@ class TestAltDefaultGame : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(sysList.size() != 0);
       Game::playerlist::iterator sysIT;
       sysIT = sysList.begin();
+      
       //check that first player is unclaimed
       Player * sysp1;
       sysp1 = *sysIT;
@@ -119,6 +122,35 @@ class TestAltDefaultGame : public CppUnit::TestFixture {
 
       GameMap * myGM;
       myGM = gameA->currentGame();
+      
+      // get a list of all territories
+      TerritoryOperation * op = new FilterByTerritoryAll();
+      GameMap::TerritoryList allTerr;
+      allTerr = myGM->filter(op);
+
+      //std::cout<< "\n" << allTerr.size() << "\n";
+      CPPUNIT_ASSERT(allTerr.size() == 3);
+
+      //get all players
+      Game::playerlist myPlayers;
+      myPlayers = gameA->players();   
+      Player * p1;
+      p1 = myPlayers[0];
+      
+      //iterate through list and set owner to first player ("Tim")
+      GameMap::TerritoryList::iterator aIT;
+      for (aIT = allTerr.begin(); aIT != allTerr.end(); ++aIT)
+      {
+	 (*aIT)->owner(p1);
+      }
+
+      // get winner
+      winner = gameA->winner();
+
+      //std::cout << "\n" << winner->name() <<"\n";
+      CPPUNIT_ASSERT(winner->name() == "Tim");
+
+      delete op;
       
       
    }

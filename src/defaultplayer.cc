@@ -47,9 +47,11 @@ DefaultPlayer::DefaultPlayer(std::string nm, const Player::phaselist & Plist, Ga
    currentPhase = phases.begin();
 }
 
+
 bool DefaultPlayer::alive(){
    /// \todo this fuction should throw an exception if ourGame is NULL
    // this checks # of territories owned, if zero, return false. call GameMap::(list territories by player method)
+   /// \todo need to make sure that alive() does not return false when any of the territories are unclaimed.
    if ( ourGame != NULL && isAlive) //make sure we have gamemap object and are still alive
    {
       AltGameMap::TerritoryList checkT;

@@ -37,7 +37,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 AltGameMap::AltGameMap(m_adjList list): altMap(list)
 {
- 
+   //std::cout << "\n The size of the game map on constructions: "<< altMap.size() << "\n";
 }
 			     
 AltGameMap::~AltGameMap() {

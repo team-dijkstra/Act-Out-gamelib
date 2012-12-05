@@ -136,7 +136,35 @@ public:
       
       
    }
+   
+   /// \test ensure filter works
+   void altgamemap_filter_should_return_filteredlist()  {
+      
+      GameMap::TerritoryList got, check;
+      GameMap::TerritoryList::iterator git;
 
+      got = g->players(p1);
+      
+      check.push_back(t1);
+      check.push_back(t3);
+      check.push_back(t4);
+
+      CPPUNIT_ASSERT(check.size() == got.size());
+
+      git = find(got.begin(), got.end(), t1);
+      CPPUNIT_ASSERT(git != got.end());
+
+      git = find(got.begin(), got.end(), t2);
+      CPPUNIT_ASSERT(git == got.end());
+
+      git = find(got.begin(), got.end(), t3);      
+      CPPUNIT_ASSERT(git != got.end());
+
+      git = find(got.begin(), got.end(), t4);
+      CPPUNIT_ASSERT(git != got.end());
+      
+      
+   }
    // \test ensure 
    //void altgamemap_filter_should_List_all_territories_that_match_passed_territoryoperation()  {
 

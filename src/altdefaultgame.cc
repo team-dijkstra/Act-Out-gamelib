@@ -22,6 +22,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "altgamemap.h"
 #include "defaultplayer.h"
 #include "landterritory.h"
+#include "defaultphase.h"
 
 //AltDefaultGame::AltDefaultGame(playerlist pl, GameMap * g): gPlayers(pl), gMap(g){}
 AltDefaultGame::AltDefaultGame()
@@ -32,11 +33,16 @@ AltDefaultGame::AltDefaultGame()
 AltDefaultGame::~AltDefaultGame()
 {
    //sysPlayers//gPlayers//
-   playerlist::iterator it;
-   for(it = gPlayers.begin(); it != gPlayers.end(); ++it)
+   
+   for(playerlist::iterator it = gPlayers.begin(); it != gPlayers.end(); ++it)
       delete *it;
-   for(it = sysPlayers.begin(); it != sysPlayers.end(); ++it)
+   for(playerlist::iterator it = sysPlayers.begin(); it != sysPlayers.end(); ++it)
       delete *it;
+   
+   // delete phases
+   for(Player::phaselist::iterator pt = phases.begin(); pt != phases.end(); ++pt)
+      delete *pt;
+   
    delete gMap;
    
 }
@@ -54,24 +60,35 @@ AltDefaultGame::playerlist AltDefaultGame::players() const{
 // cpp check -suppress unusedFunction 
 Player* AltDefaultGame::winner() const{
 
-   Player * winner = sysPlayers[0];
-   Player * lastplayer = winner;
+   Player * unclaimed = sysPlayers[0];
+   Player * winner = unclaimed;
+   GameMap::TerritoryList allTerr;
+   allTerr = gMap->players(unclaimed);
 
-   int players_alive = 0;
+   //std::cout << "\nnumber of territories of unclaimes when winner is called: "<< allTerr.size()<<"\n";
 
-   for (playerlist::const_iterator it = gPlayers.begin(); it != gPlayers.end(); ++it)
+   if ( allTerr.empty() )
    {
-      bool isAlive = (*it)->alive();
-      if(isAlive)
-      {
-	 lastplayer = *it;
-	 ++players_alive;
-      }
-   }
+      //std::cout << "\n in empty check "<< __FUNCTION__ << __FILE__ <<"\n"; 
+      Player * lastplayer = winner;
 
-   if (players_alive == 1)
-      winner = lastplayer;
-      
+      int players_alive = 0;
+
+      for (playerlist::const_iterator it = gPlayers.begin(); it != gPlayers.end(); ++it)
+      {
+	 // std::cout << "\n " <<(*it)->name()<< "\n ";
+	 bool isAlive = (*it)->alive();
+	 if(isAlive)
+	 {
+	    //std::cout << " is ALIVE!!! \n ";
+	    lastplayer = *it;
+	    ++players_alive;
+	 }
+      }
+
+      if (players_alive == 1)
+	 winner = lastplayer;
+   }  
    return winner;
 }
 
@@ -98,18 +115,15 @@ void AltDefaultGame::setupGame( std::vector< PlayerName > playernames,std::vecto
    Player * sysp = new DefaultPlayer(std::string("Unclaimed"));
    sysPlayers.push_back(sysp);
 
-   //create game players
-   std::vector< PlayerName >::iterator it;
-   for (it = playernames.begin();it != playernames.end(); ++it)
-   {
-      std::string name = *it;
-      Player * p = new DefaultPlayer(name);
-      gPlayers.push_back(p);
-   }
-
+   //create phases
+   phases.push_back(new DefaultPhase("Marshall"));
+   phases.push_back(new DefaultPhase("Attack"));
+   phases.push_back(new DefaultPhase("Redeploy"));
+   
+   typedef std::vector<PlayerName >::iterator ter_it_t;
    //create the territories
    GameMap::TerritoryList terrList;
-   for (it = territoryNames.begin();it != territoryNames.end(); ++it)
+   for (ter_it_t it = territoryNames.begin();it != territoryNames.end(); ++it)
    {
       std::string name = *it;
       Territory * t = new LandTerritory(name,sysp);
@@ -118,6 +132,21 @@ void AltDefaultGame::setupGame( std::vector< PlayerName > playernames,std::vecto
    }
 
    setupGMap(terrList);
+
+
+   
+ 
+   //create game players
+   
+   typedef std::vector< PlayerName >::iterator p_it_t;
+   for (p_it_t it = playernames.begin();it != playernames.end(); ++it)
+   {
+      std::string name = *it;
+      Player * p = new DefaultPlayer(name, phases, gMap);
+      gPlayers.push_back(p);
+   }
+
+
    
 }
 
@@ -160,4 +189,6 @@ void AltDefaultGame::setupGMap(GameMap::TerritoryList terrList)
       }
    }
    gMap = new AltGameMap(ajacency_container);
+
+
 }
