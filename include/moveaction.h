@@ -26,10 +26,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #define MOVEACTION_H
 
 #include <string>
-#include "territory.h"
-#include "phase.h"
-#include "action.h"
-#include "builderunit.h"
+#include "defaultaction.h"
+
+class Territory;
+class Phase;
+class Unit; 
 
 /**
  * Implements Action interface class.
@@ -37,49 +38,44 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * This class is responsible for moving units of one type between
  * territories
  */
-class MoveAction : public Action{
-/** \todo template this for different types of unit and store the parent unit object
-          template<typename U> */
+class MoveAction : public DefaultAction {
  public:
 
    static const std::string NAME; 
    
    //constructors
+   //========================================================================//
 
-   /// \param p -- pointer to current Phase
+   /// Constructor
+   ///
+   /// \param p -- pointer to current Phase. not used.
    /// \param par -- pointer to parent Unit
-   //
-   /// \post MIL:
-   ///       <br>- sets aPhase to a p
-   ///       <br>- sets parent to par
+   ///
+   /// \deprecated This constructor is provided to preserve compatibility with
+   ///  existing tests.
    MoveAction(Phase * p, Unit * par);
 
+   /// Constructor
+   ///
+   /// \param par A pointer to the parent unit of this action. Conceptually
+   ///  this is the unit performing the action.
+   ///
    MoveAction(Unit * par);
    
-   //destructor
-	
-   ~MoveAction() {}
-
    //accessors
+   //========================================================================//
    
    //! @copydoc Action::name()
    std::string name() const;
-   
 
    //! @copydoc Action::applicable()
    bool applicable(Phase* p) const;
 
-   const Unit * unit() const;
-   const Territory * source() const;
-   
    //mutators
+   //========================================================================//
    
    //! @copydoc Action::doaction()
    void doaction(int nUnits, Territory * T);
-
-
-  private:
-   Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
 
 //#include "../src/moveaction.cc"

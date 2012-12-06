@@ -39,30 +39,87 @@ class Phase;
 class Action {
   public:
 
-   //destructor
-   
+   /// Constants indicating the state of the Action implementation.
+   enum State {
+      READY, //< indicates that the action has not been performed yet and is not pending.
+      PENDING, //< indicates that the action has not been performed yet, but has been submitted.
+      SUCCEEDED, //< indicates that the action has been performed and succeeded.
+      FAILED, //< indicates that the action was attempted, but failed. 
+      INVALID, //< indicates that the action failed because it was not valid.
+      LAST //< dummy state used as a sentinel, and so we know how many states there are.
+   };
+
+   /// Virtual base destructor
    virtual ~Action() {}
 
    //accessors
+   //========================================================================//
    
    /// \return name of the action class
    virtual std::string name() const =0;
 
+   /// Implementations of this function shall construct and return a 
+   /// string describing the action including all pertinant information,
+   /// such as the source territory, and the type of unit performing the 
+   /// action (conceptually).
+   //
+   /// \return A string describing the action for top level consumption.
+   virtual std::string description() const =0;
+
+   /// Implementations of this function shall construct and return a
+   /// string describing the status of the action being performed. Typically
+   /// there will be a different string returned:
+   ///
+   /// 1. Before the operation has been performed indicating that the action
+   ///    is pending, or has not been performed yet.
+   /// 2. After the operation has been performed, and has succeeded 
+   ///    indicating success.
+   /// 3. After the operation has been performed, and has failed, indicating 
+   ///    failure.
+   ///
+   /// \return The status of the action as described above.
+   ///
+   virtual std::string status() const =0;
+
+   /// Implementations of this function shall return one of the defined constants
+   /// Providing programatically interperable information on the state of the 
+   /// Action.
+   /// 
+   /// \return the state of the action.
+   /// \see Action::ActionState, for the set of values that might be returned.
+   ///
+   virtual Action::State state() const =0;
+
+   /// Indicates whether or not this Action implementation can be performed in
+   /// the supplied phase.
+   ///
    /// \param p -- pointer to the current Phase.
    /// \return true if action can be used in the specified Phase; false
    ///         otherwise
    virtual bool applicable(Phase * p) const =0;
 
+   /// \return The parent unit of the Action implementation. Conceptually this
+   ///   is the unit that performs the action.
    virtual const Unit * unit() const =0;
+
+   /// \return The source Territory of the unit performing the action.
    virtual const Territory * source() const =0;
    
    //mutators
-   
+   //========================================================================//
+
+   /// Preforms Action on the territory using a count of nUnits 
+   /// from the source unit.
+   ///
    /// \param nUnits -- integer of the count to do the current action
    /// \param T -- pointer to the territory to act on
-   //
-   /// \post preforms Action on the territory using a count of nUnits
+   ///
    virtual void doaction(int nUnits, Territory * T) =0;
+
+   /// sets the state of the Action to the specified state.
+   ///
+   /// \param s The state to set the action to. Defaults to Action::State::READY. 
+   virtual void setState(Action::State s = Action::State::READY) =0;
     
 };
 

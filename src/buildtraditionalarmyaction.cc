@@ -30,10 +30,10 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 const std::string BuildTraditionalArmyAction::NAME = "BuildTraditionalArmy";
 
 /// \deprecated This constructor is kept to maintain compatibility with old tests.
-BuildTraditionalArmyAction::BuildTraditionalArmyAction(Phase* p, Unit * par): parent(par)
+BuildTraditionalArmyAction::BuildTraditionalArmyAction(Phase*, Unit * par): DefaultAction(par)
 {}
 
-BuildTraditionalArmyAction::BuildTraditionalArmyAction(Unit * par): parent(par)
+BuildTraditionalArmyAction::BuildTraditionalArmyAction(Unit * par): DefaultAction(par)
 {}
 
 std::string BuildTraditionalArmyAction::name() const
@@ -46,20 +46,10 @@ bool BuildTraditionalArmyAction::applicable(Phase* p) const
    return (p->name() == phase::MARSHAL);
 }
 
-const Unit * BuildTraditionalArmyAction::unit() const
-{
-   return parent;
-}
-
-const Territory * BuildTraditionalArmyAction::source() const
-{
-   return parent->whereAt();
-}
-
 void BuildTraditionalArmyAction::doaction(int nUnits, Territory* T)
 {
    Unit* newArmy;
    newArmy = new TraditionalArmy(T, nUnits);
-   /// \todo put this unit in territory's unit container??
    T->addUnit(newArmy);
 }
+
