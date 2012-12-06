@@ -38,11 +38,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy")
 {
-   DefaultPhase dp(std::string(phase::MARSHAL));
-   uActions.push_back(new MoveAction(&dp, this));
-   //uActions.push_back(new AttritionAttackAction(this));
+   uActions.push_back(new MoveAction(this));
+   uActions.push_back(new AttritionAttackAction(this));
 }
 
+///\deprecated no longer use this constructor
 TraditionalArmy::TraditionalArmy(Territory * t, int nunit, Unit::actionContainer applicableActions ): nUnits(nunit), uTerritory(t), uName("TraditionalArmy"), uActions(applicableActions)
 {
 }

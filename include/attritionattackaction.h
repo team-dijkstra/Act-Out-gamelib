@@ -23,6 +23,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  *
  *  AttritionAttackAction class interface, specifies behavious of game actions
  */
+
 #ifndef ATTRITIONATTACKACTION_H
 #define ATTRITIONATTACKACTION_H
 
@@ -38,9 +39,11 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * to another unit of the same type on another territory.
  */
 class AttritionAttackAction : public Action{
-/// \todo template AttritionAttackAction class for different types of unit and store the parent unit object
-      public:
 
+  public:
+
+   static const std::string NAME;
+   
    //constructors
 
    /// \param p -- pointer to parent Unit
@@ -80,11 +83,9 @@ class AttritionAttackAction : public Action{
    //! @copydoc Action::doaction()
    void doaction(int nUnits, Territory * T);
 
-      private:
+  private:
    
    Unit * parent; ///< pointer to the Unit that does this action
-   Phase * aPhase; ///< pointer to the Phase that applies to this action
-   bool mustDelete;
 };
 
 //#include "../src/moveaction.cc"

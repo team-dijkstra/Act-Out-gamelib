@@ -37,6 +37,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class BuildTraditionalArmyAction : public Action{
   public:
 
+   static const std::string NAME;
    //constructors
 
    /// \param p -- pointer to current Phase
@@ -48,6 +49,8 @@ class BuildTraditionalArmyAction : public Action{
    ///       <br>- sets parent to par
    BuildTraditionalArmyAction(Phase * p, Unit * par);
 
+   BuildTraditionalArmyAction(Unit * par);
+   
    //destructor
 	
    ~BuildTraditionalArmyAction(){}
@@ -70,9 +73,8 @@ class BuildTraditionalArmyAction : public Action{
 
   private:
 
-   std::string aName; ///< name of this Action
-   Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
    Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
+
 
 #endif

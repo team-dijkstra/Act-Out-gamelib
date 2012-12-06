@@ -25,20 +25,25 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "phase.h"
 #include "territory.h"
 #include "traditionalarmy.h"
+#include "config.h"
 
-BuildTraditionalArmyAction::BuildTraditionalArmyAction(Phase* p, Unit * par):aName("BuildTraditionalArmy"), aPhase(p), parent(par)
+const std::string BuildTraditionalArmyAction::NAME = "BuildTraditionalArmy";
+
+/// \deprecated This constructor is kept to maintain compatibility with old tests.
+BuildTraditionalArmyAction::BuildTraditionalArmyAction(Phase* p, Unit * par): parent(par)
+{}
+
+BuildTraditionalArmyAction::BuildTraditionalArmyAction(Unit * par): parent(par)
 {}
 
 std::string BuildTraditionalArmyAction::name() const
 {
-   return aName;
+   return NAME;
 }
 
 bool BuildTraditionalArmyAction::applicable(Phase* p) const
 {
-   if(p==aPhase)
-      return true;
-   return false;
+   return (p->name() == phase::MARSHAL);
 }
 
 const Unit * BuildTraditionalArmyAction::unit() const

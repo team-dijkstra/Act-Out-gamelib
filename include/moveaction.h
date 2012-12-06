@@ -42,6 +42,8 @@ class MoveAction : public Action{
           template<typename U> */
  public:
 
+   static const std::string NAME; 
+   
    //constructors
 
    /// \param p -- pointer to current Phase
@@ -51,6 +53,8 @@ class MoveAction : public Action{
    ///       <br>- sets aPhase to a p
    ///       <br>- sets parent to par
    MoveAction(Phase * p, Unit * par);
+
+   MoveAction(Unit * par);
    
    //destructor
 	
@@ -74,8 +78,7 @@ class MoveAction : public Action{
    void doaction(int nUnits, Territory * T);
 
 
-      private:
-   Phase * aPhase; //! @copydoc AttritonAttackAction::aPhase
+  private:
    Unit * parent; //! @copydoc AttritionAttackAction::parent
 };
 

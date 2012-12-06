@@ -25,9 +25,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "builderunit.h"
 #include "territory.h"
 #include "action.h"
+#include "buildtraditionalarmyaction.h"
 
 BuilderUnit::BuilderUnit(Territory * t, int nunit):  uTerritory(t), nUnits(nunit), uName("BuilderUnit")
-{}
+{
+   uActions.push_back(new BuildTraditionalArmyAction(this));
+}
 
 BuilderUnit::~BuilderUnit(){
    actionContainer::iterator it;
