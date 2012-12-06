@@ -93,7 +93,7 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gi
    /// \todo this fuction should throw an exception if ourGame is NULL
    if ( ourGame != NULL )
    {
-      dout << "entered gamemap" << std::endl;
+      //dout << "entered gamemap" << std::endl;
       //get the territories
       GameMap::TerritoryList territories = ourGame->filter(op);
 
@@ -111,18 +111,18 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gi
 	    //get actions
 	    Unit::actionContainer unitsActions =  (*unIT).second->actions();
 	    //loop through actions to see what is applicable for the currentPhase
-	    dout << "iterating through unitContainer, before  actionContainer =========================<< unitsActions size is: "<< unitsActions.size() <<std::endl;
+	    //dout << "iterating through unitContainer, before  actionContainer =========================<< unitsActions size is: "<< unitsActions.size() <<std::endl;
 	    
 	    for ( Unit::actionContainer::iterator acIT = unitsActions.begin(); acIT != unitsActions.end(); ++acIT)
 	    {
 	       Action * currAction = (*acIT);
 	       bool appl = currAction->applicable(*currentPhase);
 	       
-	       dout << "iterating through actionContainer, before applicable() == "<< appl << " Action.name(): == "<< (*acIT)->name()
-		    << " Action.description(): == "<< (*acIT)->description() << std::endl;
+	       //dout << "iterating through actionContainer, before applicable() == "<< appl << " Action.name(): == "<< (*acIT)->name()
+	       //dout << " Action.description(): == "<< (*acIT)->description() << std::endl;
 	       if (appl)
 	       {
-		  dout << "Inside applicable: " << " Action.name(): == "<< (*acIT)->name() << " Action.description(): == "<< (*acIT)->description() << std::endl;
+		  //dout << "Inside applicable: " << " Action.name(): == "<< (*acIT)->name() << " Action.description(): == "<< (*acIT)->description() << std::endl;
 		  ourActions.push_back( (*acIT) );
 	       }
 	    }

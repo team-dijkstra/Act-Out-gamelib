@@ -83,7 +83,7 @@ class AltGameMap : public GameMap {
    //
    /// \param t -- pointer to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
-   TerritoryList adjacencies(Territory *) const;
+   TerritoryList adjacencies(const Territory *) const;
 
    /// Finds all Territories that are owned by the specified Player
    //

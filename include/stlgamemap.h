@@ -55,7 +55,7 @@ class StlGameMap : public GameMap {
    Territory* find(TerritoryName) const;
 
    /// \copydoc 
-   TerritoryList adjacencies(Territory *) const;
+   TerritoryList adjacencies(const Territory *) const;
 
    /// \copydoc 
    TerritoryList players(Player *) const;

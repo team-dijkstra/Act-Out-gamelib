@@ -140,7 +140,7 @@ using namespace function;
    return NULL;
 }
 
-GameMap::TerritoryList StlGameMap::adjacencies(Territory *) const {
+GameMap::TerritoryList StlGameMap::adjacencies(const Territory *) const {
    return TerritoryList();
 }
 

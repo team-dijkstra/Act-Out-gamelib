@@ -74,7 +74,7 @@ Territory* FakeGameMap::find(TerritoryName fn) const{
 //
 /// \param t -- pointer to a Territory object
 /// \return all Territories that are adjacent to the specified Territory
-FakeGameMap::TerritoryList FakeGameMap::adjacencies(Territory *) const{
+FakeGameMap::TerritoryList FakeGameMap::adjacencies(const Territory *) const{
    return tList;
 }
 

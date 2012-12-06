@@ -70,7 +70,7 @@ class GameMap {
    //
    /// \param t -- pointer to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
-   virtual TerritoryList adjacencies(Territory *) const =0;
+   virtual TerritoryList adjacencies(const Territory *) const =0;
 
    /// Finds all Territories that are owned by the specified Player
    //

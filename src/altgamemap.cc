@@ -72,13 +72,16 @@ Territory* AltGameMap::find(TerritoryName fn) const{
    return NULL;
 }
 
+#include <algorithm>
+
 /// Finds all Territories that are adjacent to the specified Territory
 //
 /// \param t -- pointer to a Territory object
 /// \return all Territories that are adjacent to the specified Territory
-AltGameMap::TerritoryList AltGameMap::adjacencies(Territory * t) const{
+AltGameMap::TerritoryList AltGameMap::adjacencies(const Territory * t) const{
    m_adjList::const_iterator mt;
-   mt = altMap.find(t);
+   mt = altMap.find(const_cast<Territory *>(t));
+   
    return mt->second;
 }
 
