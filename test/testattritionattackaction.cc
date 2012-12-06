@@ -24,96 +24,54 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+
+#include "testaction.h"
 #include "attritionattackaction.h"
 #include "defaultphase.h"
 #include "landterritory.h"
 #include "filterbyallunittypes.h"
 #include "traditionalarmy.h"
 #include "defaultplayer.h"
+#include "config.h"
 
 /// Class containing the test cases for AttritionAttackAction. The AttritionAttackAction
 /// is exercised through its interface Action.
-class TestAttritionAttackAction : public CppUnit::TestFixture {
-   CPPUNIT_TEST_SUITE(TestAttritionAttackAction);
-   CPPUNIT_TEST(actionname_should_be_as_constructed);
-   CPPUNIT_TEST(actionphase_should_be_applicable_if_attack);
-   CPPUNIT_TEST(action_unit_should_return_parent);
-   CPPUNIT_TEST(action_source_should_return_parent_location);
+class TestAttritionAttackAction : public TestAction<AttritionAttackAction> {
+   CPPUNIT_TEST_SUB_SUITE(TestAttritionAttackAction, TestAction<AttritionAttackAction>);
+   CPPUNIT_TEST(action_should_be_applicable_only_for_attack_phase);
    CPPUNIT_TEST(action_doaction_should_properly_attrition_attack);
    CPPUNIT_TEST_SUITE_END();
-   
+  
   private:
    // different actions used in testing
-   Action * actionA;
-   Action * actionB;
    Phase * p1;
    Phase * p2;
+   Phase * p3;
    Player * o1, * o2;
    Territory * t1, * t2;
    Unit * u1, * u2;
-   
+   Action * actionA;
+
+  protected:
+   typedef AttritionAttackAction ActionType;
+
+   Action * createAction(Unit * parent) {
+      return new AttritionAttackAction(parent);
+   }
+
+   Unit * createUnit(Territory * location, int nunits = 1) {
+      return new TraditionalArmy(location, nunits);
+   }
+
   public:
-   /// \cond SETUPTEARDOWNACTIONTEST
-   // initialization for the test action
-   void setUp() {
-      o1 = new DefaultPlayer(std::string("Player 1"));
-      o2 = new DefaultPlayer(std::string("Player 2"));
-      t1 = new LandTerritory(std::string("Spain"), o1);
-      t2 = new LandTerritory(std::string("Portugal"), o2); 
-      p1 = new DefaultPhase(std::string("Attack"));
-      p2 = new DefaultPhase(std::string("Marshall"));
-      u1 = new TraditionalArmy(t1, 4);
-      u2 = new TraditionalArmy(t2);
-      actionA = new AttritionAttackAction(u1);
-      actionB = new AttritionAttackAction(u2);
-   }
-
-   // frees memory for the actions
-   void tearDown() {
-      delete actionA;
-      delete actionB;
-      delete p1;
-      delete p2;
-      delete t1;
-      delete t2;
-      delete o1;
-      delete o2;
-   }
-   /// \endcond
-   
-   /// \test ensure that the action names are correctly reported
-   void actionname_should_be_as_constructed()  {
-      CPPUNIT_ASSERT(actionA->name() == "AttritionAttack");
-      CPPUNIT_ASSERT(actionB->name() == "AttritionAttack");
-      delete u1;
-      delete u2;
-   }
-   
+  
    /// \test ensure that only correct Phase objects return true
-   void actionphase_should_be_applicable_if_attack()  {
-      CPPUNIT_ASSERT(actionA->applicable(p1) == true);
-      CPPUNIT_ASSERT(actionB->applicable(p2) == false);
-      CPPUNIT_ASSERT(actionB->applicable(p1) == true);
-      delete u1;
-      delete u2;
+   void action_should_be_applicable_only_for_attack_phase()  {
+      CPPUNIT_ASSERT(! actionA->applicable(p1));
+      CPPUNIT_ASSERT(actionA->applicable(p2));
+      CPPUNIT_ASSERT(! actionA->applicable(p3));
    }
 
-   /// \test ensure that unit is correctly reported
-   void action_unit_should_return_parent()  {
-      CPPUNIT_ASSERT(actionA->unit() == u1);
-      CPPUNIT_ASSERT(actionB->unit() == u2);
-      delete u1;
-      delete u2;
-   }
-
-   /// \test ensure that source is correctly reported
-   void action_source_should_return_parent_location()  {
-      CPPUNIT_ASSERT(actionA->source() == t1);
-      CPPUNIT_ASSERT(actionB->source() == t2);
-      delete u1;
-      delete u2;
-   }
-   
    /// \test that doaction() adds units as appropriate
    void action_doaction_should_properly_attrition_attack()  {
       //added units to territory unitContainers
@@ -148,8 +106,37 @@ class TestAttritionAttackAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(u2->numUnits() == 3);
    }
 
-   
-   
+   /// \cond SETUPTEARDOWNACTIONTEST
+   // initialization for the test action
+   void setUp() {
+      TestAction<ActionType>::setUp();
+
+      o1 = createPlayer("Player 1");
+      o2 = createPlayer("Player 2");
+      t1 = createTerritory("Spain", o1);
+      t2 = createTerritory("Portugal", o2); 
+      p1 = createPhase(phase::MARSHAL);
+      p2 = createPhase(phase::ATTACK);
+      p3 = createPhase(phase::REDEPLOY);
+
+      u1 = createUnit(t1, 4);
+      u2 = createUnit(t2);
+      actionA = createAction(u1);
+   }
+
+   // frees memory for the actions
+   void tearDown() {
+      TestAction<ActionType>::tearDown();
+      
+      delete actionA;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete t1;
+      delete t2;
+   }
+   /// \endcond
+ 
 
 };
 /// \cond TestAttritionAttackActionREGISTRATION

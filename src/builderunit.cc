@@ -78,9 +78,6 @@ std::string BuilderUnit::name() const{
    return uName;
 }
 
-/** \todo need to return the proper container is currently
- *  returning an empty container
- */
 Unit::actionContainer BuilderUnit::actions() const{ 
    return uActions;
 }
