@@ -51,7 +51,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(action_set_state_changes_state);
    CPPUNIT_TEST(action_set_state_returns_to_ready_with_no_args);
    CPPUNIT_TEST(doaction_changes_state_to_invalid_or_succeeded);
-   CPPUNIT_TEST_FAIL(action_status_reflects_state);
+   CPPUNIT_TEST(action_status_reflects_state);
    CPPUNIT_TEST_FAIL(action_status_includes_action_name);
    CPPUNIT_TEST_FAIL(action_description_has_name_unit_and_territory);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
@@ -131,6 +131,7 @@ class TestAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionA->state() == Action::State::READY);
    }
 
+   /// \test ensure that the doaction transitions to a valid state.
    void doaction_changes_state_to_invalid_or_succeeded() {
       actionA->doaction(1, t1);
      
@@ -142,8 +143,24 @@ class TestAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(status_is_SUCCEEDED_FAILED_or_INVALID);
    }
 
+   /// \test ensure that the status messages reflect the reported state of 
+   //    the system.
    void action_status_reflects_state() {
-      CPPUNIT_FAIL("not implemented");
+      
+      /// \todo Brittle tests.
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find("ready"));
+      
+      actionA->setState(Action::State::PENDING);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find("pending"));
+      
+      actionA->setState(Action::State::SUCCEEDED);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find("success"));
+
+      actionA->setState(Action::State::FAILED);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find("failed"));
+
+      actionA->setState(Action::State::INVALID);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find("not valid"));
    }
 
    void action_status_includes_action_name() {
