@@ -47,7 +47,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(actionname_should_be_classname);
    CPPUNIT_TEST(action_unit_should_return_parent);
    CPPUNIT_TEST(action_source_should_return_parent_location);
-   CPPUNIT_TEST_FAIL(action_starts_in_ready_state);
+   CPPUNIT_TEST(action_starts_in_ready_state);
    CPPUNIT_TEST_FAIL(action_set_state_changes_state);
    CPPUNIT_TEST_FAIL(action_set_state_returns_to_ready_with_no_args);
    CPPUNIT_TEST_FAIL(action_status_reflects_state);
@@ -104,7 +104,7 @@ class TestAction : public CppUnit::TestFixture {
    }
 
    void action_starts_in_ready_state() {
-      CPPUNIT_FAIL("not implemented");
+      CPPUNIT_ASSERT(actionA->state() == Action::State::READY);
    }
 
    void action_set_state_changes_state() {
