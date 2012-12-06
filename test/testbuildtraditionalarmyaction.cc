@@ -121,6 +121,8 @@ class TestBuildTraditionalArmyAction : public TestAction<BuildTraditionalArmyAct
    void tearDown() {
       TestAction<ActionType>::tearDown();
       
+      delete o1;
+      delete u1;
       delete actionA;
       delete p1;
       delete p2;
