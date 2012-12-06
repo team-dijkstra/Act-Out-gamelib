@@ -22,6 +22,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+
+#include "testaction.h"
 #include "moveaction.h"
 #include "defaultphase.h"
 #include "landterritory.h"
@@ -29,52 +31,58 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "traditionalarmy.h"
 #include "defaultplayer.h"
 #include "filterbyunittype.h"
+#include "config.h"
 
 /// Class containing the test cases for MoveAction. The MoveAction
 /// is exercised through its interface Action.
-class TestMoveAction : public CppUnit::TestFixture {
-   CPPUNIT_TEST_SUITE(TestMoveAction);
-   CPPUNIT_TEST(actionname_should_be_as_constructed);
-   CPPUNIT_TEST(actionphase_should_be_applicable_if_marshall);
-   CPPUNIT_TEST(action_unit_should_return_parent);
-   CPPUNIT_TEST(action_source_should_return_parent_location);
+class TestMoveAction : public TestAction<MoveAction> {
+   CPPUNIT_TEST_SUB_SUITE(TestMoveAction, TestAction<MoveAction>);
+   CPPUNIT_TEST(action_should_be_applicable_only_for_redeploy_phase);
    CPPUNIT_TEST(action_doaction_should_properly_move);
    CPPUNIT_TEST_SUITE_END();
    
   private:
    // different actions used in testing
    Action * actionA;
-   Action * actionB;
-   Phase * p1;
-   Phase * p2;
+   Phase * p1, * p2, * p3;
    Player * o1, * o2;
    Territory * t1, * t2, * t3;
-   Unit * u1, * u2, * u3;
+
+  protected:
+   typedef MoveAction ActionType;
+
+   Action * createAction(Unit * parent) {
+      return new MoveAction(parent);
+   }
+
+   Unit * createUnit(Territory * location, int nunits = 1) {
+      return new TraditionalArmy(location, nunits);
+   }
    
   public:
    /// \cond SETUPTEARDOWNACTIONTEST
    // initialization for the test action
    void setUp() {
-      o1 = new DefaultPlayer(std::string("Player 1"));
-      o2 = new DefaultPlayer(std::string("Player 2"));
-      t1 = new LandTerritory(std::string("Spain"), o1);
-      t2 = new LandTerritory(std::string("Portugal"), o2);
-      t3 = new LandTerritory(std::string("France"), o1);
-      p1 = new DefaultPhase(std::string("Attack"));
-      p2 = new DefaultPhase(std::string("Redeploy"));
-      u1 = new TraditionalArmy(t1, 4);
-      u2 = new TraditionalArmy(t2);
-      u3 = new TraditionalArmy(t3);
-      actionA = new MoveAction(p2, u1);
-      actionB = new MoveAction(p2, u2);
+      TestAction<ActionType>::setUp();
+
+      o1 = createPlayer("Player 1");
+      o2 = createPlayer("Player 2");
+      t1 = createTerritory("Spain", o1);
+      t2 = createTerritory("Portugal", o2);
+      t3 = createTerritory("France", o1);
+      p1 = createPhase(phase::MARSHAL);
+      p2 = createPhase(phase::ATTACK);
+      p3 = createPhase(phase::REDEPLOY);
    }
 
    // frees memory for the actions
    void tearDown() {
+      TestAction<ActionType>::tearDown();
+
       delete actionA;
-      delete actionB;
       delete p1;
       delete p2;
+      delete p3;
       delete t1;
       delete t2;
       delete t3;
@@ -83,47 +91,27 @@ class TestMoveAction : public CppUnit::TestFixture {
    }
    /// \endcond
    
-   /// \test ensure that the action names are correctly reported
-   void actionname_should_be_as_constructed()  {
-      CPPUNIT_ASSERT(actionA->name() == "Move");
-      CPPUNIT_ASSERT(actionB->name() == "Move");
-      delete u1;
-      delete u2;
-      delete u3;
-   }
-   
    /// \test ensure that the action phases are correct
-   void actionphase_should_be_applicable_if_marshall()  {
-      CPPUNIT_ASSERT(actionA->applicable(p2) == true);
-      CPPUNIT_ASSERT(actionB->applicable(p1) == false);
-      CPPUNIT_ASSERT(actionB->applicable(p2) == true);
+   void action_should_be_applicable_only_for_redeploy_phase()  {
+      Unit * u1 = createUnit(t1);
+      actionA = createAction(u1);
+
+      CPPUNIT_ASSERT(! actionA->applicable(p1));
+      CPPUNIT_ASSERT(! actionA->applicable(p2));
+      CPPUNIT_ASSERT(actionA->applicable(p3));
+
       delete u1;
-      delete u2;
-      delete u3;
    }
 
-   /// \test ensure that unit is correctly reported
-   void action_unit_should_return_parent()  {
-      CPPUNIT_ASSERT(actionA->unit() == u1);
-      CPPUNIT_ASSERT(actionB->unit() == u2);
-      delete u1;
-      delete u2;
-      delete u3;
-   }
-
-   /// \test ensure that source is correctly reported
-   void action_source_should_return_parent_location()  {
-      CPPUNIT_ASSERT(actionA->source() == t1);
-      CPPUNIT_ASSERT(actionB->source() == t2);
-      delete u1;
-      delete u2;
-      delete u3;
-   }
-   
    /// \test that doaction() adds units as appropriate
    void action_doaction_should_properly_move()  {
       //added units to territory unitContainers
 
+      Unit * u1 = createUnit(t1, 4);
+      Unit * u2 = createUnit(t2);
+      Unit * u3 = createUnit(t3);
+      actionA = createAction(u1);
+      
       t1->addUnit(u1);
       t2->addUnit(u2);
       t3->addUnit(u3);
@@ -164,7 +152,6 @@ class TestMoveAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(u2->numUnits() == 1);
       CPPUNIT_ASSERT(u3->numUnits() == 2);  
    }
-   
 };
 
 /// \cond TestMoveActionREGISTRATION
