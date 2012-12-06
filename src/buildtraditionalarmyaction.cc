@@ -48,8 +48,13 @@ bool BuildTraditionalArmyAction::applicable(Phase* p) const
 
 void BuildTraditionalArmyAction::doaction(int nUnits, Territory* T)
 {
+   // not in a valid state to perform the action. 
+   if (Action::State::READY != state() && Action::State::PENDING != state()) return;
+   
    Unit* newArmy;
    newArmy = new TraditionalArmy(T, nUnits);
    T->addUnit(newArmy);
+
+   setState(Action::State::SUCCEEDED);
 }
 
