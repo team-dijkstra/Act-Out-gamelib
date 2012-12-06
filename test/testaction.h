@@ -47,6 +47,12 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(actionname_should_be_classname);
    CPPUNIT_TEST(action_unit_should_return_parent);
    CPPUNIT_TEST(action_source_should_return_parent_location);
+   CPPUNIT_TEST_FAIL(action_starts_in_ready_state);
+   CPPUNIT_TEST_FAIL(action_set_state_changes_state);
+   CPPUNIT_TEST_FAIL(action_set_state_returns_to_ready_with_no_args);
+   CPPUNIT_TEST_FAIL(action_status_reflects_state);
+   CPPUNIT_TEST_FAIL(action_status_includes_action_name);
+   CPPUNIT_TEST_FAIL(action_description_has_name_unit_and_territory);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
   private:
 
@@ -95,6 +101,30 @@ class TestAction : public CppUnit::TestFixture {
    /// \test ensure that source is correctly reported
    void action_source_should_return_parent_location()  {
       CPPUNIT_ASSERT(actionA->source() == t1);
+   }
+
+   void action_starts_in_ready_state() {
+      CPPUNIT_FAIL("not implemented");
+   }
+
+   void action_set_state_changes_state() {
+      CPPUNIT_FAIL("not implemented");
+   }
+
+   void action_set_state_returns_to_ready_with_no_args() {
+      CPPUNIT_FAIL("not implemented");
+   }
+
+   void action_status_reflects_state() {
+      CPPUNIT_FAIL("not implemented");
+   }
+
+   void action_status_includes_action_name() {
+      CPPUNIT_FAIL("not implemented");
+   }
+
+   void action_description_has_name_unit_and_territory() {
+      CPPUNIT_FAIL("not implemented");
    }
 
    /// \cond SETUPTEARDOWNACTIONTEST
