@@ -78,5 +78,4 @@ class MoveAction : public DefaultAction {
    void doaction(int nUnits, Territory * T);
 };
 
-//#include "../src/moveaction.cc"
 #endif

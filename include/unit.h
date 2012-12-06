@@ -30,6 +30,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 class Territory;
 class Action;
+class Unit;
 
 ///An interface to specify the behaviour of the game units
 class Unit {
