@@ -57,6 +57,7 @@ typedef map< string, string > helps;
 const int INT_MAX = std::numeric_limits<int>::max();
 const int DISTRIBUTE_TERRITORIES = 1;
 const int SPECIAL_FORCES = 3;
+const int INIT_TERRITORIES = 1;
 
 //helper classes and structs
 struct ComHelp{
@@ -90,7 +91,7 @@ void play_phase(GameContainer&); //< plays the current phase
 void next_phase(GameContainer&); //< moves to the next phase
 void player_quits(GameContainer&); //< removes the player from the game
 void manditory_phase_setup(GameContainer&); //< run manditory phase setup actions
-void setup_marshal(GameContainer&,int); //< assigns unclaimed territories
+void setup_marshal(GameContainer&,int,Player*); //< assigns unclaimed territories
 void display_actions(GameContainer&,string);  //< display the available actions 
 void do_marshal(GameContainer&);  //< execute the marshal phase
 void do_attack(GameContainer&);  //< execute the attack phase
@@ -233,6 +234,10 @@ void init_game(GameContainer& g)
    Game::playerlist list = g.game.players();
    Game::playerlist::const_iterator it = list.begin();
    g.currentTurn = (*it);
+
+   //GameMap* gMap = g.game.currentGame();
+   for(;it!=list.end();++it)
+      setup_marshal(g,INIT_TERRITORIES,(*it) );
 }
 
 void get_names(vector<Game::PlayerName>& namelist)
@@ -312,7 +317,7 @@ bool play_game(GameContainer& g)
 	 case 1:
 	    // display all territories
 	    show_territories(g);
-	    cout << "entered: "<< it->first << endl;
+	    //cout << "entered: "<< it->first << endl;
 	    break;
 	 case 2:
 	    // play the current turn
@@ -324,9 +329,10 @@ bool play_game(GameContainer& g)
 	    cout << "entered: "<< it->first << endl; break;
 	 case 4:
 	    //player quits
-	    // player_quit(g);
-	    cout << "entered: "<< it->first << endl;
-	    return false;//break;
+	    player_quits(g);
+	    cout << "Player: "<<g.currentTurn->name()<< it->first << endl;
+	    break;
+	    return return;//break;
 	    
       }
    }
@@ -389,19 +395,19 @@ void play_phase(GameContainer& g)
    {
 
       //call do_marshal(g);
-      cout << "PLAY !===!!!!--IN MARSHAL PHASE--!!!============!"<<endl;
+      //cout << "PLAY !===!!!!--IN MARSHAL PHASE--!!!============!"<<endl;
       do_marshal(g);
    }
    else if (currPhase->name() == phase::ATTACK)
    {
       //call do_attack(g);
-      cout << "PLAY !===!!!!--IN ATTACK PHASE--!!!============!"<<endl;
+      //cout << "PLAY !===!!!!--IN ATTACK PHASE--!!!============!"<<endl;
       do_attack(g);
    }
    else if (currPhase->name() == phase::REDEPLOY)
    {
       //call do_redeploy(g);
-      cout << "PLAY !===!!!!--IN REDEPLOY PHASE--!!!============!"<<endl;
+      //cout << "PLAY !===!!!!--IN REDEPLOY PHASE--!!!============!"<<endl;
       do_redeploy(g);
    }
    else
@@ -461,7 +467,7 @@ void manditory_phase_setup(GameContainer& g)
       {
 	 //call setup_marshal(g);
 
-	 setup_marshal(g,DISTRIBUTE_TERRITORIES);
+	 setup_marshal(g,DISTRIBUTE_TERRITORIES, g.currentTurn);
 	 //cout <<" I havent seen the Marshal phase yet!!"<<endl;
 	 //cout << "Manditory !===!!!!--IN MARSHAL PHASE--!!!============!"<<endl;
 	 g.checks.seen_marshal = true;
@@ -487,9 +493,9 @@ void manditory_phase_setup(GameContainer& g)
    }
 }
 
-void setup_marshal(GameContainer& g, int n)
+void setup_marshal(GameContainer& g, int n, Player * p)
 {
-   cout << "Setting up the "<<phase::MARSHAL<< " phase:"<<endl;
+   //cout << "Setting up the "<<phase::MARSHAL<< " phase:"<<endl;
    Player * sysp = g.game.systemPlayers()[0];
    //if any unclaimed territories, give the client up to n territories
 
@@ -507,9 +513,9 @@ void setup_marshal(GameContainer& g, int n)
       //cout << "Territory: "<<t->name() <<", Owner:"<< t->owner()->name()<<endl;
       if ( t->owner()->name() == sysp->name() && n > 0)
       {
-	 cout << "Assigning " << g.currentTurn->name() << " the "
+	 cout << "Assigning " << p->name() << " the "
 	      << t->name() << " territory"<<endl;
-	 t->owner(g.currentTurn);
+	 t->owner(p);
 	 //UnitOperation * filter = new FilterByAllUnitTypes();
 	 FilterByAllUnitTypes filter;
 	 Territory::unitContainer armies = t->units(&filter);
@@ -530,22 +536,26 @@ void setup_marshal(GameContainer& g, int n)
 void do_marshal(GameContainer& g)
 {
    
-   display_actions(g, phase::MARSHAL);
+
    cout << "You get to add "<<SPECIAL_FORCES<<" armies"<<endl;
+
    for (int i = 0; i<SPECIAL_FORCES;++i)
    {
+      display_actions(g, phase::MARSHAL);
       cout<<"Place army #"<<i+1<<" of "<<SPECIAL_FORCES<<endl;
       string message = "What territory would you like to place this army on? ";
       choose_actions(g, message);
+      show_territories(g);
    }
 }
 
 void do_attack(GameContainer& g)
 {
-   display_actions(g, phase::ATTACK);
+
    cout << "Choose your attacks" << endl;
    while(true)
    {
+      display_actions(g, phase::ATTACK);
       string yn;
       do
       {
@@ -553,11 +563,13 @@ void do_attack(GameContainer& g)
 	 cin >> yn;
      
       }while(yn != "y" && yn != "yes" && yn != "n" && yn != "no");
-   
+
+      
       if(yn == "y" || yn =="yes")
       {
 	 string message = "What terrritory would you like to attack from? ";
 	 choose_actions(g, message);
+	 show_territories(g);
       }
       else
 	 return;
@@ -566,10 +578,11 @@ void do_attack(GameContainer& g)
 
 void do_redeploy(GameContainer& g)
 {
-   display_actions(g, phase::ATTACK);
+   
    cout << "Choose your Redeployments" << endl;
    while(true)
    {
+      display_actions(g, phase::ATTACK);
       string yn;
       do
       {
@@ -582,6 +595,7 @@ void do_redeploy(GameContainer& g)
       {
 	 string message = "What terrritory would you like to redeploy from? ";
 	 choose_actions(g, message);
+	 show_territories(g);
       }
       else
 	 return;
@@ -667,7 +681,7 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
    AltGameMap::TerritoryList tlist;
    AltGameMap::TerritoryList::iterator lit;
 
-   string yn, nm;
+   string nm;
    bool valid_territory = false;
   
    //getline(cin,nm);
@@ -689,7 +703,8 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
    //    //cont = true;
    // }
    //cin>>nm;
- 
+
+   cout<<message<<endl;
    while(tlist.empty() || !valid_territory)
    {
      
@@ -723,7 +738,7 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
 void choose_actions(GameContainer& g, string message)
 {
 
-   cout << endl << message <<endl;
+   //cout << endl << message <<endl;
    //Player * p = g.currentTurn;    
    Unit::actionContainer acts;
    Territory * t = ask_territory(g, message, acts, phase::MARSHAL );
@@ -775,7 +790,7 @@ void do_action(GameContainer& g, Unit::actionContainer & acts, Territory * from)
       //check for adjacency
       if(is_adjacent(g,from,to))
       {
-	 (*it)->doaction(1, from);
+	 (*it)->doaction(1, to);
 	 cout<<(*it)->status()<<endl;
 	 (*it)->setState();
       }
