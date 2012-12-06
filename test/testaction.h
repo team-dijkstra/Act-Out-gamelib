@@ -52,7 +52,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(action_set_state_returns_to_ready_with_no_args);
    CPPUNIT_TEST(doaction_changes_state_to_invalid_or_succeeded);
    CPPUNIT_TEST(action_status_reflects_state);
-   CPPUNIT_TEST_FAIL(action_status_includes_action_name);
+   CPPUNIT_TEST(action_status_includes_action_name);
    CPPUNIT_TEST_FAIL(action_description_has_name_unit_and_territory);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
   private:
@@ -148,6 +148,7 @@ class TestAction : public CppUnit::TestFixture {
    void action_status_reflects_state() {
       
       /// \todo Brittle tests.
+      actionA->setState(Action::State::READY);
       CPPUNIT_ASSERT(std::string::npos != actionA->status().find("ready"));
       
       actionA->setState(Action::State::PENDING);
@@ -163,8 +164,27 @@ class TestAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(std::string::npos != actionA->status().find("not valid"));
    }
 
+   /// \test ensure that the name of the action is included in all status messages.
    void action_status_includes_action_name() {
-      CPPUNIT_FAIL("not implemented");
+
+      std::string myname = actionA->name();
+            
+      /// \todo Brittle tests.
+      actionA->setState(Action::State::READY);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find(myname));
+      
+      actionA->setState(Action::State::PENDING);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find(myname));
+      
+      actionA->setState(Action::State::SUCCEEDED);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find(myname));
+
+      actionA->setState(Action::State::FAILED);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find(myname));
+
+      actionA->setState(Action::State::INVALID);
+      CPPUNIT_ASSERT(std::string::npos != actionA->status().find(myname));
+
    }
 
    void action_description_has_name_unit_and_territory() {
