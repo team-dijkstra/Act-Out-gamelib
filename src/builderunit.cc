@@ -82,5 +82,5 @@ std::string BuilderUnit::name() const{
  *  returning an empty container
  */
 Unit::actionContainer BuilderUnit::actions() const{ 
-   return Unit::actionContainer();
+   return uActions;
 }

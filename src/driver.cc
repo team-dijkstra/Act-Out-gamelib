@@ -35,6 +35,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyterritoryall.h"
 #include "filterbyterritoryowner.h"
 #include "territory.h"
+#include "action.h"
+#include "takeoverop.h"
 
 using namespace std;
 
@@ -73,13 +75,25 @@ void player_quits(GameContainer&); //< removes the player from the game
 
 void shutup_cppcheck(GameContainer& g)
 {
+   //Player * p = g.currentTurn;
+
+   //Game::playerlist sysPlayers = g.game.systemPlayers();
    Player * p = g.currentTurn;
-   TerritoryOperation * op = new FilterByTerritoryOwner(p->name());
-   Unit::actionContainer acts = p->actions(op);
+   GameMap* gMap = g.game.currentGame();
+   TakeOver<int> op2(p);
+   gMap->traverse(&op2, NULL);
+   TerritoryOperation * op1 = new FilterByTerritoryOwner(p->name());
+   Unit::actionContainer acts = p->actions(op1);
    Unit::actionContainer::iterator it = acts.begin();
-   cout << (*it)->source()->name()<<endl;
-   cout << (*it)->unit()->name()<<endl;
-   delete op;
+   cout << "cppcheck!" <<endl;
+   if (it != acts.end())
+   {
+      cout << ">>>>>>>>>>>>>>>>>>>>>>inside_ccpcheck<<<<<<<<<<<<<<<<<<<<!" <<endl;
+      cout << (*it)->source()->name()<<endl;
+      cout << (*it)->unit()->name()<<endl;
+   }
+   delete op1;
+   
 }
 
 //method definitions
@@ -230,6 +244,7 @@ void player_order(const GameContainer& g)
 bool play_game(GameContainer& g)
 {
    //perform manditory phase setups
+   //phase_setup(g);
 
    //get user command and execute
    cout << "Please enter a command (lost? try 'help'): ";
@@ -269,7 +284,7 @@ bool play_game(GameContainer& g)
 	 case 2:
 	    // play the current turn
 	    play_phase(g);
-	    shutup_cppcheck(game);
+	    shutup_cppcheck(g);
 	    cout << "entered: "<< it->first << endl; break;
 	 case 3:
 	    // move to the next turn

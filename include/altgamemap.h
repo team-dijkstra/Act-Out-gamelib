@@ -107,7 +107,7 @@ class AltGameMap : public GameMap {
    //
    /// \param op -- operation to be performed
    /// \param start -- Territory to start with
-   void traverse(TerritoryOperation * op, Territory * start);
+   void traverse(TerritoryOperation * op, Territory * start = NULL);
 
   private:
    //TerritoryList tList;

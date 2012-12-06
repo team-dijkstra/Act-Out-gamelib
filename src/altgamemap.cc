@@ -125,16 +125,20 @@ AltGameMap::TerritoryList AltGameMap::filter(TerritoryOperation * predicate) con
 /// \param op -- operation to be performed
 /// \param start -- Territory to start with
 void AltGameMap::traverse(TerritoryOperation * op, Territory * start){
-   (void)op;(void)start;
-   /*
+   (void)start;
    m_adjList::iterator mt;
-   for( mt = altMap.begin(); mt != altMap.end(); ++it)
+   //TerritoryList tmp;
+   
+   for( mt = altMap.begin(); mt != altMap.end(); ++mt)
    {
-      bool check = op->(mt.first);
+
+      //std::cout << __FILE__ << __LINE__ << " " << mt->first->owner()->name() << std::endl;
+      bool check = (*op)(mt->first);
+      //std::cout << __FILE__ << __LINE__ << " " << mt->first->owner()->name() << std::endl;
       if (check)
       {
-	 
+	 //tmp.push_back(mt->first);
       }
-      }
-   */
+   }
+   return ;//tmp;
 }

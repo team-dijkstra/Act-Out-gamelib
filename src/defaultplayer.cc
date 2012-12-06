@@ -93,31 +93,36 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gi
    /// \todo this fuction should throw an exception if ourGame is NULL
    if ( ourGame != NULL )
    {
-      UnitOperation * unitFilter =  new FilterByAllUnitTypes ;
+      dout << "entered gamemap" << std::endl;
       //get the territories
       GameMap::TerritoryList territories = ourGame->filter(op);
 
       //loop through the territories
-      GameMap::TerritoryList::iterator it;
-      for (it = territories.begin(); it != territories.end(); ++it)
+      
+      for ( GameMap::TerritoryList::iterator it = territories.begin(); it != territories.end(); ++it)
       {
 	 //loop through all units in territory
 	 Territory::unitContainer list_of_units;
-	 list_of_units = (*it)->units(unitFilter);
-	 Territory::unitContainer::iterator unIT;
-	 for (unIT = list_of_units.begin(); unIT != list_of_units.end(); ++unIT)
+	 FilterByAllUnitTypes unitFilter;
+	 list_of_units = (*it)->units(&unitFilter);
+	 
+	 for ( Territory::unitContainer::iterator unIT = list_of_units.begin(); unIT != list_of_units.end(); ++unIT)
 	 {
 	    //get actions
 	    Unit::actionContainer unitsActions =  (*unIT).second->actions();
 	    //loop through actions to see what is applicable for the currentPhase
-	    Unit::actionContainer::iterator acIT;
-	    for (acIT = unitsActions.begin(); acIT != unitsActions.end(); ++acIT)
+	    dout << "iterating through unitContainer, before  actionContainer =========================<< unitsActions size is: "<< unitsActions.size() <<std::endl;
+	    
+	    for ( Unit::actionContainer::iterator acIT = unitsActions.begin(); acIT != unitsActions.end(); ++acIT)
 	    {
 	       Action * currAction = (*acIT);
 	       bool appl = currAction->applicable(*currentPhase);
-		  
+	       
+	       dout << "iterating through actionContainer, before applicable() == "<< appl << " Action.name(): == "<< (*acIT)->name()
+		    << " Action.description(): == "<< (*acIT)->description() << std::endl;
 	       if (appl)
 	       {
+		  dout << "Inside applicable: " << " Action.name(): == "<< (*acIT)->name() << " Action.description(): == "<< (*acIT)->description() << std::endl;
 		  ourActions.push_back( (*acIT) );
 	       }
 	    }
@@ -126,7 +131,7 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gi
 	 
       }
 
-      delete unitFilter;
+      
    }
    return ourActions; // \todo
 }
