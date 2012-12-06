@@ -29,6 +29,8 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyallunittypes.h"
 #include "traditionalarmy.h"
 #include "builderunit.h"
+#include "attritionattackaction.h"
+#include "config.h"
 
 /// Class containing the test cases for BuildTraditionalArmyAction. The BuildTraditionalArmyAction
 /// is exercised through its interface Action.
@@ -56,12 +58,12 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
    // initialization for the test action
    void setUp() {
       t1 = new LandTerritory(std::string("Spain"));
-      p1 = new DefaultPhase(std::string("phase one"));
-      p2 = new DefaultPhase(std::string("phase two"));
-      p3 = new DefaultPhase(std::string("phase three"));
+      p1 = new DefaultPhase(std::string(phase::MARSHAL));
+      p2 = new DefaultPhase(std::string(phase::ATTACK));
+      p3 = new DefaultPhase(std::string(phase::REDEPLOY));
       u1 = new BuilderUnit(t1);
       actionA = new BuildTraditionalArmyAction(p1, u1);
-      actionB = new BuildTraditionalArmyAction(p2, u1);
+      actionB = new AttritionAttackAction(u1, p2);
    }
 
    // frees memory for the actions
@@ -78,8 +80,8 @@ class TestBuildTraditionalArmyAction : public CppUnit::TestFixture {
    
    /// \test ensure that the action names are correctly reported
    void actionname_should_be_as_constructed()  {
-      CPPUNIT_ASSERT(actionA->name() == "BuildTraditionalArmy");
-      CPPUNIT_ASSERT(actionB->name() == "BuildTraditionalArmy");
+      CPPUNIT_ASSERT(actionA->name() == BuildTraditionalArmyAction::NAME);
+      CPPUNIT_ASSERT(actionB->name() == AttritionAttackAction::NAME);
    }
    
    /// \test ensure that the action phases are correct

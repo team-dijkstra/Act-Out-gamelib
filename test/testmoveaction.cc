@@ -61,7 +61,7 @@ class TestMoveAction : public CppUnit::TestFixture {
       t2 = new LandTerritory(std::string("Portugal"), o2);
       t3 = new LandTerritory(std::string("France"), o1);
       p1 = new DefaultPhase(std::string("Attack"));
-      p2 = new DefaultPhase(std::string("Marshall"));
+      p2 = new DefaultPhase(std::string("Redeploy"));
       u1 = new TraditionalArmy(t1, 4);
       u2 = new TraditionalArmy(t2);
       u3 = new TraditionalArmy(t3);

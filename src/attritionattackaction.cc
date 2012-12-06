@@ -26,31 +26,29 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyunittype.h"
 #include "landterritory.h"
 #include "traditionalarmy.h"
-#include "defaultphase.h"
+#include "phase.h"
+#include "config.h"
+
+const std::string AttritionAttackAction::NAME = "AttritionAttack";
 
 AttritionAttackAction::AttritionAttackAction(Unit * p): parent(p)
-{
-   aPhase = new DefaultPhase(std::string("Attack"));
-   mustDelete = true;
-}
+{}
 
-AttritionAttackAction::AttritionAttackAction(Unit * p, Phase * ph): parent(p), aPhase(ph), mustDelete(false)
+/// \deprecated This constructor is kept to maintain compatibility with old tests.
+AttritionAttackAction::AttritionAttackAction(Unit * p, Phase * ph): parent(p)
 {}
 
 AttritionAttackAction::~AttritionAttackAction()
-{
-   if(mustDelete)
-      delete aPhase; //avoid double deleting
-}
+{}
 
 std::string AttritionAttackAction::name() const
 {
-   return "AttritionAttack";
+   return NAME;
 }
 
 bool AttritionAttackAction::applicable(Phase* p) const
 {
-   return (p->name() == aPhase->name());
+   return (p->name() == phase::ATTACK);
 }
 
 const Unit * AttritionAttackAction::unit() const

@@ -34,7 +34,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "buildtraditionalarmyaction.h"
 #include "moveaction.h"
 #include "filterbyterritoryowner.h"
-
+#include "config.h"
 
 
 /// Class containing the test cases for DefaultPlayer. The DefaultPlayer
@@ -60,8 +60,8 @@ class TestPlayer : public CppUnit::TestFixture {
   public:
    // initialization for the test player
    void setUp() {
-      Plist.push_back(new DefaultPhase("Marshall"));
-      Plist.push_back(new DefaultPhase("Attack"));
+      Plist.push_back(new DefaultPhase(phase::MARSHAL));
+      Plist.push_back(new DefaultPhase(phase::ATTACK));
      
       playerA = new DefaultPlayer(std::string("Player1"),Plist);
       playerB = new DefaultPlayer(std::string("Player2"),Plist);
@@ -169,7 +169,7 @@ class TestPlayer : public CppUnit::TestFixture {
 
    void player_actions_should_return_action_container_of_applicable_actions_for_phase()
    {
-      Plist.push_back(new DefaultPhase("Redeploy"));
+      Plist.push_back(new DefaultPhase(phase::REDEPLOY));
 
       /*std::cout<<"\n\n\n"
 	       << Plist[0]->name() << "\n"

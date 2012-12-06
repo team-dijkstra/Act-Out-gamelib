@@ -26,18 +26,26 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "filterbyunittype.h"
 #include "landterritory.h"
 #include "traditionalarmy.h"
+#include "phase.h"
+#include "config.h"
 
-MoveAction::MoveAction(Phase * p, Unit * par): aPhase(p), parent(par)
+const std::string MoveAction::NAME = "Move";
+
+/// \deprecated This constructor is kept to maintain compatibility with old tests.
+MoveAction::MoveAction(Phase * p, Unit * par): parent(par)
+{}
+
+MoveAction::MoveAction(Unit * par): parent(par)
 {}
 
 std::string MoveAction::name() const
 {
-   return "Move";
+   return NAME;
 }
 
 bool MoveAction::applicable(Phase* p) const
 {
-   return (p->name() == aPhase->name());
+   return (p->name() == phase::REDEPLOY);
 }
 
 const Unit * MoveAction::unit() const
