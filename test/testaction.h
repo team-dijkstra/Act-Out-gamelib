@@ -53,7 +53,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(doaction_changes_state_to_invalid_or_succeeded);
    CPPUNIT_TEST(action_status_reflects_state);
    CPPUNIT_TEST(action_status_includes_action_name);
-   CPPUNIT_TEST_FAIL(action_description_has_name_unit_and_territory);
+   CPPUNIT_TEST(action_description_has_name_unit_and_territory);
    CPPUNIT_TEST_SUITE_END_ABSTRACT();
   private:
 
@@ -187,8 +187,37 @@ class TestAction : public CppUnit::TestFixture {
 
    }
 
+   /// \test ensure that the name unit and territory attributes of this operation are inclded in p
    void action_description_has_name_unit_and_territory() {
-      CPPUNIT_FAIL("not implemented");
+      std::string myname = actionA->name();
+      std::string myunit = actionA->unit()->name();
+      std::string myterr = actionA->source()->name();
+            
+      /// \todo Brittle tests.
+      actionA->setState(Action::State::READY);
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myname));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myunit));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myterr));
+
+      actionA->setState(Action::State::PENDING);
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myname));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myunit));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myterr));
+ 
+      actionA->setState(Action::State::SUCCEEDED);
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myname));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myunit));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myterr));
+
+      actionA->setState(Action::State::FAILED);
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myname));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myunit));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myterr));
+
+      actionA->setState(Action::State::INVALID);
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myname));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myunit));
+      CPPUNIT_ASSERT(std::string::npos != actionA->description().find(myterr));
    }
 
    /// \cond SETUPTEARDOWNACTIONTEST
