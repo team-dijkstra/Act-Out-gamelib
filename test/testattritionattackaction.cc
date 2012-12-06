@@ -49,7 +49,6 @@ class TestAttritionAttackAction : public TestAction<AttritionAttackAction> {
    Phase * p3;
    Player * o1, * o2;
    Territory * t1, * t2;
-   Unit * u1, * u2;
    Action * actionA;
 
   protected:
@@ -67,14 +66,24 @@ class TestAttritionAttackAction : public TestAction<AttritionAttackAction> {
   
    /// \test ensure that only correct Phase objects return true
    void action_should_be_applicable_only_for_attack_phase()  {
+      Unit * u1 = createUnit(t1, 4);
+      actionA = createAction(u1);
+
       CPPUNIT_ASSERT(! actionA->applicable(p1));
       CPPUNIT_ASSERT(actionA->applicable(p2));
       CPPUNIT_ASSERT(! actionA->applicable(p3));
+
+      /// note: must delete unit whenever it is not attached to a territory.
+      delete u1;
    }
 
    /// \test that doaction() adds units as appropriate
    void action_doaction_should_properly_attrition_attack()  {
       //added units to territory unitContainers
+      Unit * u1 = createUnit(t1, 4);
+      Unit * u2 = createUnit(t2);
+      actionA = createAction(u1);
+      
       t1->addUnit(u1);
       t2->addUnit(u2);
 
@@ -119,10 +128,6 @@ class TestAttritionAttackAction : public TestAction<AttritionAttackAction> {
       p1 = createPhase(phase::MARSHAL);
       p2 = createPhase(phase::ATTACK);
       p3 = createPhase(phase::REDEPLOY);
-
-      u1 = createUnit(t1, 4);
-      u2 = createUnit(t2);
-      actionA = createAction(u1);
    }
 
    // frees memory for the actions
