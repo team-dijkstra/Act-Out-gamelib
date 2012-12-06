@@ -29,14 +29,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "player.h"
 #include "territory.h"
 #include "phase.h"
-//#include "defaultplayer.h"
-//#include "landterritory.h"
-//#include "defaultphase.h"
 #include "filterbyterritoryowner.h"
-
-//class Player;
-//class Territory;
-//class TerritoryOperation;
 
 AltGameMap::AltGameMap(m_adjList list): altMap(list)
 {
