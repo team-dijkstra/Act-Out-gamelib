@@ -93,7 +93,8 @@ Territory* StlGameMap::begin() const {
 }
 
 Territory* StlGameMap::find(TerritoryName tname) const {
-   using namespace function;
+/*
+using namespace function;
    using namespace typelist;
    using namespace util;
 
@@ -109,7 +110,7 @@ Territory* StlGameMap::find(TerritoryName tname) const {
    > mapnode_first_attr_t;
 
    territory_name_t()(territories.begin()->first);
-
+*/
    /*
    first2<Territory*, std::vector<Territory*> >()(*territories.begin());
    first<const std::pair<Territory*, std::vector<Territory*> > >()(*territories.begin());

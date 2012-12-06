@@ -23,16 +23,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <cppunit/extensions/HelperMacros.h>
 #include "functional.h"
 
-/**
- * Test data for function composition test cases.
- */
-struct twice {
-   typedef int result_type;
-   typedef int argument_type;
-   result_type operator()(argument_type x) {
-      return x + x;
-   }
-};
 
 /**
  * Test cases for function composition utilities defined in functional.h
@@ -51,11 +41,21 @@ class TestFunctional : public CppUnit::TestFixture {
    CPPUNIT_TEST(binary_map_should_do_parameter_mapping);
    CPPUNIT_TEST(dereference_should_convert_pointer_to_ref);
    CPPUNIT_TEST(binary_map_should_work_with_stl_binary_functions);
-   CPPUNIT_TEST(util_first_should_retrieve_reference_to_pair_first);
-   CPPUNIT_TEST(util_second_should_retrieve_reference_to_pair_second);
    CPPUNIT_TEST_SUITE_END();
 
   private:
+
+   /**
+    * Test data for function composition test cases.
+    */
+   struct twice {
+      typedef int result_type;
+      typedef int argument_type;
+      result_type operator()(argument_type x) {
+         return x + x;
+      }
+   };
+
    struct f_bin_null {
       typedef int result_type;
       typedef int first_argument_type;
@@ -322,40 +322,8 @@ class TestFunctional : public CppUnit::TestFixture {
       util::dereference<int>()(&j) = 4;
       CPPUNIT_ASSERT(4 == j);
    }
-
-   /// \test ensure that util::first properly maps std::pair.first to a
-   ///   reference type.
-   void util_first_should_retrieve_reference_to_pair_first() {
-      typedef std::pair<int, double> pair_t;
-      typedef util::first<pair_t> first_t;
-
-      pair_t p;
-      p.first = 2;
-      p.second = 3.14;
-
-      CPPUNIT_ASSERT(first_t()(p) == p.first);
-
-      // supports modification.
-      first_t()(p) = 3;
-      CPPUNIT_ASSERT(3 == p.first);
-   }
-   
-   /// \test ensure that util::second properly maps std::pair.second to a
-   ///   reference type.
-   void util_second_should_retrieve_reference_to_pair_second() {
-      typedef std::pair<int, double> pair_t;
-      typedef util::second<pair_t> second_t;
-
-      pair_t p;
-      p.first = 2;
-      p.second = 3.14;
-
-      CPPUNIT_ASSERT(second_t()(p) == p.second);
-
-      // supports modification.
-      second_t()(p) = 3.219;
-      CPPUNIT_ASSERT(3.219 == p.second);
-   }
 };
 
+/// \cond
 CPPUNIT_TEST_SUITE_REGISTRATION(TestFunctional);
+/// \endcond

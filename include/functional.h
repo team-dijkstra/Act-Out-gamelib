@@ -24,6 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * contains various template metafunctions that facilitate type and function
  * composition.
  *
+ * \author Matt Voroney
  */
 
 #ifndef TEMPLATE_FUNCTIONAL_H
@@ -32,31 +33,90 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /* forward declarations */
 /*===========================================================================*/
 
+/**
+ * \namespace util
+ *
+ * The util namespace contains convenient utility templates that don't clearly
+ * belong anywhere else.
+ */
 namespace util {
    
+   /**
+    * Dereferences a pointer to T, so that the value of T can be used and
+    * modified. This operation also optionally converts from a source type
+    * to a destination type. By default source and desination types are the
+    * same.
+    *
+    * \tparam T The source type to map pointers to references. So if T=int,
+    *  the defined mapping will be from int* to int&
+    * \tparam U The destination type. defaults to T.
+    */
    template<typename T, typename U = T> 
    struct dereference;
 
-   template<typename>
+   /**
+    * A binary functor that takes a comparator (or a functor that returns 
+    * convertable to bool), and deletes the second object if T::operator(x, y) 
+    * returns true. This is useful for applying some stl algorithms such as
+    * std::unique to stl containers of pointer types, which would otherwise
+    * result in memory leaks.
+    *
+    * \tparam T A binary functor that returns convertible to bool. This functor
+    *   is expected to conform to the stl conventions and must supply typedefs
+    *   for \c first_argument_type, \c second_argument_type, and \c result_type.
+    *   \c first_argument_type and \c second_argument_type will be mapped to 
+    *   pointer types since this functor does not make any sense otherwise.
+    */
+   template<typename T>
    struct delete_if;
 
-   template<typename>
-   struct first;
-
-   template<typename>
-   struct second;
-
+   /**
+    * A unary functor that calls the supplied pointer to member function on
+    * the passed object.
+    *
+    * \deprecated This functor is a near duplicate of std::const_mem_fun_t, 
+    *   and more general facilities are possible. 
+    *
+    * \tparam T The type of the object supplying the member function.
+    * \tparam AttrT The return type of the pointer to member function.
+    * \tparam Tattr The pointer to member function to invoke on passed 
+    *   instances of T.
+    */
    template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
    struct member;
 }
 
+/**
+ * \namespace type
+ *
+ * This namespace contains various type mapping and deduction templates that
+ * can be used for type and functional composition. Useful for template 
+ * metaprogramming.
+ */
 namespace type {
+   /// used to indicate that a type is true. useful for type deductions.
    struct true_tag;
+   /// used to indicate that a type is "false". useful for type deductions. 
    struct false_tag;
 
-   template<typename, typename> 
+   /**
+    * Checks whether T and U are the same type. Implementations will define
+    * a \c value member constant that will be \c true if T and U were the same
+    * type, or \c false if T and U were different types. 
+    *
+    * \tparam T The type to compare with U.
+    * \tparam U The type to compare with T.
+    */
+   template<typename T, typename U> 
    struct eq;
 
+   /**
+    * \namespace type::qualifier
+    *
+    * This namespace contains various type qualifier manipulation metafunctions.
+    * These metafunctions allow you to operate on the constness, volatility, 
+    * pointerness or (lvalue) refness of types.
+    */
    namespace qualifier {
 
       /**
@@ -80,40 +140,123 @@ namespace type {
    }
 }
 
+/**
+ * \namespace typelist
+ *
+ * This namespace contains various metafunctions for manipulating simple
+ * typelists. The manipulations will work on simple cons lists.
+ */
 namespace typelist {
+   /// sentinel node.
    struct nil;
    
+   /**
+    * Construct a list. Prepends H onto T
+    *
+    * \tparam H The new head of the list.
+    * \tparam T The list to attach the head to. Will become the tail of 
+    *   the new list. Defaults to \c nil
+    * 
+    * \see nil Used as the list terminal
+    */
    template<typename H, typename T = nil>
    struct cons;
 
+   /**
+    * Retrieves the last element of the list, immediately preceeding the
+    * terminal node. This will simply be the head if the supplied tail was
+    * typelist::nil.
+    *
+    * \tparam head The head of the list to retrieve the last of.
+    * \tparam tail The tail of the list to retrieve the last of. Defaults to
+    *   typelist::nil.
+    *
+    * \see last Top level driver.
+    */
    template<typename head, typename tail = nil>
    struct last2;
 
+   /**
+    * Retrieves the last element of the list, immediately preceeding the
+    * terminal node, or nil if the supplied list was empty. This is a 
+    * convenience top level runner.
+    *
+    * \tparam list The list to retrieve the last element from. defaults to nil.
+    *
+    * \see last2 The internal implementation class.
+    */
    template<typename list = nil>
    struct last;
 }
 
+/**
+ * \namespace function
+ *
+ * This namespace contains various metafunctions for function composition.
+ */
 namespace function {
    struct binary_tag;
    struct unary_tag;
 
+   /**
+    * \namespace function::binary
+    *
+    * This namespace contains metafunctions for composing and manipulating
+    * binary functors.
+    */
    namespace binary {
       using typelist::nil;
 
+      /**
+       * This metafunction composes a binary functor from the supplied base
+       * binary functor F1, and adds parameter mappings defined by typelists 
+       * of unary functions, F2 and F3 to the input parameters of F1. All
+       * manipulated functors are expected to conform to the stl conventions.
+       *
+       * \tparam F1 The base binary function to compose. Must supply typedefs
+       *    for \c first_argument_type, \c second_argument_type, and 
+       *    \c result_type.
+       * \tparam F2 A typelist of unary functors defining a transformation 
+       *    sequence from F2::argument_type to F1::first_argument_type. 
+       *    Defaults to typelist::nil. Must supply typedefs for 
+       *    \c argument_type, and \c result_type.
+       * \tparam F3 A typelist of unary functors defining a transformation
+       *    sequence from F3::argument_type to F1::second_argument_type.
+       *    Defaults to typelist::nil. Must supply typedefs for 
+       *    \c argument_type, and \c result_type.
+       *
+       * \see typelist
+       */
       template<typename F1, typename F2 = nil, typename F3 = nil>
       struct map;
    }
 
+   /**
+    * \namespace function::unary
+    *
+    * This namespace contains metafunctions for composing and manipulating
+    * unary functions.
+    */
    namespace unary {
 
-      template<typename>
+      /**
+       * This metafunction composes a unary function from the supplied typelist
+       * of functors.
+       *
+       * \tparam F A list of unary functors to compose. The functors will be
+       *    applied in reverse order from the rightmost element of the list first
+       *    to the leftmost element of the list last.
+       *
+       * \see typelist
+       */
+      template<typename F>
       struct map;
    }
 }
 
 /* implementations */
 /*===========================================================================*/
-
+/// \cond Allow doxygen to skip internal implementation details.
 namespace type {
    
    struct true_tag {};
@@ -297,6 +440,7 @@ namespace typelist {
       typedef head type;
    };
 }
+/// \endcond
 
 namespace function {
 
@@ -304,7 +448,8 @@ namespace function {
    
    //struct binary_tag {};
    //struct unary_tag {};
-   
+  
+   /// \cond Let doxygen skip internal implementation details.
    namespace binary {
 
       /*
@@ -314,7 +459,7 @@ namespace function {
       template<typename A, typename B>
       false_tag is_related(const void * = static_cast<B*>(0));
       */
-      
+     
       template<typename F1, typename F2, typename F3>
       struct map : private F1, private F2, private F3 {
          typedef typename F1::result_type result_type;
@@ -367,12 +512,15 @@ namespace function {
          /* operator() inherited from F1 */ 
       };
    }
+   /// \endcond
    
    namespace unary {
    
       using namespace typelist;
 
       /**
+       * \struct function::unary::map
+       *
        * General case. recursively builds a call chain from the supplied list
        * of functors.
        *
@@ -396,6 +544,7 @@ namespace function {
        *    expected to supply type definitions for \c result_type and 
        *    \c argument_type.
        */
+      /// \cond
       template<typename list>
       struct map : private virtual list::head, private map<typename list::tail> {
          typedef typename list::head::result_type result_type;
@@ -406,8 +555,11 @@ namespace function {
             return list::head::operator()(map<typename list::tail>::operator()(x));
          }
       };
+      /// \endcond
   
       /**
+       * \struct function::unary::map
+       *
        * Base case. simply forwards type declarations and exposes the public 
        * interface inherited from T.
        *
@@ -420,12 +572,14 @@ namespace function {
        *
        * \todo is it possible to do this without virtual inheritance?
        */
+      /// \cond
       template<typename T>
       struct map<cons<T, nil> > : public virtual T {
          typedef typename T::result_type result_type;
          typedef typename T::argument_type argument_type;
          /* operator() inherited from T */
       };
+      /// \endcond
    }
 }
 
@@ -436,18 +590,9 @@ class Territory;
  * \todo Should this namespace live in a separate file?
  */
 namespace util {
+   /// \cond Allow doxygen to skip implementation details.
    using function::unary_tag;
 
-   /**
-    * Dereferences a pointer to T, so that the value of T can be used and
-    * modified. This operation also optionally converts from a source type
-    * to a destination type. By default source and desination types are the
-    * same.
-    *
-    * \tparam T The source type to map pointers to references. So if T=int,
-    *  the defined mapping will be from int* to int&
-    * \tparam U The destination type. defaults to T.
-    */
    template<typename T, typename U>
    struct dereference {
       typedef U* argument_type;
@@ -458,24 +603,13 @@ namespace util {
       }
    };
 
-   /**
-    * This functor deletes it's second argument if the result of the
-    * inherited operation is true.
-    *
-    * \tparam T A binary predicate conforming the the stl functional 
-    *    conventions. This parameter is expected to be a binary function
-    *    supplying typedefs for \c first_argument_type, \c second_argument_type
-    *    and \c result_type. \c first_argument_type and \c second_argument_type
-    *    will be mapped to pointer types since this functor does not make any
-    *    sense otherwise.
-    */
    template<typename T>
    struct delete_if : public T {
       typedef typename type::qualifier::strip<typename T::first_argument_type>::type * first_argument_type;
       typedef typename type::qualifier::strip<typename T::second_argument_type>::type * second_argument_type;
       typedef typename T::result_type result_type;
 
-      result_type operator()(Territory* x, Territory* y) const {
+      result_type operator()(first_argument_type x, second_argument_type y) const {
          result_type result = T::operator()(*x, *y);
          
          if (static_cast<bool>(result))
@@ -485,46 +619,7 @@ namespace util {
       }
    };
 
-   /**
-    * Extracts the first field of an std::pair type.
-    *
-    * \tparam TPair This parameter is expected to be an std::pair type.
-    */
-   template<typename TPair>
-   struct first {
-      typedef TPair & argument_type;
-      typedef typename type::qualifier::copy<TPair, typename TPair::first_type, const void>::type & result_type;
-
-      result_type operator()(argument_type x) const {
-         return x.first;
-      }
-   };
-
-   template<typename T1, typename T2>
-   struct first2 {
-      typedef const std::pair<T1, T2> & argument_type;
-      typedef const T1 & result_type;
-
-      result_type operator()(argument_type x) const {
-         return x.first;
-      }
-   };
-
-   /**
-    * Extracts the second field of an std::pair type.
-    *
-    * \tparam TPair Expected to be an std::pair type.
-    */
-   template<typename TPair>
-   struct second {
-      typedef TPair & argument_type;
-      typedef typename TPair::second_type & result_type;
-
-      result_type operator()(argument_type x) const {
-         return x.second;
-      }
-   };
-
+   // depracated
    template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
    struct member {
       typedef const T & argument_type;
@@ -534,6 +629,7 @@ namespace util {
          return (x.*Tattr)();
       }
    };
+   /// \endcond
 }
 
 #endif /* TEMPLATE_FUNCTIONAL_H */
