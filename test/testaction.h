@@ -89,13 +89,11 @@ class TestAction : public CppUnit::TestFixture {
 
    /// \test ensure that unit is correctly reported
    void action_unit_should_return_parent()  {
-      /// \todo should this really compare pointer values?
       CPPUNIT_ASSERT(actionA->unit() == u1);
    }
 
    /// \test ensure that source is correctly reported
    void action_source_should_return_parent_location()  {
-      /// \todo pointer value comparison?
       CPPUNIT_ASSERT(actionA->source() == t1);
    }
 
