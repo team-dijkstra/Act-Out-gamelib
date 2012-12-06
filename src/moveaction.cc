@@ -54,13 +54,22 @@ bool MoveAction::applicable(Phase* p) const
 
 void MoveAction::doaction(int nUnits, Territory * T)
 {
-   const Player * here = unit()->whereAt()->owner();
-   const Player * there = T->owner();
+   // not in a valid state to perform the action. 
+   if (Action::State::READY != state() && Action::State::PENDING != state()) return;
    
-   if(here != there)
+   const Player * us = unit()->whereAt()->owner();
+   const Player * them = T->owner();
+   
+   if(us != them) {
+      /// \todo set status message?
+      setState(Action::State::INVALID);
       return;
+   }
+
    Unit * moving;
    moving = this->m_parent->split(nUnits);
    T->addUnit(moving);
+
+   setState(Action::State::SUCCEEDED);
 }
    

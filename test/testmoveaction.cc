@@ -153,6 +153,7 @@ class TestMoveAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(u2->numUnits() == 1);
       CPPUNIT_ASSERT(u3->numUnits() == 1);
 
+      actionA->setState();
       //send 1 guy from u1 to t3 which should work because o2 (the owner
       //of t3) has no defending units, but only with 4 guys
       actionA->doaction(1, t3);

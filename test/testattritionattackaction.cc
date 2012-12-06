@@ -93,6 +93,7 @@ class TestAttritionAttackAction : public TestAction<AttritionAttackAction> {
       CPPUNIT_ASSERT(u1->numUnits() == 3);
       CPPUNIT_ASSERT(u2->numUnits() == 0);
 
+      actionA->setState();
       //send 100 guys from u1 to attack t2
       actionA->doaction(100, t2);
 

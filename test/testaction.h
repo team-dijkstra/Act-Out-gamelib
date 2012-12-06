@@ -50,7 +50,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(action_starts_in_ready_state);
    CPPUNIT_TEST(action_set_state_changes_state);
    CPPUNIT_TEST(action_set_state_returns_to_ready_with_no_args);
-   CPPUNIT_TEST_FAIL(doaction_changes_state_to_invalid_or_succeeded);
+   CPPUNIT_TEST(doaction_changes_state_to_invalid_or_succeeded);
    CPPUNIT_TEST_FAIL(action_status_reflects_state);
    CPPUNIT_TEST_FAIL(action_status_includes_action_name);
    CPPUNIT_TEST_FAIL(action_description_has_name_unit_and_territory);
@@ -132,7 +132,14 @@ class TestAction : public CppUnit::TestFixture {
    }
 
    void doaction_changes_state_to_invalid_or_succeeded() {
-      CPPUNIT_FAIL("not implemented");
+      actionA->doaction(1, t1);
+     
+      bool status_is_SUCCEEDED_FAILED_or_INVALID =
+         actionA->state() == Action::State::SUCCEEDED
+         || actionA->state() == Action::State::FAILED
+         || actionA->state() == Action::State::INVALID;
+         
+      CPPUNIT_ASSERT(status_is_SUCCEEDED_FAILED_or_INVALID);
    }
 
    void action_status_reflects_state() {

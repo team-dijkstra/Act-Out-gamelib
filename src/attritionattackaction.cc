@@ -48,14 +48,21 @@ bool AttritionAttackAction::applicable(Phase* p) const
    return (p->name() == phase::ATTACK);
 }
 
+/// \todo There seem to be too many checks on the number of attacking and defending
+/// units. are all of these checks necessary? are they correct?
 void AttritionAttackAction::doaction(int nUnits, Territory * T)
 {
+   // not in a valid state to perform the action. 
+   if (Action::State::READY != state() && Action::State::PENDING != state()) return;
+   
    std::string attackUnitName = unit()->name();
    Player * attacker = unit()->whereAt()->owner();
    Player * defender = T->owner();
    
-   if(attacker == defender)
+   if(attacker == defender) {
+      setState(Action::State::INVALID);
       return;
+   }
 
    int attackUnits = unit()->numUnits();
    if(nUnits > attackUnits)
@@ -64,9 +71,12 @@ void AttritionAttackAction::doaction(int nUnits, Territory * T)
    FilterByUnitType fut(this->m_parent);
    Territory::unitContainer defendUnits = T->units(&fut);
    Territory::unitContainer::iterator it;
-   
+  
+   // ensure that we only attack units of the same type.
    it = defendUnits.find(attackUnitName);
    
+   /// \todo this check is not sufficient if there are units that trump or
+   ///  block attrition of lesser units, such as nukes.
    if(it != defendUnits.end())
    {
       int attrition = 0;
@@ -86,12 +96,20 @@ void AttritionAttackAction::doaction(int nUnits, Territory * T)
 	     it->second->increase(attackUnitsLeft);
 	     this->m_parent->decrease(attackUnitsLeft);
       }
+
+      setState(Action::State::SUCCEEDED);
    }
    else
    {
+      // if the unit type was not found, then we can just add it to the territory.
       T->owner(attacker);
+      
+      // Note: attrition attacks only apply to TraditionalArmy units, so hard 
+      // coded creation is ok here.
       T->addUnit(new TraditionalArmy(T, nUnits));
       this->m_parent->decrease(nUnits);
+
+      setState(Action::State::SUCCEEDED);
    }
 }
    

@@ -92,7 +92,8 @@ class TestBuildTraditionalArmyAction : public TestAction<BuildTraditionalArmyAct
       CPPUNIT_ASSERT(myit != myc.end());
       numberOfUnits = myit->second->numUnits();
       CPPUNIT_ASSERT(numberOfUnits == 1);
-    
+   
+      actionA->setState();
       actionA->doaction(1,t1);
       myc = t1->units( &fat);
       myit = myc.find("TraditionalArmy");
