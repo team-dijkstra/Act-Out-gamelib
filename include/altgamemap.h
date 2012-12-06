@@ -17,8 +17,8 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/// \file altgamemapstub.h
-/// \brief Interface file for GameMap Class 
+/// \file altgamemap.h
+/// \brief Interface file for AltGameMap Class 
 //
 /// Alt class implements GameMap interface.
 
@@ -45,14 +45,26 @@ typedef std::string TerritoryName;
 class AltGameMap : public GameMap {
   public:
 
+   /// \copydoc GameMap::TerritoryList
    typedef GameMap::TerritoryList TerritoryList;
+   /// \copydoc GameMap::Adjacency
    typedef GameMap::Adjacency Adjacency;
+   /// \copydoc GameMap::AdjacencyList
    typedef GameMap::AdjacencyList AdjacencyList;
 
+   /// The adjacencylist type used by this implementation.
    typedef std::map< Territory * , TerritoryList > m_adjList;
    
-   
+   /// Constructor. Initializes the map with the specified adjacencies.
+   /// Self adjacencies will be eliminated.
+   ///  
+   /// \param list A list of adjacent territories.
+   /// 
+   /// \see GameMap::AdjacencyList for the format of the adjacency list.
+   ///
    AltGameMap(m_adjList list);
+
+   /// Destructor. Deletes all stored territories.
    ~AltGameMap();
 
    //accessors

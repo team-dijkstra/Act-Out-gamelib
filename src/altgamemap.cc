@@ -17,8 +17,8 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
-/// \file altgamemapstub.h
-/// \brief Interface file for GameMap Class 
+/// \file altgamemap.cc
+/// \brief Implementation file for AltGameMap Class 
 //
 /// Alt class implements GameMap interface.
 #include <vector>
@@ -26,9 +26,12 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "altgamemap.h"
-#include "defaultplayer.h"
-#include "landterritory.h"
-#include "defaultphase.h"
+#include "player.h"
+#include "territory.h"
+#include "phase.h"
+//#include "defaultplayer.h"
+//#include "landterritory.h"
+//#include "defaultphase.h"
 #include "filterbyterritoryowner.h"
 
 //class Player;
