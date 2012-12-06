@@ -50,6 +50,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(action_starts_in_ready_state);
    CPPUNIT_TEST(action_set_state_changes_state);
    CPPUNIT_TEST_FAIL(action_set_state_returns_to_ready_with_no_args);
+   CPPUNIT_TEST_FAIL(doaction_changes_state_to_invalid_or_succeeded);
    CPPUNIT_TEST_FAIL(action_status_reflects_state);
    CPPUNIT_TEST_FAIL(action_status_includes_action_name);
    CPPUNIT_TEST_FAIL(action_description_has_name_unit_and_territory);
@@ -119,6 +120,10 @@ class TestAction : public CppUnit::TestFixture {
    }
 
    void action_set_state_returns_to_ready_with_no_args() {
+      CPPUNIT_FAIL("not implemented");
+   }
+
+   void doaction_changes_state_to_invalid_or_succeeded() {
       CPPUNIT_FAIL("not implemented");
    }
 
