@@ -62,7 +62,7 @@ Player* DefaultGame::winner() const{
    }*/
 
 /// \return the GameMap of the current game.
-// cppcheck-suppress unusedFunction
+// cpp check -suppress unusedFunction
 GameMap* DefaultGame::currentGame() const{
    return gMap;
 }

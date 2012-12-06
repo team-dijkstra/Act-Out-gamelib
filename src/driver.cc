@@ -22,519 +22,335 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  *
  *  Contains the main() function for implementing a basic game
  */
+
 #include <iostream>
 #include <string>
-#include <utility>
 #include <vector>
 #include <map>
-#include <set>
+#include <algorithm>
+#include <limits>
 
-#include "defaultplayer.h"
-#include "landterritory.h"
-#include "defaultphase.h"
-//#include "stlgamemap.h"
-#include "attritionattackaction.h"
-#include "moveaction.h"
-#include "buildtraditionalarmyaction.h"
-#include "traditionalarmy.h"
-#include "config.h"
+#include "altdefaultgame.h"
+#include "altgamemap.h"
+#include "filterbyterritoryall.h"
+#include "filterbyterritoryowner.h"
+#include "territory.h"
 
 using namespace std;
 
-/// adjacency list of territories
-typedef vector< pair< Territory*, Territory* > > adjList;
-/// list of all players
-typedef vector< Player* > playerList;
-/// list of commands
-typedef map< string, int > comList;
-/// list of phases
-typedef Player::phaselist phaseList;
-/// list of territories
-typedef set<Territory* > territorylist;
+//globals
+typedef map< string, int > commands;
+typedef map< string, string > helps;
 
-/** This is a temporary class implementation of functionality that is needed from the Game and DriverGameMap
- * interface classes so we could complete our driver class for demo purposes. Elemets of this will be
- * incorporated into the implementations of those clases and will be removed from the final driver program
- * other elements such as DriverGameMap::print() are more appropriate for the driver program and will remain
- */
+//globals
+const int INT_MAX = std::numeric_limits<int>::max();
 
-class DriverGameMap{
-public:
-   /// param a -- adjList
-   /// post MIL:
-   ///      <br>- sets myAjL to a and inserts elements of a into allTerr
-   DriverGameMap(adjList & a):myAjL(a)//, unclaimed(new DefaultPlayer(string("Unclaimed")))
-   {
-      adjList::iterator it;
-      for(it = myAjL.begin();  it!=myAjL.end() ; ++it)
-      {
-	 allTerr.insert(it->first);
-	 allTerr.insert(it->second);
-      }
-   }
-
-   /** Convienience method for initially allocating owners to the Territories
-    *  this will be handled by the implementation of the Game::SetupGame()
-    */
-   void setOwners(Player * p1, Player * p2)
-   {
-      set< Territory*>::iterator gIT;
-      int m=0;
-      for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
-      {
-	 if(((m++)%2 ) == 0)
-	 {
-	    (*gIT)->owner(p1);
-	 }
-	 else
-	    (*gIT)->owner(p2);
-      }
-   }
-   /// \cond GAMEMAPOUT
-   void out(){
-      cout<<"";
-   }
-   /// 	\endcond
-
-   /// \post prints all territories
-   void print()
-   {
-      territorylist l = list();
-      territorylist::iterator lsIT;
-      for(lsIT = l.begin(); lsIT != l.end(); ++lsIT)
-      {
-	 cout << (*lsIT)->name() << endl;;
-      }
-   }
-
-   /// \param p -- Player pointer
-   /// \post prints territories of the specified Player
-   void print(Player * p)
-   {
-      territorylist l = list(p);
-      territorylist::iterator lsIT;
-      for(lsIT = l.begin(); lsIT != l.end(); ++lsIT)
-      {
-	 cout << (*lsIT)->name() << endl;;
-      }
-      
-   }
-
-   /// \post returns a DriverGameMap::territorylist containing of all territories
-   territorylist list()
-   {
-      territorylist pass;
-      set< Territory*>::iterator gIT;
-      for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
-      {
-	 pass.insert(*gIT);
-	 //cout << (*gIT)->name() << endl;;
-      }
-      return pass;
-   }
-
-   /// \param p -- Player pointer
-   /// \returns DriverGameMap::territorylist containing all territories of the specified Player
-   territorylist list(Player * p)
-   {
-      territorylist pass;
-      set< Territory*>::iterator gIT;
-      for(gIT = allTerr.begin(); gIT != allTerr.end(); ++gIT)
-      {
-	 if( (*gIT)->owner() == p)
-	 {
-	    pass.insert(*gIT);
-	    //cout << (*gIT)->name() << endl;;
-	 }
-      }
-      return pass;
-   }
-
-   /// \param att -- pointer to attacking territory object
-   /// \param def -- pointer to defending territory object
-   /// \param player -- pointer to attacking player object
-   ///
-   /// \returns a bool indicating true if attack sucessful, false otherwise
-   bool Attack(Territory * att, Territory * def, Player * player)
-   {
-      
-      set< Territory* >::iterator i1,i2;
-      i1 = allTerr.find(att);
-      i2 = allTerr.find(def);
-      if(i1!=allTerr.end() && i2!=allTerr.end() )
-      {
-	 phaseList curr = player->remainingPhases();
-	 phaseList::iterator phsIT = curr.begin();
-
-	 Action * a = new AttritionAttackAction(new TraditionalArmy(att,10));
-	 bool cando = a->applicable(*phsIT);
-	 if(cando)
-	 {
-	    //  cout << "Can Do!\n";
-	    a->doaction(1,def);
-	 }
-
-	 delete a;
-	 return cando;
-      }
-      return false;
-   }
-
-   /// \returns a DriverGameMap::territorylist of all territories
-   territorylist getSet()
-   {
-      return allTerr;
-   }
-   
-private:
-   adjList myAjL;
-   //Player * unclaimed;
-   set< Territory* > allTerr;
-   
-   
+//helper classes and structs
+struct ComHelp{
+   commands c;
+   helps h;
 };
 
-void init(map< string, int > &);
-void help();
-void setup(DriverGameMap *&, playerList &, phaseList&);
-void showmap(DriverGameMap *&);
-void myterritories(DriverGameMap *&,Player *);
-void playPhase(DriverGameMap *&, playerList &, Player *&);
-void nextPhase(DriverGameMap *&, playerList &, Player *&);
-void attack(DriverGameMap *&, playerList &, Player *&);
-bool playGame(DriverGameMap *&, playerList &, comList&, Player *&);
-bool isWinner(DriverGameMap *&, playerList&, Player *);
-void shutupcppcheck()
+struct GameContainer {
+   AltDefaultGame game;
+   ComHelp coms;
+   Player * currentTurn;
+};
+
+//method declarations
+void preamble(); //< displays a basic overview of the game
+void init_help(GameContainer&); //< initializes commands and help variables
+void init_game(GameContainer&); //< initializes commands and help variables
+void show_help(const ComHelp&); //< prints the help info
+void get_names(vector<Game::PlayerName>&); //< gets the names of players and territories
+void player_order(const GameContainer&); //< list the turn order of the players
+bool play_game(GameContainer&); //< drives the game state
+void show_territories(const GameContainer&); //< displays all territories, with owner and adjacencies
+void play_phase(GameContainer&); //< plays the current phase
+void next_phase(GameContainer&); //< moves to the next phase
+void player_quits(GameContainer&); //< removes the player from the game 
+
+
+void shutup_cppcheck(GameContainer& g)
 {
-   Player * p1 = new DefaultPlayer("p1");
-   Territory * la = new LandTerritory("la", p1);
-   Unit * ta = new TraditionalArmy(la);
-   Phase * ph1 = new DefaultPhase("phase");
-   AttritionAttackAction aaa(ta);
-   MoveAction ma(ph1, ta);
-   BuildTraditionalArmyAction btaa(ph1, ta);
-   aaa.unit();aaa.source();ma.unit();ma.source();btaa.unit();btaa.source();
-   delete p1;
-   delete la;
-   delete ta;
-   delete ph1;
+   Player * p = g.currentTurn;
+   TerritoryOperation * op = new FilterByTerritoryOwner(p->name());
+   Unit::actionContainer acts = p->actions(op);
+   Unit::actionContainer::iterator it = acts.begin();
+   cout << (*it)->source()->name()<<endl;
+   cout << (*it)->unit()->name()<<endl;
+   delete op;
 }
 
-/// Main driver funtion
+//method definitions
 int main()
 {
-   shutupcppcheck();
-   map< string, int > commands;
+   preamble();
    
-   init(commands);
+   //create game container
+   GameContainer game;
+   
+   //setup the help and commands
+   init_help(game);
 
-   DriverGameMap * myDriverGameMap;
-   playerList pList;
-   phaseList phsList;
-   phaseList::iterator phsIT;
-   
-   setup(myDriverGameMap,pList,phsList);
-   myDriverGameMap->setOwners(pList[0],pList[1]);
-   Player * currentTurn;
-   currentTurn = pList[0];
-   cout << endl;
-   help();
-   cout << "Game is ready, "<< currentTurn->name() << " will proceed first" << endl<<endl;
-   //cout << "The commands are: "<<endl;
-   
+   //initialize
+   init_game(game);
+
+   //print basic game info
+   player_order(game);
+   show_help(game.coms);
+
+   //play the game
    do
    {
-      phaseList curr = currentTurn->remainingPhases();
-      phsIT = curr.begin();
-      //string cp = phsIT->name();
-      string cp =  (*phsIT)->name();
-      cout << "The current player is: " <<currentTurn->name();
-      cout << " The current phase is: " <<cp <<endl;
+      cout <<"It is "<<game.currentTurn->name()<<"\'s turn. " 
+	   <<"Type 'help' to see the list of commands again."<< endl;
+      cout<<endl;
    }
-   while(playGame(myDriverGameMap, pList, commands, currentTurn));
+   while(play_game(game));
+   
    return 0;
 }
 
-/// \param[in,out] commands -- reference to a comList of commands
-/// \post initializes the command list
-void init(map< string, int > & commands)
+void preamble()
 {
+   cout << "Welcome to the game."<<endl;
+}
+
+void init_help(GameContainer& g)
+{
+   //setup commands and help info
+   string command, explanation;
    int index = 0;
-   commands["help"] = index++;
-   //commands["'help'"] = index++;
-   commands["showmap"] = index++;
-   commands["showme"] = index++;
-   commands["play"] = index++;
-   commands["next"] = index++;
-   commands["attack"] = index++;
-   commands["quit"] = index++;
-   //commands[""] = index++;
-}
 
-/// \post outputs help screen to standard out
-void help()
-{
-   cout << "===List Of Commands==="<<endl;
-   cout << "'help': display these help instructions."<<endl;
-   cout << "'showmap': display all the territories."<<endl;
-   cout << "'showme': display the list of territories owned by the current player."<<endl;
-   cout << "'play': Play the current player's current phase of the current turn \n\t(will automatically move on to the next phase)"<<endl;
-   cout << "'next': move to the players next phase of the current turn \n\t(if no more phases are left in the current turn, this will move to the next players turn)"<<endl;
-   cout << "'quit': current player quits (lame!)"<<endl;
-   cout << endl;
-}
+   command = "help";
+   explanation = "Display these help instructions.\n";
+   g.coms.c[command] = index++;
+   g.coms.h[command] = explanation;
 
-/// \param gm -- pointer reference to the DriverGameMap
-/// \param pL -- reference to a playerList
-/// \param phsL -- reference to a phaseList
-/// \post initializes the game state
-void setup(DriverGameMap *& gm ,playerList& pL, phaseList& phsL)
-{
-   //setup phaselist
-   phsL.push_back(new DefaultPhase(string(phase::MARSHAL)));
-   phsL.push_back(new DefaultPhase(string(phase::ATTACK)));
-   phsL.push_back(new DefaultPhase(string(phase::REDEPLOY)));
-   
-   string pn1,pn2;
-   cout << "This game has 2 players"<<endl;
-   cout << "Please enter the name of player 1: ";
-   getline(cin, pn1);
-   Player * p1 = new DefaultPlayer(pn1, phsL);
-   cout << "Please enter the name of player 2: ";
-   getline(cin, pn2);
-   Player * p2 = new DefaultPlayer(pn2, phsL);
-   pL.push_back(p1);
-   pL.push_back(p2);
-   
-   // create territories
-   Territory *t1 = new LandTerritory("Spain");
-   Territory *t2 = new LandTerritory("Germany");
-   Territory *t3 = new LandTerritory("GreatWhiteNorth");
-   Territory *t4 = new LandTerritory("Sweden");
-   Territory *t5 = new LandTerritory("Yankees");
-   Territory *t6 = new LandTerritory("Mexico");
-   
-   /// create adjacency list
-   adjList aL;
-   aL.push_back(make_pair(t1,t2) );
-   aL.push_back(make_pair(t1,t3) );
-   aL.push_back(make_pair(t3,t4) );
-   aL.push_back(make_pair(t2,t5) );
-   aL.push_back(make_pair(t4,t5) );
-   aL.push_back(make_pair(t5,t6) );
+   command = "maps";
+   explanation = "Display all the territories, their owner, and the adjacent territories.\n";
+   g.coms.c[command] = index++;
+   g.coms.h[command] = explanation;
 
-   gm = new DriverGameMap(aL);
-   
-}
-
-/// \param g -- pointer reference to the DriverGameMap
-/// \post prints list of all territories to standard out
-void showmap(DriverGameMap *& g)
-{
-   //cout << "\t***Stub: All Territory List!" << endl;
-   g->print();
-   cout << endl;
-}
-
-/// \param g -- pointer reference to the DriverGameMap
-/// \param p -- pointer to the current player
-/// \post prints list of player's territories to standard out
-void myterritories(DriverGameMap *& g,Player * p)
-{
-   //cout << "\t***Stub: "<<p->name()<<"'s Territory List!" << endl;
-   g->print(p);
-   cout << endl;
-}
-
-/// \param gm -- pointer reference to the DriverGameMap
-/// \param pl -- reference to a playerList
-/// \param player -- pointer reference to the current player
-/// \post stub for enacting the players current turn
-void playPhase(DriverGameMap *& gm, playerList & pl, Player *& player)
-{
-   phaseList curr = player->remainingPhases();
-   phaseList::iterator cIT;
-   cIT = curr.begin();
-   string s = (*cIT)->name();
-   gm->out();pl[0]->name();
-   cout << "\t***Stub: Doing "<<player->name()<<"'s Current Phase: "<< s << endl;
-   cout << endl;
-}
-
-/// \param gm -- pointer reference to the DriverGameMap
-/// \param pl -- reference to a playerList
-/// \param player -- pointer reference to the current player
-/** \post moves player to next phase, if last phase in turn is reached sets next player in pl
- *  as the current player
- */
-void nextPhase(DriverGameMap *& gm, playerList & pl, Player *& player)
-{
-   gm->out();
-   bool nextPlayer = player->nextPhase();
-   if(nextPlayer)
-   {
-      if(player->name() != pl[0]->name() )
-	 player = pl[0];
-      else
-	 player = pl[1];
-   }
-   
-   cout << "\t**Moving to Next Phase**" << endl;
-   cout << endl;
-}
-
-/// \param g -- pointer reference to the DriverGameMap
-/// \param plst -- reference to a playerList
-/// \param currP -- pointer reference to the current player
-/** \post asks player for attack decision and prints result to standard out
- */
-void attack(DriverGameMap *& g, playerList & plst, Player *& currP)
-{
-   cout << "***Attack!***"<<endl;
-   territorylist aL = g->getSet();
-   cout << "List of All Territories:" <<endl;
-   g->print();
-   cout<<endl;
-   cout << "Your Territories: "<<endl;
-   myterritories(g, currP);
-   territorylist::iterator gaLIT;
-   map< string, Territory* > m;
-   map< string, Territory* >::iterator mIT;
-   for(gaLIT = aL.begin(); gaLIT != aL.end(); ++gaLIT)
-   {
-      Territory * t = (*gaLIT);
-      string s = t->name();
-      m[s]=t;
-   }
-   string s;
-   cout << "Choose attacking territory: ";
-   cin >> s;
-   mIT = m.find(s);
-   Territory * p1 = mIT->second;
-
-   cout << "Choose defending territory: ";
-   cin >> s;
-   mIT = m.find(s);
-   
-   Territory * p2 = mIT->second;
-   bool success = g->Attack(p1, p2, currP);
-   cout << "\n\n *** Attack "<<(success? "Suceeded!":"Failed!")<<" ***"<<endl;
-
-   cout << endl;
+   command = "play";
+   explanation = "Play the current phase of the current player's turn.\n\t(will automatically move on to the next phase)\n";
+   g.coms.c[command] = index++;
+   g.coms.h[command] = explanation;
       
+   command = "next";
+   explanation = "Move to the next phase of the current player's turn \n\t(if no more phases are left in the current turn, this will move to the next players turn)\n\tN.B. Only use it you want to skip doing anything this current phase!!!\n";
+   g.coms.c[command] = index++;
+   g.coms.h[command] = explanation;
+   
+   command = "quit";
+   explanation = "Current player quits (lame!)\n";
+   g.coms.c[command] = index++;
+   g.coms.h[command] = explanation;
+
+   return ;
 }
 
-
-/**
- * Main UI for playing the game
- *
- * \param myGame -- pointer reference to the DriverGameMap
- * \param pList -- reference to a playerList
- * \param commands -- reference to a list of available commands
- * \param currentTurn -- pointer reference to the current player
- *
- * \returns false if a winner is found or if a player quits returns true otherwise
- */
-bool playGame(DriverGameMap *& myGame, playerList & pList, comList& commands, Player *& currentTurn)
+void init_game(GameContainer& g)
 {
-   map< string, int >::iterator comIT;
-   string nextCommand;
+   vector<Game::PlayerName> players, territories;
+   
+   cout << "Enter player names, 1 per line: (push Ctrl+d when done)"<<endl;
+   while(players.size()<2) //ensure at least 2 players
+   {
+      get_names(players);
+      if (players.size()<2)
+	 cout << "You can't play with yourself!!!! Enter more players." << endl;
+   }
+   
+   /// \todo add check to see if they have enough players entered
+
+   cout << "Enter territory names, 1 per line: (push Ctrl+d when done)"<<endl;
+   while(territories.size() < (players.size()*3) )
+   {
+      get_names(territories);
+      if (territories.size()< (players.size()*3) )
+	 cout << "Not enough land!!!! Enter more territories." << endl;
+   }
+
+   cout << "There are " << players.size()
+	<< " players, and " << territories.size()
+	<< " territories." << endl
+	<< "Setting up game ..." << endl
+	<< endl;
+
+   //setup the game object
+   g.game.setupGame(players, territories);
+   
+   //set the current turn to the first player in the playerlist
+   Game::playerlist list = g.game.players();
+   Game::playerlist::const_iterator it = list.begin();
+   g.currentTurn = (*it);
+}
+
+void get_names(vector<Game::PlayerName>& namelist)
+{
+   string name;
+   getline(cin,name);
+   
+   while(!cin.fail() && !name.empty())
+   {
+      vector<Game::PlayerName>::iterator it = find(namelist.begin(), namelist.end(), name);
+      if(it == namelist.end())
+	 namelist.push_back(name);
+      else
+	 cout << "You goofed! You used that name already. \n(Try again with a unique name!):"<<endl;
+      getline(cin,name);
+   } 
+   cin.clear();
+}
+
+void show_help(const ComHelp& coms) 
+{
+   cout << "--------------------:Help Screen:--------------------" <<endl;
+   cout << "Here are the commands you can use:" <<endl <<endl;;
+   //iterate through ComHelp object and display it's command and explanation
+   for(helps::const_iterator it = coms.h.begin(); it != coms.h.end();++it)
+      cout << it->first << " : " << it->second << endl;
+   cout << "------------------:End Help Screen:------------------" <<endl;
+   cout << endl;
+}
+
+void player_order(const GameContainer& g) 
+{
+   cout << "The players' turn order is: " <<endl;
+   Game::playerlist list = g.game.players();
+   for(Game::playerlist::const_iterator it = list.begin(); it != list.end(); ++it)
+   {
+      cout << (*it)->name() << endl;
+   }
+   cout << endl;
+}
+
+bool play_game(GameContainer& g)
+{
+   //perform manditory phase setups
+
+   //get user command and execute
    cout << "Please enter a command (lost? try 'help'): ";
+   string nextCommand;
    cin>>nextCommand;
-   cout << endl;
-   if(!cin.fail())
+
+   //cout << INT_MAX;
+   while (cin.fail() || nextCommand.empty() )
    {
-      comIT = commands.find(nextCommand);
-      if (comIT != commands.end())
-      {
-	 int cm = comIT->second;
-	 switch(cm)
-	 {
-	    case 0:
-	       //case 1:
-	       //show help list
-	       help();
-	       return true; //< continue with game
-	    case 1:
-	       //show list of all territories
-	       cout<< " >>> Listing all territories: "<<endl;
-	       showmap(myGame);
-	       break;
-	    case 2:
-	       //show a list of currentTurn players territories
-	       cout<< " >>> " << currentTurn->name()<<"'s territories: "<<endl;
-	       myterritories(myGame,currentTurn);
-	       break;
-	    case 3:
-	       //play the current phase
-	       cout << " >>> Playing current phase. "<<endl;
-	       playPhase(myGame , pList, currentTurn);
-	       //do not break here, automatically moving to next phase at end of currentPhase
-	    case 4:
-	       //move to the next phase
-	       cout << " >>> Moving on to next phase."<<endl;
-	       if(isWinner(myGame , pList, currentTurn ))
-	       {
-		  cout << " >>> "<<currentTurn->name() << "wins!"<<endl;
-		  return false;
-	       }
-	       nextPhase(myGame , pList, currentTurn);
-	       break;
-	    case 5:
-	       attack(myGame , pList, currentTurn);
-	       break;
-	    case 6:
-	       //player quits
-	       cout << " >>> "<<currentTurn->name() << " quits! (Looser!)"<< endl;
-	       return false;
-	    default:
-	       break;
-	 
-	 }
-      }
-      else
-      {
-	 cout << " >>> Bad Command! \nMaybe you should type 'help' (w/o the quotes). "<<endl;
-	 cout << endl;
-      }
-      
+    
+      cout << " >>> Bad Command, can't type Today??? \nTry again: "<<endl;
+      cin.clear(); cin.ignore(INT_MAX,'\n');
+      cout << endl;
+      cin>>nextCommand;
+      cout << nextCommand;
    }
-   else{
-      cout << " >>> Bad Command, can't type Today??? "<<endl;
-      cin.clear();
+   
+   commands::iterator it = g.coms.c.find(nextCommand);
+   if (it ==  g.coms.c.end() )
+   {
+      cout << " >>> Bad Command! \nMaybe you should type 'help' (w/o the quotes). "<<endl;
       cout << endl;
    }
-   
+   else
+   {
+      //cout << it->second << endl;
+      switch (it->second)
+      {
+	 case 0:
+	    //cout << "entered: "<< it->first << endl; 
+	    show_help(g.coms); break;
+	 case 1:
+	    // display all territories
+	    show_territories(g);
+	    cout << "entered: "<< it->first << endl;
+	    break;
+	 case 2:
+	    // play the current turn
+	    play_phase(g);
+	    shutup_cppcheck(game);
+	    cout << "entered: "<< it->first << endl; break;
+	 case 3:
+	    // move to the next turn
+	    next_phase(g);
+	    cout << "entered: "<< it->first << endl; break;
+	 case 4:
+	    //player quits
+	    // player_quit(g);
+	    cout << "entered: "<< it->first << endl;
+	    return false;//break;
+	    
+      }
+   }
    
    return true;
 }
 
-/**
- * Function to check if current player is the winner
- *
- * \param g -- pointer reference to the DriverGameMap
- * \param pL -- reference to a playerList
- * \param currentTurn -- pointer reference to the current player
- *
- * \returns true if current player is the winner 
- */
-bool isWinner(DriverGameMap *& g, playerList& pL, Player * currentTurn)
+void show_territories(const GameContainer& g)
 {
-   /// \todo win condition for more than 2 players loop thru pL if all other player !alive() then currentTurn Wins
-   bool win = false;
-   if (pL[0]==currentTurn){
-      win = !pL[1]->alive(); // \todo fix this
-      territorylist us = g-> list(pL[1]);
-      if (us.empty())
-	 win = true;
-   }
-   else //(pL[1]==currentTurn)
+   // create filterbyt * op
+   
+   TerritoryOperation * op = new FilterByTerritoryAll();
+   GameMap * gm = g.game.currentGame();
+   
+   // get Game::TerritoryList list = g.game.currentGame()->filter(op)
+   
+   GameMap::TerritoryList list = gm->filter(op);
+   GameMap::TerritoryList adjlist;
+   GameMap::TerritoryList::iterator it;
+   GameMap::TerritoryList::iterator ait;
+
+   cout << endl << endl << "List of all territories!" << endl << endl;
+
+   // iterate thru list, displa name owner, adjacencies
+   for(it = list.begin(); it != list.end(); ++it)
    {
-      win = !pL[0]->alive(); // \todo fix this
-      territorylist us = g-> list(pL[0]);
-      if (us.empty())
-	 win = true;
-  
+      adjlist = gm->adjacencies(*it);
+      cout << "Territory: " << (*it)->name() << "\tOwner: " << (*it)->owner()->name() 
+	   << "\tAdjacent Territories: " ;
+      
+      // iterate thru adjacency list to print
+      for(ait = adjlist.begin(); ait != adjlist.end(); ++ait)
+      {
+	 cout << (ait != adjlist.begin() ? ", " :"") << (*ait)->name() ;
+      }
+      
+      cout << endl;
    }
-   return win;
+  
+   delete op;
+}
+
+void play_phase(GameContainer& g)
+{
+   
+   cout << endl << g.currentTurn->name()<< ", Play phase" << endl;
+}
+
+void next_phase(GameContainer& g)
+{
+   cout << endl << "next phase" << endl;
+   //g.currentTurn->remainingPhases();
+   //cout<<endl<<currentTurn();
+   bool nextPlayer = g.currentTurn->nextPhase();
+   
+   //shift thru phases
+   if(nextPlayer)
+   {
+      
+      AltDefaultGame::playerlist pls = g.game.players();
+      AltDefaultGame::playerlist::iterator it = find( pls.begin(), pls.end(), g.currentTurn);
+      ++it;
+      if(it == pls.end())
+      {
+	 //if there is no next player
+	 it = pls.begin();
+      }
+      cout << "current Player: " << g.currentTurn->name() <<endl
+	   << "next Player: " << (*it)->name() <<endl;
+
+      g.currentTurn = *it;
+    
+   }
 }

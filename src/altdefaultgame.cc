@@ -94,14 +94,13 @@ Player* AltDefaultGame::winner() const{
 }
 
 // /// \return the player which has the current turn
-// cppcheck-suppress unusedFunction
+// cpp check- suppress unusedFunction
 /*Player* AltDefaultGame::currentTurn() const
 {
    return cTurn;
    }*/
 
 /// \return the GameMap of the current game.
-// cppcheck-suppress unusedFunction
 GameMap* AltDefaultGame::currentGame() const{
    return gMap;
 }
