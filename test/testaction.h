@@ -48,7 +48,7 @@ class TestAction : public CppUnit::TestFixture {
    CPPUNIT_TEST(action_unit_should_return_parent);
    CPPUNIT_TEST(action_source_should_return_parent_location);
    CPPUNIT_TEST(action_starts_in_ready_state);
-   CPPUNIT_TEST_FAIL(action_set_state_changes_state);
+   CPPUNIT_TEST(action_set_state_changes_state);
    CPPUNIT_TEST_FAIL(action_set_state_returns_to_ready_with_no_args);
    CPPUNIT_TEST_FAIL(action_status_reflects_state);
    CPPUNIT_TEST_FAIL(action_status_includes_action_name);
@@ -103,12 +103,19 @@ class TestAction : public CppUnit::TestFixture {
       CPPUNIT_ASSERT(actionA->source() == t1);
    }
 
+   /// \test ensure that the action starts in the correct state.
    void action_starts_in_ready_state() {
       CPPUNIT_ASSERT(actionA->state() == Action::State::READY);
    }
 
+   /// \test ensure that the set state method changes state to the specified
+   ///   state.
    void action_set_state_changes_state() {
-      CPPUNIT_FAIL("not implemented");
+      Action::State prev = actionA->state();
+      actionA->setState(Action::State::SUCCEEDED);
+      
+      CPPUNIT_ASSERT(prev != actionA->state());
+      CPPUNIT_ASSERT(actionA->state() == Action::State::SUCCEEDED);
    }
 
    void action_set_state_returns_to_ready_with_no_args() {
