@@ -332,7 +332,7 @@ bool play_game(GameContainer& g)
 	    player_quits(g);
 	    cout << "Player: "<<g.currentTurn->name()<< it->first << endl;
 	    break;
-	    return return;//break;
+	    return false;//break;
 	    
       }
    }
@@ -684,26 +684,6 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
    string nm;
    bool valid_territory = false;
   
-   //getline(cin,nm);
-   //cin >> nm;
-   //check to see which phase
-   //delete filters
-   //if phase is marshal
-   //need include
-//   TerritoryOperation * op2 = new FilterByTerritoryName(nm);
-   //FilterByTerritoryName op2(nm);
-   //tlist = g.game.currentGame()->filter(&op2);
-   //delete op2;
-   //if(!tlist.empty())
-   //{
-    //   std::cout << __LINE__ << "tlist is empty" << std::endl;
-   //    lit = tlist.begin();
-   //    //if(p->name() == (*lit)->owner()->name())
-   //    cont = check_owner(check, p , *lit) ;
-   //    //cont = true;
-   // }
-   //cin>>nm;
-
    cout<<message<<endl;
    while(tlist.empty() || !valid_territory)
    {
@@ -724,7 +704,7 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
 	 if(valid_territory)
 	 {
 	    acts = p->actions(&filter);
-	    return *lit;
+	    break;
 	 }
 	 else
 	    cout << endl << "Not an acceptable territory!" << endl << message; 
@@ -733,6 +713,8 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
 	 
       //delete filter;
    }
+
+   return *lit;
 }
 
 void choose_actions(GameContainer& g, string message)
