@@ -9,6 +9,15 @@ Want to know the current status of the project? Click on the link above to
 visit our Travis-CI page to see the status of past builds and what versions
 build and test cleanly.
 
+Note: this project has gone through 2 renames, the first name was to more correctly 
+give the intent of the project, the second was to correct a minor spelling error 
+corrected a minor spelling error in the name. The links to the Travis builds under 
+the old names are at the following locations:
+
+https://travis-ci.org/team-djikstra/Nu-KleaAr-game
+and
+https://travis-ci.org/team-djikstra/Act-Out-gamelib
+
 Want to see more detailed documentation?
 
 1. See the [Wiki][] for high level design and discussion documentation.
