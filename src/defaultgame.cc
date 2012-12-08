@@ -41,12 +41,10 @@ DefaultGame::playerlist DefaultGame::systemPlayers() const{
    return sysPlayers;
 }
 
-/// \return all the regular Players
 DefaultGame::playerlist DefaultGame::players() const{
    return gPlayers;
 }
 
-/// \return if the game has winner and who it is
 // cpp check -suppress unusedFunction 
 Player* DefaultGame::winner() const{
 
@@ -67,10 +65,6 @@ GameMap* DefaultGame::currentGame() const{
    return gMap;
 }
    
-//mutators
-/// \param playerlist -- all the players playing this game
-//
-/// performs all operations needed to initialize game state
 void DefaultGame::setupGame( std::vector< PlayerName > playernames,std::vector< PlayerName > territoryNames)
 {
    //create system players
