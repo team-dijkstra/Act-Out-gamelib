@@ -39,9 +39,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class DefaultGame : public Game {
   public:
    /// PlayerName typedef is for clarity and code readability
-   typedef Game::PlayerName PlayerName; ///< \typedef list of player names
+   typedef Game::PlayerName PlayerName; ///<  list of player names
    
-   typedef Game::playerlist playerlist; ///< \typedef list of players
+   typedef Game::playerlist playerlist; ///<  list of players
 
    //constructor
    // DefaultGame(playerlist pl, GameMap * g = NULL);

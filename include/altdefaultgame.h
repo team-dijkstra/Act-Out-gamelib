@@ -43,9 +43,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class AltDefaultGame : public Game {
   public:
    
-   typedef Game::PlayerName PlayerName; ///< \typedef name of a Player
+   typedef Game::PlayerName PlayerName; ///<  name of a Player
 
-   typedef Game::playerlist playerlist; ///< \typedef A list of Player objects
+   typedef Game::playerlist playerlist; ///<  A list of Player objects
 
    //constructor
 

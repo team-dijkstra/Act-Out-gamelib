@@ -19,8 +19,9 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 /// \file
 /// \brief Interface file for StlGameMap Class -- stlgamemap.h
-//
-/// StlGameMap interface, specifies behaviour for game maps
+/// 
+/// StlGameMap interface, specifies behaviour for game maps. 
+/// This is currently experimental.
 
 #ifndef STL_GAMEMAP_H
 #define STL_GAMEMAP_H
@@ -35,42 +36,53 @@ class Territory;
 class TerritoryOperation;
 
 
-/// \copydoc
+/// @copydoc
 class StlGameMap : public GameMap {
   public:
-   typedef GameMap::TerritoryList TerritoryList;
-   typedef GameMap::Adjacency Adjacency;
-   typedef GameMap::AdjacencyList AdjacencyList;
+   typedef GameMap::TerritoryList TerritoryList; ///< vector of pointers to territories
    
-   /// Constructor
+   typedef GameMap::Adjacency Adjacency;///< pair of pointers to territories
+   
+   typedef GameMap::AdjacencyList AdjacencyList;///< vector of adjacencies
+   
+   //constructors
+
+   /// \param adjacent -- used to monitor adjacencies
+   ///
+   /// 
    StlGameMap(const AdjacencyList & adjacent);
+
+   //destructor
+   
    ~StlGameMap(); 
 
    //accessors
-   /// \copydoc
+   
+   /// @copydoc GameMap::begin()
    Territory* begin() const;
 
    //accessors
-   /// \copydoc 
-   Territory* find(TerritoryName) const;
+   /// @copydoc GameMap::find()
+   Territory* find(TerritoryName fn) const;
 
-   /// \copydoc 
-   TerritoryList adjacencies(const Territory *) const;
+   /// @copydoc GameMap::adjacencies()
+   TerritoryList adjacencies(const Territory * t) const;
 
-   /// \copydoc 
-   TerritoryList players(Player *) const;
+   /// @copydoc GameMap::players()
+   TerritoryList players(Player * p) const;
 
-   /// \copydoc std::vector<std::pair<Territory*, Territory*> >::iterator
-   TerritoryList filter(TerritoryOperation * op) const; 
+   /// @copydoc GameMap::filter()
+   TerritoryList filter(TerritoryOperation * predicate) const; 
       
    //mutators
-   /// \copydoc 
+   
+   /// @copydoc GameMap::traverse()
    void traverse(TerritoryOperation * op, Territory * start);
   private:
-   typedef std::pair<Territory*, TerritoryList> MapNode;
-   typedef std::vector<MapNode> MapType;
+   typedef std::pair<Territory*, TerritoryList> MapNode; ///< pair of Territory and TerritoryList
+   typedef std::vector<MapNode> MapType; ///< vector of MapNodes
 
-   MapType territories;
+   MapType territories; ///< this is the map to be used
 };
 
 #endif
