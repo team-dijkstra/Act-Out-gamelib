@@ -11,8 +11,8 @@ build and test cleanly.
 
 Note: this project has gone through 2 renames, the first name was to more correctly 
 give the intent of the project, the second was to correct a minor spelling error 
-corrected a minor spelling error in the name. The links to the Travis build history
-for the builds done under the old names are at the following locations:
+in the name. The links to the Travis build history for the builds done under the old 
+names are at the following locations:
 
 https://travis-ci.org/team-djikstra/Nu-KleaAr-game
 and
