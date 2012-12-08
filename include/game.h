@@ -36,9 +36,9 @@ class Game {
   public:
 
 
-   typedef std::string PlayerName; //< \typedef string to be names of players
+   typedef std::string PlayerName; ///< \typedef string to be names of players
 
-   typedef std::vector<Player*> playerlist; //< \typedef vector of pointers to Players
+   typedef std::vector<Player*> playerlist; ///< \typedef vector of pointers to Players
 
    /// Virtual base destructor
    virtual ~Game() {}

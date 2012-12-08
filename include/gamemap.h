@@ -34,7 +34,7 @@ class Territory;
 class TerritoryOperation;
 
 
-typedef std::string TerritoryName; //< \typedef string of name of Territory
+typedef std::string TerritoryName; ///< \typedef string of name of Territory
 
 /// The GameMap interface class.
 //
@@ -44,11 +44,11 @@ typedef std::string TerritoryName; //< \typedef string of name of Territory
 class GameMap {
   public:
 
-   typedef std::vector<Territory*> TerritoryList; //< \typedef vector of pointers to territories
+   typedef std::vector<Territory*> TerritoryList; ///< \typedef vector of pointers to territories
 
-   typedef std::pair<Territory*, Territory*> Adjacency; //< \typedef pair of pointers to territories
+   typedef std::pair<Territory*, Territory*> Adjacency; ///< \typedef pair of pointers to territories
 
-   typedef std::vector<Adjacency> AdjacencyList; //< \typedef vector of adjacencies
+   typedef std::vector<Adjacency> AdjacencyList; ///< \typedef vector of adjacencies
 
    /// Virtual base constructor
    virtual ~GameMap() {}

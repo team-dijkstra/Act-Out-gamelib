@@ -46,13 +46,13 @@ typedef std::string TerritoryName;
 class AltGameMap : public GameMap {
   public:
 
-   typedef GameMap::TerritoryList TerritoryList; //< \typedef vector of pointers to territories
+   typedef GameMap::TerritoryList TerritoryList; ///< \typedef vector of pointers to territories
    
-   typedef GameMap::Adjacency Adjacency; //< \typedef pair of pointers to territories
+   typedef GameMap::Adjacency Adjacency; ///< \typedef pair of pointers to territories
    
-   typedef GameMap::AdjacencyList AdjacencyList; //< \typedef vector of adjacencies
+   typedef GameMap::AdjacencyList AdjacencyList; ///< \typedef vector of adjacencies
 
-   typedef std::map< Territory * , TerritoryList > m_adjList; //< The adjacencylist type used by this implementation
+   typedef std::map< Territory * , TerritoryList > m_adjList; ///< The adjacencylist type used by this implementation
    
    /// Constructor. Initializes the map with the specified adjacencies.
    /// Self adjacencies will be eliminated.

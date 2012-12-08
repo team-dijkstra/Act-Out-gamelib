@@ -39,7 +39,7 @@ class Territory;
 class DefaultAction : public Action {
   public:
 
-   static const std::string NAME;//< name of action
+   static const std::string NAME; ///< name of action
    //constructors
 
    /// Constructor
@@ -83,7 +83,7 @@ class DefaultAction : public Action {
 
   protected:
 
-   static const std::string status_msg [Action::State::LAST];//< status of action
+   static const std::string status_msg [Action::State::LAST];///< status of action
 
    /// \todo Should we provide protected accessors for parent? or use it directly?
    

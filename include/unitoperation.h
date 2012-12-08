@@ -51,7 +51,7 @@ class UnitOperation {
     * indicated by the return value. Otherwise, the return value is
     * undefined.
     *
-    * \param t -- The Unit to operate on.
+    * \param unit -- The Unit to operate on.
     */
    virtual bool operator()(Unit * unit) const =0;
 

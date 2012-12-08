@@ -30,7 +30,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "player.h"
 #include "game.h"
-					   //#include "gamemap.h"
+//#include "gamemap.h"
 //class Player;
 //class GameMap;
 
@@ -39,12 +39,16 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class DefaultGame : public Game {
   public:
    /// PlayerName typedef is for clarity and code readability
-   typedef Game::PlayerName PlayerName;
+   typedef Game::PlayerName PlayerName; ///< \typedef list of player names
    
-   typedef Game::playerlist playerlist;
+   typedef Game::playerlist playerlist; ///< \typedef list of players
 
    //constructor
    // DefaultGame(playerlist pl, GameMap * g = NULL);
+
+   /// \param g -- GameMap object, default to null;
+   ///
+   /// supplied GameMap is no longer used
    DefaultGame(GameMap * g = NULL);
    //destructor
    ~DefaultGame();

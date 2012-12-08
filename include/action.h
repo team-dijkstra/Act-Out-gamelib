@@ -41,12 +41,12 @@ class Action {
 
    /// Constants indicating the state of the Action implementation.
    enum State {
-      READY, //< indicates that the action has not been performed yet and is not pending.
-      PENDING, //< indicates that the action has not been performed yet, but has been submitted.
-      SUCCEEDED, //< indicates that the action has been performed and succeeded.
-      FAILED, //< indicates that the action was attempted, but failed. 
-      INVALID, //< indicates that the action failed because it was not valid.
-      LAST //< dummy state used as a sentinel, and so we know how many states there are.
+      READY, ///< indicates that the action has not been performed yet and is not pending.
+      PENDING, ///< indicates that the action has not been performed yet, but has been submitted.
+      SUCCEEDED, ///< indicates that the action has been performed and succeeded.
+      FAILED, ///< indicates that the action was attempted, but failed. 
+      INVALID, ///< indicates that the action failed because it was not valid.
+      LAST ///< dummy state used as a sentinel, and so we know how many states there are.
    };
 
    /// Virtual base destructor
