@@ -34,9 +34,6 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
-/// TerritoryName typedef is for clarity and code readability
-typedef std::string TerritoryName;   
-
 /// The FK_GameMap class.
 //
 /// This class is reponsible for representing the collection of Territories in the

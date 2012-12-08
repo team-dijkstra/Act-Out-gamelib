@@ -20,7 +20,8 @@ CPPCHECK_SEVERITY_ERR := error warning style
 
 PROGS := testrunner driver 
 LIBS := actout
-PRECOMPILED_HEADER := precompile.h
+precompiled_header := include/precompile.h
+pchflags := $(if $(wildcard $(precompiled_header).gch),-Winvalid-pch -include $(precompiled_header),)
 driver_SRC := src/driver.cc
 actout_SRC := $(filter-out $(driver_SRC),$(wildcard src/*.cc))
 testutil_SRC := $(wildcard test/util/*.cc)
@@ -110,7 +111,7 @@ $(foreach d,$(filter-out $(wildcard $(DIRECTORIES)),$(DIRECTORIES)),$(shell mkdi
 cclibpath := $(patsubst =%,%,$(word 6,$(shell $(CXX) -print-search-dirs)))
 
 pchcompile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) -x c++-header $< -o $@
-compile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) -include $(PRECOMPILED_HEADER) -Winvalid-pch -c -x c++ $< -o $@ -MMD -MF $(@:.o=.d)
+compile = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $(pchflags) -c -x c++ $< -o $@ -MMD -MF $(@:.o=.d)
 link = $(CXX) $(LDFLAGS) -o $@ $^ $(patsubst %,-l%,$1)
 
 # install search paths
@@ -121,51 +122,48 @@ $(foreach milestone,$(milestones),$(eval vpath %.$(milestone) $(MSDIR)))
 vpath % $(BINDIR)
 
 .DEFAULT_GOAL := all
-.PHONY: all depend test check docs clean clean-commit clean-all
-.INTERMEDIATE: include/$(PRECOMPILED_HEADER).gch
+.PHONY: all depend test check docs clean clean-commit clean-all decimate precompile
 
 all: $(addprefix $(BINDIR)/,$(PROGS))
+precompile: $(precompiled_header).gch
 
 # generate target link rules
-$(foreach t,$(PROGS),$(eval $(call rule_t,$(BINDIR)/$t,$(addprefix $(OBJDIR)/,$($t_OBJS)) | $(BINDIR),$$(call link,$($t_LIBS)))))
-
-# generate directory rules
-$(foreach d,$(BINDIR) $(OBJDIR) $(LOGDIR) $(MSDIR) $(DOCDIR),$(eval $(call rule_t,$d,,mkdir -p $d)))
+$(foreach t,$(PROGS),$(eval $(call rule_t,$(BINDIR)/$t,$(addprefix $(OBJDIR)/,$($t_OBJS)),$$(call link,$($t_LIBS)))))
 
 %.h.gch : %.h
 	$(pchcompile)
 
-$(OBJDIR)/%.o: %.cc include/$(PRECOMPILED_HEADER).gch | $(OBJDIR)
+$(OBJDIR)/%.o: %.cc
 	$(compile)
 
-$(MSDIR)/%.cppunit: % | $(MSDIR) $(LOGDIR)
+$(MSDIR)/%.cppunit: %
 	$< > $(LOGDIR)/$(@F).log
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
 	@touch $@
 
-$(MSDIR)/%.valgrind: % | $(MSDIR) $(LOGDIR)
+$(MSDIR)/%.valgrind: %
 	valgrind --xml-file=$(LOGDIR)/$(@F).err.xml --log-file=$(LOGDIR)/$(@F).log --tool=memcheck $<
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
 	@touch $@
 
 # TODO: does cppcheck actually need to build? or does it just use the source?
-$(MSDIR)/%.cppcheck: % | $(MSDIR) $(LOGDIR)
+$(MSDIR)/%.cppcheck: %
 	cppcheck $(addprefix -I ,$(INCLUDE)) -i test --template gcc --xml-version=2 --error-exitcode=0 --inline-suppr --enable=all . 2> $(LOGDIR)/$(@F).log.xml
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
 	@cppcheck-severity $(LOGDIR)/$(@F).log.xml $(CPPCHECK_SEVERITY_ERR)
 	@touch $@
 
-$(MSDIR)/%.cppncss: % | $(MSDIR) $(LOGDIR)
+$(MSDIR)/%.cppncss: %
 	cppncss -xml -f=$(LOGDIR)/$(@F).log.xml src include test test/util
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log.xml; fi
 	@touch $@
 
-$(MSDIR)/%.doxygen: %/Doxyfile Doxyfile | $(MSDIR) $(LOGDIR) $(DOCDIR)
+$(MSDIR)/%.doxygen: %/Doxyfile Doxyfile
 	doxygen $< > $(LOGDIR)/$(@F).log
 	@if [ $$CI ]; then cat $(LOGDIR)/$(@F).log; fi
 	@touch $@
 
-$(MSDIR)/%.latex: %.doxygen | $(MSDIR) $(LOGDIR) $(DOCDIR)
+$(MSDIR)/%.latex: %.doxygen
 	make -C $(DOCDIR)/$*/latex
 	@cp -f $(DOCDIR)/$*/latex/refman.log $(LOGDIR)/$*-manual.log
 	@ln -f -s $(DOCDIR)/$*/latex/refman.pdf $*-manual.pdf

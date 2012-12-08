@@ -33,9 +33,6 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
-
-typedef std::string TerritoryName; ///<  string of name of Territory
-
 /**
  * \interface GameMap
  *
@@ -49,6 +46,8 @@ typedef std::string TerritoryName; ///<  string of name of Territory
  */
 class GameMap {
   public:
+
+   typedef std::string TerritoryName; ///<  string of name of Territory
 
    typedef std::vector<Territory*> TerritoryList; ///<  vector of pointers to territories
 
