@@ -79,10 +79,10 @@ class AltDefaultGame : public Game {
 
   private:
    
-   GameMap * gMap;
-   playerlist gPlayers;
-   playerlist sysPlayers;
-   Player::phaselist phases;
+   GameMap * gMap; ///< GameMap object being used
+   playerlist gPlayers; ///< list of all game players
+   playerlist sysPlayers; ///< list of all sysPlayers
+   Player::phaselist phases; ///< list of all Phase objects
    
    //private member function
 
