@@ -37,14 +37,13 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
-
 /**
  * \class StlGameMap
  *
  * The Stl GameMap is implemented using an STL vector of nodes with separate 
  * chaining for the adjacencies. The nodes are stored in sorted order, so
  * searches are guaranted to occur in \f$O(\log(n))\f$ time, and will consume
- * \f$2n\$f space + the overhead for an STL vector. Vector was chosen to 
+ * \f$2n\f$ space + the overhead for an STL vector. Vector was chosen to 
  * provide good locality of reference for fast cache friendly accesses.
  *
  * \note This class assumes ownership of all supplied Territory objects, and will
@@ -83,34 +82,46 @@ class StlGameMap : public GameMap {
 
    //accessors
    
-   /// @copydoc GameMap::begin()
+   /// \copydoc GameMap::begin()
    Territory* begin() const;
 
    //accessors
-   /// @copydoc GameMap::find()
-   ///
-   /// \note This opperation is guaranteed to run in \f$O(\log(n))\f$ time.
-   ///
+   
+   /**
+    * \copydoc GameMap::find()
+    *
+    * \note This opperation is guaranteed to run in \f$O(\log(n))\f$ time.
+    */
    Territory* find(TerritoryName fn) const;
 
-   /// @copydoc GameMap::adjacencies()
+   /**
+    * \copydoc GameMap::adjacencies()
+    *
+    * \note This opperation is guaranteed to run in \f$O(\log(n))\f$ time.
+    */
    TerritoryList adjacencies(const Territory * t) const;
 
-   /// @copydoc GameMap::players()
+   /**
+    * \copydoc GameMap::players() 
+    */
    TerritoryList players(Player * p) const;
 
-   /// @copydoc GameMap::filter()
+   /**
+    * \copydoc GameMap::filter()
+    */
    TerritoryList filter(TerritoryOperation * predicate) const; 
       
    //mutators
    
-   /// @copydoc GameMap::traverse()
+   /**
+    * \copydoc GameMap::traverse()
+    */
    void traverse(TerritoryOperation * op, Territory * start);
   private:
    typedef std::pair<Territory*, TerritoryList> MapNode; ///< pair of Territory and TerritoryList
    typedef std::vector<MapNode> MapType; ///< vector of MapNodes
 
-   MapType territories; ///< this is the map to be used
+   MapType territories; ///< the underlying container.
 };
 
 #endif
