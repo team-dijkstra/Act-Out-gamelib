@@ -62,7 +62,7 @@ class Action {
    /// string describing the action including all pertinant information,
    /// such as the source territory, and the type of unit performing the 
    /// action (conceptually).
-   //
+   ///
    /// \return A string describing the action for top level consumption.
    virtual std::string description() const =0;
 

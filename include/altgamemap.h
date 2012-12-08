@@ -41,19 +41,18 @@ typedef std::string TerritoryName;
 /// The AltGameMap class.
 //
 /// This class is reponsible for representing the collection of Territories in the
-/// game, returning relevant information and performing operations on specified TerritoryList 
+/// game, returning relevant information and performing operations on specified TerritoryList.
+/// Deletes all territories.
 class AltGameMap : public GameMap {
   public:
 
-   /// \copydoc GameMap::TerritoryList
-   typedef GameMap::TerritoryList TerritoryList;
-   /// \copydoc GameMap::Adjacency
-   typedef GameMap::Adjacency Adjacency;
-   /// \copydoc GameMap::AdjacencyList
-   typedef GameMap::AdjacencyList AdjacencyList;
+   typedef GameMap::TerritoryList TerritoryList; //< \typedef vector of pointers to territories
+   
+   typedef GameMap::Adjacency Adjacency; //< \typedef pair of pointers to territories
+   
+   typedef GameMap::AdjacencyList AdjacencyList; //< \typedef vector of adjacencies
 
-   /// The adjacencylist type used by this implementation.
-   typedef std::map< Territory * , TerritoryList > m_adjList;
+   typedef std::map< Territory * , TerritoryList > m_adjList; //< The adjacencylist type used by this implementation
    
    /// Constructor. Initializes the map with the specified adjacencies.
    /// Self adjacencies will be eliminated.
@@ -68,45 +67,23 @@ class AltGameMap : public GameMap {
    ~AltGameMap();
 
    //accessors
-   /// \return the start territory. Which territory this is is implementation
-   ///       defined.
+   
+   /// @copydoc GameMap::begin()
    Territory* begin() const;
    
-   /// Finds the specified Territory
-   //
-   /// \param tname -- string representing the TerritoryName
-   /// \return the specified Territory, or a sentinel if not found.
-   /// \see StlGameMap::end the sentinel node of this class.
-   Territory* find(TerritoryName) const;
+   /// @copydoc GameMap::find()
+   Territory* find(TerritoryName fn) const;
 
-   /// Finds all Territories that are adjacent to the specified Territory
-   //
-   /// \param t -- pointer to a Territory object
-   /// \return all Territories that are adjacent to the specified Territory
-   TerritoryList adjacencies(const Territory *) const;
+   /// @copydoc GameMap::adjacencies()
+   TerritoryList adjacencies(const Territory * t) const;
 
-   /// Finds all Territories that are owned by the specified Player
-   //
-   /// \param p -- pointer to a Player object
-   /// \return all Territories owned by the given player
-   ///
-   /// \todo do we need this? if we do, it's badly named. using 'filter'
-   ///       method should be just as easy.
-   /// \depracated
-   TerritoryList players(Player *) const;
+   /// @copydoc GameMap::players()
+   TerritoryList players(Player * p) const;
 
-   /// Retrieves all Territories that match the specified predicate.
-   ///
-   /// \param predicate A functor to decide membership in the output list.
-   ///
-   /// \return the list of TerritoryList selected by the supplied predicate.
+   /// @copydoc GameMap::filter()
    TerritoryList filter(TerritoryOperation * predicate) const;
 
-   //mutators
-   /// Traverses all territories and performs the specified operation
-   //
-   /// \param op -- operation to be performed
-   /// \param start -- Territory to start with
+   /// @copydoc GameMap::traverse()
    void traverse(TerritoryOperation * op, Territory * start = NULL);
 
   private:

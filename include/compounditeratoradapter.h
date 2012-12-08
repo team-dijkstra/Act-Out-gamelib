@@ -25,22 +25,22 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <iterator>
 
 /// \class CompoundIteratorAdapter
-///
+   ///
 /// Wrapper class that allows iteration over single field of compound type
 /// such as a class, struct or union stored in the underlying container.
-///
+   ///
 /// \tparam CI The underlying compound iterator exposed by the underlying
 ///         container type.
 /// \tparam CV The component value type of the field to iterate over.
 /// \tparam member A pointer to member for the field to iterate over.
-///
+   ///
 /// \author Matt Voroney
-///
+   ///
 /// \todo It should be possible to pass a pointer to member as a template
 ///       value parameter, but g++ seems to bail on this.
 /// \todo It should be possible to extract the type of the pointer to member
 ///       field directly.
-///
+   ///
 template<
    typename CI, 
    typename CV,

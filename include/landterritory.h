@@ -35,15 +35,14 @@ class LandTerritory : public Territory{
 
    /// \param nm -- string to be this Territory's name
    /// \param own -- pointer to Player to be owner
-   //
-   /// \post MIL:
-   ///       <br>- sets tName to nm
-   ///       <br>- sets tOwner to own
+   ///
+   /// \details sets tName to nm, sets tOwner to own
    /// \todo should own default to NULL?
    LandTerritory(std::string nm, Player * own = NULL);
 
    //destructor
-   
+
+   ///Destructor. Deletes its units.
    ~LandTerritory();
 
    //accessors

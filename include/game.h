@@ -31,25 +31,29 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class Player;
 class GameMap;
 
-/// PlayerName typedef is for clarity and code readability
-
-
 /// Game Interface class specifies the bahavior of the game object
 class Game {
   public:
-   typedef std::string PlayerName;
-   typedef std::vector<Player*> playerlist;
-   
+
+
+   typedef std::string PlayerName; //< \typedef string to be names of players
+
+   typedef std::vector<Player*> playerlist; //< \typedef vector of pointers to Players
+
+   /// Virtual base destructor
    virtual ~Game() {}
 
    //accessors
+   
    /// \return all the system Players
    virtual playerlist systemPlayers() const =0;
 
-   /// \return all the regular Players
+   /// checks if there is a winner and if there is not, then the player
+   /// 'unclaimed' is the winner.
+   /// \return the winner
    virtual playerlist players() const =0;
 
-   /// \return if the game has winner and who it is
+   /// \return the GameMap of the current game.
    virtual Player* winner() const =0;
 
    /// \return the player which has the current turn
@@ -59,11 +63,10 @@ class Game {
    virtual GameMap* currentGame() const =0;
    
    //mutators
-   /// \param playerlist -- all the players playing this game
-   /// \param territoryNames -- a vector containing all the territories in this game;
-   //
-   /// \post performs all operations needed to initialize game state
-   //virtual void setupGame(std::vector<PlayerName> playerlist) =0;
+
+   /// Performs all operations needed to initialize game state
+   /// \param playernames -- list of strings to be names of players
+   /// \param territoryNames -- list of strings to be names of territories
    virtual void setupGame(std::vector<PlayerName> playernames, std::vector< PlayerName > territoryNames) =0;
    
 };

@@ -40,6 +40,7 @@ class AttritionAttackAction : public DefaultAction {
 
   public:
 
+   /// \see Action::NAME
    static const std::string NAME;
    
    //constructors

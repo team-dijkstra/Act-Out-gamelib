@@ -77,7 +77,7 @@ class FakeGameMap : public GameMap {
    ///
    /// \todo do we need this? if we do, it's badly named. using 'filter'
    ///       method should be just as easy.
-   /// \depracated
+   /// \deprecated
    TerritoryList players(Player *) const;
 
    /// Retrieves all Territories that match the specified predicate.

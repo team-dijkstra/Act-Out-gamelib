@@ -41,6 +41,7 @@ class Unit;
 class MoveAction : public DefaultAction {
  public:
 
+   /// \see Action::NAME
    static const std::string NAME; 
    
    //constructors

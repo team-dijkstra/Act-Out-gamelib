@@ -27,8 +27,14 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 class Territory;
 /**
  * This is a interface class that defines a filtering functor class,
- * territory operations will define a set of territories and return
- * true if the passed territory belongs in the set, false otherwise.
+ * territory operations will define a characteristic function of a set
+ * of territories and return true if the passed territory belongs in
+ * the set, false otherwise.
+ *
+ * If the operation does not define a characteristic function, but
+ * instead applies some transformation to the supplied Territory,
+ * then this should be indicated. In this case the return value should
+ * always be false.
  */
 class TerritoryOperation {
   public:
@@ -37,11 +43,13 @@ class TerritoryOperation {
    
    virtual ~TerritoryOperation() {}
    
-   //accessors
-
-   /// \param t -- pointer to Territory that compares to territoryName
-   //
-   /// \return bool, true if t name and territoryName are same
+   /**
+    * If the operation is a selection operation, membership will be
+    * indicated by the return value. Otherwise, the return value is
+    * undefined.
+    *
+    * \param t -- The Territory to operate on.
+    */
    virtual bool operator()(Territory * t) =0; 
    
 };

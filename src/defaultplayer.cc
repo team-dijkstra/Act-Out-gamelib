@@ -42,11 +42,10 @@ DefaultPlayer::DefaultPlayer(std::string nm):pName(nm),isAlive(true)
    ourGame = NULL;
 }
 
-DefaultPlayer::DefaultPlayer(std::string nm, const Player::phaselist & Plist, GameMap * gmp):pName(nm),isAlive(true), phases(Plist), ourGame(gmp)
+DefaultPlayer::DefaultPlayer(std::string nm, const phaselist & Plist, GameMap * gmp):pName(nm),isAlive(true), phases(Plist), ourGame(gmp)
 {
    currentPhase = phases.begin();
 }
-
 
 bool DefaultPlayer::alive(){
    /// \todo this fuction should throw an exception if ourGame is NULL
@@ -63,12 +62,10 @@ bool DefaultPlayer::alive(){
 
 }
 
-/// \return the name of the player
 std::string DefaultPlayer::name() const{
    return pName;
 }
 
-/// \return the remaining phases in this players current turn
 DefaultPlayer::phaselist DefaultPlayer::remainingPhases() const{
    phaselist newlist;
    assert(currentPhase != phases.end() );
@@ -84,8 +81,6 @@ DefaultPlayer::phaselist DefaultPlayer::remainingPhases() const{
    return newlist;
 }
 
-/// \return the valid actions that this player can perform given
-///         this unitoperation.
 Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gives errors
 {
    Unit::actionContainer ourActions;
@@ -136,9 +131,6 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gi
    return ourActions; // \todo
 }
 
-//Mutator
-/// \details moves to the next phase, if the last phase is reached
-///       reset to the first phase
 bool DefaultPlayer::nextPhase()
 {
    ++currentPhase;

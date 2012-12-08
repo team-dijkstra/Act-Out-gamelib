@@ -25,7 +25,6 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "defaultphase.h"
 #include "config.h"
 
-//AltDefaultGame::AltDefaultGame(playerlist pl, GameMap * g): gPlayers(pl), gMap(g){}
 AltDefaultGame::AltDefaultGame()
 {
    gMap = NULL;
@@ -52,12 +51,10 @@ AltDefaultGame::playerlist AltDefaultGame::systemPlayers() const{
    return sysPlayers;
 }
 
-/// \return all the regular Players
 AltDefaultGame::playerlist AltDefaultGame::players() const{
    return gPlayers;
 }
 
-/// \return if the game has winner and who it is
 // cpp check -suppress unusedFunction 
 Player* AltDefaultGame::winner() const{
 
@@ -93,22 +90,18 @@ Player* AltDefaultGame::winner() const{
    return winner;
 }
 
-// /// \return the player which has the current turn
 // cpp check- suppress unusedFunction
 /*Player* AltDefaultGame::currentTurn() const
 {
    return cTurn;
    }*/
 
-/// \return the GameMap of the current game.
 GameMap* AltDefaultGame::currentGame() const{
    return gMap;
 }
    
 //mutators
-/// \param playerlist -- all the players playing this game
-//
-/// performs all operations needed to initialize game state
+
 void AltDefaultGame::setupGame( std::vector< PlayerName > playernames,std::vector< PlayerName > territoryNames)
 {
    //create system players

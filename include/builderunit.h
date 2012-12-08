@@ -35,15 +35,13 @@ class BuilderUnit : public Unit {
 
    /// \param t -- pointer to Territory Unit is on
    /// \param nunit -- integer, count of this Unit
-   //
-   /// \post MIL:
-   ///       <br>- sets uTerritory to t
-   ///       <br>- sets nUnits to nunits
-   ///       <br>- sets uName to name of this Unit
+   ///
+   /// sets uTerritory to t, sets nUnits to nunits, sets uName to name of this Unit
    BuilderUnit(Territory * t, int nunit=1);
 
    //destructor
    
+   /// Destructor. Deletes its actions.
    ~BuilderUnit();
 
    //mutators

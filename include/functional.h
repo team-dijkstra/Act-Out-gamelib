@@ -619,7 +619,7 @@ namespace util {
       }
    };
 
-   // depracated
+   // deprecated
    template<typename T, typename AttrT, AttrT (T::*Tattr)() const>
    struct member {
       typedef const T & argument_type;

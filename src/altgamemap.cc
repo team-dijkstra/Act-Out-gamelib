@@ -24,12 +24,14 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <utility>
 #include <string>
+#include <algorithm>
 
 #include "altgamemap.h"
 #include "player.h"
 #include "territory.h"
 #include "phase.h"
 #include "filterbyterritoryowner.h"
+//#include "debug.h"
 
 AltGameMap::AltGameMap(m_adjList list): altMap(list)
 {
@@ -46,19 +48,13 @@ AltGameMap::~AltGameMap() {
 }
   
 //accessors
-/// \return the start territory. Which territory this is is implementation
-///       defined.
+
 Territory* AltGameMap::begin() const{
    AltGameMap::m_adjList::const_iterator mt;
    mt =  altMap.begin();
    return mt->first;
 }
    
-/// Finds the specified Territory
-//
-/// \param tname -- string representing the TerritoryName
-/// \return the specified Territory, or a sentinel if not found.
-/// \see StlGameMap::end the sentinel node of this class.
 Territory* AltGameMap::find(TerritoryName fn) const{
    AltGameMap::m_adjList::const_iterator mt;
    for( mt = altMap.begin(); mt != altMap.end(); ++mt)
@@ -72,12 +68,6 @@ Territory* AltGameMap::find(TerritoryName fn) const{
    return NULL;
 }
 
-#include <algorithm>
-
-/// Finds all Territories that are adjacent to the specified Territory
-//
-/// \param t -- pointer to a Territory object
-/// \return all Territories that are adjacent to the specified Territory
 AltGameMap::TerritoryList AltGameMap::adjacencies(const Territory * t) const{
    m_adjList::const_iterator mt;
    mt = altMap.find(const_cast<Territory *>(t));
@@ -85,14 +75,6 @@ AltGameMap::TerritoryList AltGameMap::adjacencies(const Territory * t) const{
    return mt->second;
 }
 
-/// Finds all Territories that are owned by the specified Player
-//
-/// \param p -- pointer to a Player object
-/// \return all Territories owned by the given player
-///
-/// \todo do we need this? if we do, it's badly named. using 'filter'
-///       method should be just as easy.
-/// \depracated
 AltGameMap::TerritoryList AltGameMap::players(Player * p) const{
    std::string pname = p->name();
    TerritoryOperation * pop = new FilterByTerritoryOwner(pname);
@@ -102,11 +84,6 @@ AltGameMap::TerritoryList AltGameMap::players(Player * p) const{
    return tmp;
 }
 
-/// Retrieves all Territories that match the specified predicate.
-///
-/// \param predicate A functor to decide membership in the output list.
-///
-/// \return the list of TerritoryList selected by the supplied predicate.
 AltGameMap::TerritoryList AltGameMap::filter(TerritoryOperation * predicate) const{
    m_adjList::const_iterator mt;
    TerritoryList tmp;
@@ -123,10 +100,7 @@ AltGameMap::TerritoryList AltGameMap::filter(TerritoryOperation * predicate) con
 }
 
 //mutators
-/// Traverses all territories and performs the specified operation
-//
-/// \param op -- operation to be performed
-/// \param start -- Territory to start with
+
 void AltGameMap::traverse(TerritoryOperation * op, Territory * start){
    (void)start;
    m_adjList::iterator mt;
@@ -135,9 +109,9 @@ void AltGameMap::traverse(TerritoryOperation * op, Territory * start){
    for( mt = altMap.begin(); mt != altMap.end(); ++mt)
    {
 
-      //std::cout << __FILE__ << __LINE__ << " " << mt->first->owner()->name() << std::endl;
+      //dout << " " << mt->first->owner()->name() << std::endl;
       bool check = (*op)(mt->first);
-      //std::cout << __FILE__ << __LINE__ << " " << mt->first->owner()->name() << std::endl;
+      //dout << " " << mt->first->owner()->name() << std::endl;
       if (check)
       {
 	 //tmp.push_back(mt->first);

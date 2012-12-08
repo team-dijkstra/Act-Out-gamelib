@@ -37,8 +37,6 @@ class FilterByTerritoryAll : public TerritoryOperation {
 
    //constructors
 
-   /// sets territoryOwner to t
-   //
    FilterByTerritoryAll();
 
    //destructor
@@ -48,8 +46,8 @@ class FilterByTerritoryAll : public TerritoryOperation {
    //accessors
 
    /// \param t -- pointer to Territory
-   //
-   /// \return bool, true for all territories 
+   ///
+   /// \return true is always true
    bool operator()(Territory * t);
 
 };

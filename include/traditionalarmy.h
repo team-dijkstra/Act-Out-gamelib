@@ -36,10 +36,17 @@ class TraditionalArmy : public Unit {
    //! @copydoc BuilderUnit::BuilderUnit()
    TraditionalArmy(Territory * t, int nunit=1);
 
+   /// \param applicableActions -- a container of applicable actions
+   /// \param t -- pointer to Territory Unit is on
+   /// \param nunit -- integer, count of this Unit
+   ///
+   /// sets uTerritory to t, sets nUnits to nunits,
+   /// sets uName to name of this Unit, sets uActions to applicableActions
    TraditionalArmy(Territory * t, int nunit, Unit::actionContainer applicableActions );
 
-   //destructor
+   // destructor
    
+   /// Destructor. Deletes its actions.
    ~TraditionalArmy();
 
    //mutators
@@ -71,6 +78,9 @@ class TraditionalArmy : public Unit {
    std::vector<Action*> actions() const;
 
    //TraditionalArmy specific mutator
+
+   /// sets uActions to acts
+   /// \param acts -- a container of actions
    void setActions(Unit::actionContainer acts);
    
 

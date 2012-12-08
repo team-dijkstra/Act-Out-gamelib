@@ -42,6 +42,7 @@ class Phase;
 class BuildTraditionalArmyAction : public DefaultAction {
   public:
 
+   /// \see Action::NAME
    static const std::string NAME;
 
    //constructors
@@ -52,7 +53,7 @@ class BuildTraditionalArmyAction : public DefaultAction {
    /// \param p -- pointer to current Phase. not used.
    /// \param par -- pointer to parent Unit
    ///
-   /// \depracated This constructor is included simply to preserve
+   /// \deprecated This constructor is included simply to preserve
    ///  compatibility with existing tests.
    BuildTraditionalArmyAction(Phase * p, Unit * par);
 

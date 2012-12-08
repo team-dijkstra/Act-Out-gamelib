@@ -35,9 +35,8 @@ class DefaultPhase : public Phase{
    //constructors
 
    /// \param nm -- const string, passed by reference, to be name of Phase
-   //
-   /// \post MIL:
-   ///       <br>- sets phasename to nm
+   ///
+   /// \details sets phasename to nm
    DefaultPhase(const std::string & nm);
 
    //destructor

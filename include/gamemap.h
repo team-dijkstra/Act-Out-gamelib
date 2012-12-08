@@ -33,54 +33,59 @@ class Player;
 class Territory;
 class TerritoryOperation;
 
-/// TerritoryName typedef is for clarity and code readability
-typedef std::string TerritoryName;
+
+typedef std::string TerritoryName; //< \typedef string of name of Territory
 
 /// The GameMap interface class.
 //
 /// This class is reponsible for representing the collection of Territories in the
-/// game, returning relevant information and performing operations on specified TerritoryList 
+/// game, returning relevant information and performing operations on specified TerritoryList.
+/// Deletes all Territories.
 class GameMap {
   public:
-   
-   typedef std::vector<Territory*> TerritoryList;
-   typedef std::pair<Territory*, Territory*> Adjacency;
-   typedef std::vector<Adjacency> AdjacencyList;
 
+   typedef std::vector<Territory*> TerritoryList; //< \typedef vector of pointers to territories
 
+   typedef std::pair<Territory*, Territory*> Adjacency; //< \typedef pair of pointers to territories
+
+   typedef std::vector<Adjacency> AdjacencyList; //< \typedef vector of adjacencies
+
+   /// Virtual base constructor
    virtual ~GameMap() {}
     
    //constants
+   
    /// \return a sentinel node. Used to indicate non-existent values.
    static const Territory* end() {return NULL;}
 
    //accessors
+   
    /// \return the start territory. Which territory this is is implementation
-   ///       defined.
+   /// defined.
    virtual Territory* begin() const =0;
    
    /// Finds the specified Territory
-   //
-   /// \param tname -- string representing the TerritoryName
+   ///
+   /// \param fn -- string representing the TerritoryName
    /// \return the specified Territory, or a sentinel if not found.
    /// \see StlGameMap::end the sentinel node of this class.
-   virtual Territory* find(TerritoryName) const =0;
+   virtual Territory* find(TerritoryName fn) const =0;
 
    /// Finds all Territories that are adjacent to the specified Territory
-   //
+   ///
    /// \param t -- pointer to a Territory object
    /// \return all Territories that are adjacent to the specified Territory
-   virtual TerritoryList adjacencies(const Territory *) const =0;
+   virtual TerritoryList adjacencies(const Territory * t) const =0;
 
    /// Finds all Territories that are owned by the specified Player
-   //
+   ///
    /// \param p -- pointer to a Player object
    /// \return all Territories owned by the given player
    ///
    /// \todo do we need this? if we do, it's badly named. using 'filter'
    ///       method should be just as easy.
-   /// \depracated
-   virtual TerritoryList players(Player *) const =0;
+   /// \deprecated
+   virtual TerritoryList players(Player * p) const =0;
 
    /// Retrieves all Territories that match the specified predicate.
    ///
@@ -90,8 +95,9 @@ class GameMap {
    virtual TerritoryList filter(TerritoryOperation * predicate) const =0;
 
    //mutators
+   
    /// Traverses all territories and performs the specified operation
-   //
+   ///
    /// \param op -- operation to be performed
    /// \param start -- Territory to start with
    virtual void traverse(TerritoryOperation * op, Territory * start) =0;

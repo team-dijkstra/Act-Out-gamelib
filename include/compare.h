@@ -24,6 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
  * contains implementations of comparators based on arbitrary pairs of 
  * member functions of the supplied types.
  *
+ * \deprecated
  */
 
 #ifndef COMPARE_H

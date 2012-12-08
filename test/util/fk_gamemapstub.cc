@@ -85,7 +85,7 @@ FakeGameMap::TerritoryList FakeGameMap::adjacencies(const Territory *) const{
 ///
 /// \todo do we need this? if we do, it's badly named. using 'filter'
 ///       method should be just as easy.
-/// \depracated
+/// \deprecated
 FakeGameMap::TerritoryList FakeGameMap::players(Player * p) const{
    p->name();
    TerritoryList::const_iterator it;

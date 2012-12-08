@@ -25,20 +25,24 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "territory.h"
 #include "territoryoperation.h"
 
+/// always returns true
 class TerritoryPassFilter : public TerritoryOperation {
   public:
+   ///\return always true
    bool operator()(Territory * t);
 };
 
+/// always returns false
 class TerritoryBlockFilter : public TerritoryOperation {
   public:
+   ///\return always false
    bool operator()(Territory * t);
 };
 
 /// Selects the set of territories match one of the supplied names.
-///
+   ///
 /// \tparam C a container containing names to filter by.
-///
+   ///
 template<typename C>
 class TerritoryNameFilter: public TerritoryOperation {
   public:

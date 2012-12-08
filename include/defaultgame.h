@@ -67,7 +67,7 @@ class DefaultGame : public Game {
    
    //mutators
    /// \param playernames -- all the players playing this game
-   //
+   ///
    /// Performs all operations needed to initialize game state
    void setupGame(std::vector<PlayerName> playernames, std::vector< PlayerName > territoryNames );
 

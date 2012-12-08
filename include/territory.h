@@ -41,7 +41,8 @@ class Territory {
    typedef std::map<std::string, Unit*> unitContainer;
 
    //destructor
-   
+
+   /// Virtual base destructor
    virtual ~Territory() {}
 
    //accessors
@@ -53,20 +54,20 @@ class Territory {
    virtual std::string name() const =0;
 
    /// \param f -- pointer to UnitOperation for filtering Units returned
-   //
+   ///
    /// \return unitContainer of Units on this Territory
    virtual unitContainer units(UnitOperation * f) const =0;
 
    //mutators
    
    /// \param p -- pointer to Player
-   //
-   /// \post sets Territory owner to passed Player
+   ///
+   /// \details sets Territory owner to passed Player
    virtual void owner(Player * p) =0;
 
    /// \param u -- pointer to Unit
-   //
-   /// \post adds Unit pointer to this Territory's unitContainer
+   ///
+   /// \details adds Unit pointer to this Territory's unitContainer
    virtual void addUnit(Unit * u) =0;
 };
 

@@ -38,9 +38,8 @@ class FilterByTerritoryName : public TerritoryOperation {
    //constructors
 
    /// \param t -- const string compared to comparing Territory name
-   //
-   /// \post MIL:
-   ///       <br>- sets territoryName to t
+   ///
+   /// sets territoryName to t
    FilterByTerritoryName(const std::string & t);
 
    //destructor
@@ -49,13 +48,15 @@ class FilterByTerritoryName : public TerritoryOperation {
    
    //accessors
 
-   /// \param t -- pointer to Territory that compares to territoryName
-   //
-   /// \return bool, true if t name and territoryName are same
+   /// \param t -- the Territory to compare by name with the constructor
+   /// supplied string.
+   ///
+   /// \return true if \c t->name() and the \c territoryName this functor was
+   /// constructed with are same. false otherwise
    bool operator()(Territory * t);
 
   private:
-   const std::string territoryName; ///< const string of Territory name
+   const std::string territoryName; ///< the territory name to use in comparison
 };
 
 #endif

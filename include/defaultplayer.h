@@ -42,24 +42,21 @@ class DefaultPlayer : public Player {
    //constructors
 
    /// \param nm -- string, to be name of Player
-   //
-   /// \post MIL:
-   ///       <br>- sets pName to nm
-   ///       <br>- sets isAlive to true
-   ///       <br>adds each Phase to phases, sets currentPhase to first Phase
+   ///
+   /// \details sets pName to nm, sets isAlive to true, adds each Phase to
+   /// phases, sets currentPhase to first Phase, sets ourGame to NULL;
    DefaultPlayer(std::string nm);
 
    /// \param nm -- string, to be name of Player
    /// \param Plist -- phaselist of all Phases
-   //
-   /// \post MIL:
-   ///       <br>- sets pName to nm
-   ///       <br>- sets isAlive to true
-   ///       <br>- sets phases to Plist
-   ///       <br>sets currentPhase to first Phase
+   /// \param gmp -- pointer to GameMap object
+   ///
+   /// \details sets pName to nm, sets isAlive to true, sets phases to Plist,
+   /// sets currentPhase to first Phase
    DefaultPlayer(std::string nm, const phaselist & Plist, GameMap * gmp = NULL );
 
-   /// Destructor
+   /// destructor
+
    ~DefaultPlayer() {}
    
    //accessors
@@ -73,14 +70,15 @@ class DefaultPlayer : public Player {
    //! @copydoc Player::remainingPhases()
    phaselist remainingPhases() const;
 
-   //! @copydoc Player::actions()
-   Unit::actionContainer actions(TerritoryOperation * op) ;//const; gives problems
-
    //mutators
    
    //! @copydoc Player::nextPhase()
    bool nextPhase();
 
+   //! @copydoc Player::actions()
+   Unit::actionContainer actions(TerritoryOperation * op) ;
+   //const; gives problems
+   
   private:
    /// The container type used to hold the list of phases.
    /// \see Player::phaselist.
@@ -90,7 +88,7 @@ class DefaultPlayer : public Player {
    bool isAlive; ///< bool, whether Player is alive or dead
    phaselist phases; ///< phaselist of all Phases
    phaselist::const_iterator currentPhase; ///< stores iterator to current Phase
-   GameMap * ourGame;
+   GameMap * ourGame; ///< pointer to GameMap, of current game map
    
 };
 

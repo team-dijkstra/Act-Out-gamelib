@@ -31,56 +31,63 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #include "player.h"
 #include "game.h"
 #include "gamemap.h"
-					   //#include "gamemap.h"
-//class Player;
-//class GameMap;
 
 
-/// \todo comment AltDefaultGame class
+/**
+ * \class AltDefaultGame
+ *
+ * Provides an alternate version of the Game interface. This provides a
+ * reference implementation with no external dependencies other than the
+ * STL. Deletes all phases, all system and regular players, and the game map.
+ */
 class AltDefaultGame : public Game {
   public:
-   /// PlayerName typedef is for clarity and code readability
-   typedef Game::PlayerName PlayerName;
    
-   typedef Game::playerlist playerlist;
+   typedef Game::PlayerName PlayerName; //< \typedef name of a Player
+
+   typedef Game::playerlist playerlist; //< \typedef A list of Player objects
 
    //constructor
-   // AltDefaultGame(playerlist pl, GameMap * g = NULL);
+
+   /// sets gMap to NULL
    AltDefaultGame();
-   //destructor
+   
+   /// Destructor. Deletes all phases, all system and regular players,
+   /// and the game map.
    ~AltDefaultGame();
    
    //accessors
-   /// \return all the system Players
+   /// @copydoc Game::systemPlayers()
    playerlist systemPlayers() const;
 
-   /// \return all the regular Players
+   /// @copydoc Game::players()
    playerlist players() const;
 
-   /// \return if the game has winner and who it is
+   /// @copydoc Game::winner()
    Player* winner() const;
 
-   /// \return the player which has the current turn
+   //return the player which has the current turn
    //Player* currentTurn() const;
-
-   /// \return the GameMap of the current game.
+   ///
+   /// @copydoc Game::currentGame()
    GameMap* currentGame() const;
    
    //mutators
-   /// \param playernames -- all the players playing this game
-   //
-   /// Performs all operations needed to initialize game state
+   
+   /// @copydoc Game::setupGame()
    void setupGame(std::vector<PlayerName> playernames, std::vector< PlayerName > territoryNames );
 
   private:
+   
    GameMap * gMap;
    playerlist gPlayers;
    playerlist sysPlayers;
-   
-   
    Player::phaselist phases;
+   
    //private member function
-   /// \todo add AltDefaultGame::setupGMap to Doxygen comments
+
+   /// sets up the game map adjacencies
+   /// \param terrList -- list of territories
    void setupGMap(GameMap::TerritoryList terrList);
    
 };

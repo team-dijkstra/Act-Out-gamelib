@@ -38,10 +38,8 @@ class FilterByUnitType : public UnitOperation {
    //constructors
 
    /// \param u -- pointer to parent Unit
-   //
-   /// \post MIL:
-   ///       <br>- sets unitType to u
-   ///       <br>- sets fName to name of u
+   ///
+   /// \details sets unitType to u, sets fName to name of u
    FilterByUnitType(Unit * u);
 
    //destructor
@@ -51,7 +49,7 @@ class FilterByUnitType : public UnitOperation {
    //accessors
 
    /// \param unit -- pointer to Unit that compares to this parent Unit
-   //
+   ///
    /// \return bool, true if unit and parent Unit are same type
    bool operator()(Unit * unit) const;
 

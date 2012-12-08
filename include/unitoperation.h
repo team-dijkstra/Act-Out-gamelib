@@ -31,6 +31,11 @@ class Unit;
  * This is an interface class that defines a filtering functor class,
  * unit operations will define a set of units and return true if the
  * passed unit belongs in the set, false otherwise.
+ *
+ * If the operation does not define a characteristic function, but
+ * instead applies some transformation to the supplied Territory,
+ * then this should be indicated. In this case the return value should
+ * always be false.
  */
 class UnitOperation {
   public:
@@ -41,12 +46,18 @@ class UnitOperation {
    
    //accessors
 
-   /// \param unit -- pointer to Unit that compares to this parent Unit
-   //
-   /// \return bool, true if unit and parent Unit are same type
+   /**
+    * If the operation is a selection operation, membership will be
+    * indicated by the return value. Otherwise, the return value is
+    * undefined.
+    *
+    * \param t -- The Unit to operate on.
+    */
    virtual bool operator()(Unit * unit) const =0;
 
    /// \return string, name of parent Unit
+   /// \todo operations do not need names
+   /// \deprecated
    virtual std::string name() const =0;
 };
 

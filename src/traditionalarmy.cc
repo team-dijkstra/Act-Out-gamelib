@@ -53,13 +53,11 @@ TraditionalArmy::~TraditionalArmy(){
       delete *it;
 }
 
-/// \todo implement increase units
 int TraditionalArmy::increase (int u){
    nUnits += u;
    return nUnits;
 }
 
-/// \todo implement decrease units
 int TraditionalArmy::decrease (int u){
    int tdec = u;
    nUnits = (tdec > nUnits ? 0 : nUnits - tdec);
