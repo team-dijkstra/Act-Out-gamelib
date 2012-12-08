@@ -85,25 +85,25 @@ struct GameContainer {
 
 //method declarations
 void preamble(); ///< displays a welcome message
-void init_help(GameContainer&); //< initializes commands and help variables
-void init_game(GameContainer&); //< initializes commands and help variables
-void show_help(const ComHelp&); //< prints the help info
-void get_names(vector<Game::PlayerName>&); //< gets the names of players and territories
-void player_order(const GameContainer&); //< list the turn order of the players
-bool play_game(GameContainer&); //< drives the game state
-void show_territories(const GameContainer&); //< displays all territories, with owner and adjacencies
-void play_phase(GameContainer&); //< plays the current phase
-void next_phase(GameContainer&); //< moves to the next phase
-void player_quits(GameContainer&); //< removes the player from the game
-void manditory_phase_setup(GameContainer&); //< run manditory phase setup actions
-void setup_marshal(GameContainer&,int,Player*); //< assigns unclaimed territories
-void display_actions(GameContainer&,string);  //< display the available actions 
-void do_marshal(GameContainer&);  //< execute the marshal phase
-void do_attack(GameContainer&);  //< execute the attack phase
-void do_redeploy(GameContainer&);  //< execute the redeploy phase
-void choose_actions(GameContainer&,string);  //< pick and execute from the available actions 
-void show_adjacencies(const GameContainer&, const Territory *); //< displays adjacent territory names
-void do_action(GameContainer&, Unit::actionContainer &, Territory * ); //< execute the action
+void init_help(GameContainer&); ///< initializes commands and help variables
+void init_game(GameContainer&); ///< initializes commands and help variables
+void show_help(const ComHelp&); ///< prints the help info
+void get_names(vector<Game::PlayerName>&); ///< gets the names of players and territories
+void player_order(const GameContainer&); ///< list the turn order of the players
+bool play_game(GameContainer&); ///< drives the game state
+void show_territories(const GameContainer&); ///< displays all territories, with owner and adjacencies
+void play_phase(GameContainer&); ///< plays the current phase
+void next_phase(GameContainer&); ///< moves to the next phase
+void player_quits(GameContainer&); ///< removes the player from the game
+void manditory_phase_setup(GameContainer&); ///< run manditory phase setup actions
+void setup_marshal(GameContainer&,int,Player*); ///< assigns unclaimed territories
+void display_actions(GameContainer&,string);  ///< display the available actions 
+void do_marshal(GameContainer&);  ///< execute the marshal phase
+void do_attack(GameContainer&);  ///< execute the attack phase
+void do_redeploy(GameContainer&);  ///< execute the redeploy phase
+void choose_actions(GameContainer&,string);  ///< pick and execute from the available actions 
+void show_adjacencies(const GameContainer&, const Territory *); ///< displays adjacent territory names
+void do_action(GameContainer&, Unit::actionContainer &, Territory * ); ///< execute the action
 
 //method definitions
 

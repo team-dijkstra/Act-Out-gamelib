@@ -18,6 +18,12 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * \file trivialterritoryfilter.h
+ *
+ * Experimental
+ */
+
 #ifndef TRIVIAL_TERRITORY_FILTER_H
 #define TRIVIAL_TERRITORY_FILTER_H
 
