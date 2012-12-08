@@ -20,7 +20,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /** \file defaultgame.h
  *  \brief extends Game interface class
  * 
- *  DefaultGame class 
+ *  DefaultGame class is experimental.
  */
 #ifndef DEFAULT_GAME_H
 #define DEFAULT_GAME_H
@@ -38,48 +38,52 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 /// \todo comment DefaultGame class
 class DefaultGame : public Game {
   public:
-   /// PlayerName typedef is for clarity and code readability
+   
    typedef Game::PlayerName PlayerName; ///<  list of player names
    
    typedef Game::playerlist playerlist; ///<  list of players
 
-   //constructor
+   //constructors
+   
    // DefaultGame(playerlist pl, GameMap * g = NULL);
 
    /// \param g -- GameMap object, default to null;
    ///
    /// supplied GameMap is no longer used
    DefaultGame(GameMap * g = NULL);
+   
    //destructor
+   
    ~DefaultGame();
    
    //accessors
-   /// \return all the system Players
+   
+   /// @copydoc Game::systemPlayers
    playerlist systemPlayers() const;
 
-   /// \return all the regular Players
+   /// @copydoc Game::players
    playerlist players() const;
 
-   /// \return if the game has winner and who it is
+   /// @copydoc Game::winner
    Player* winner() const;
 
-   /// \return the player which has the current turn
+   // return the player which has the current turn
    //Player* currentTurn() const;
 
-   /// \return the GameMap of the current game.
+   /// @copydoc Game::currentGame
    GameMap* currentGame() const;
    
    //mutators
-   /// \param playernames -- all the players playing this game
-   ///
-   /// Performs all operations needed to initialize game state
+   
+   /// @copydoc Game::setupGame
    void setupGame(std::vector<PlayerName> playernames, std::vector< PlayerName > territoryNames );
 
   private:
-   GameMap * gMap;
-   playerlist gPlayers;
-   playerlist sysPlayers;
-   Player::phaselist phases;
+   
+   GameMap * gMap; //! @copydoc AltDefaultGame::gmap
+   playerlist gPlayers; //! @copydoc AltDefaultGame::gPlayer
+   playerlist sysPlayers; //! @copydoc AltDefaultGame::sysPlayers
+   Player::phaselist phases; //! @copydoc AltDefaultGame::phases
    
 };
 

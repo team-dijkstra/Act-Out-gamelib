@@ -56,7 +56,7 @@ class Game {
    /// \return the GameMap of the current game.
    virtual Player* winner() const =0;
 
-   /// \return the player which has the current turn
+   // return the player which has the current turn
    //virtual Player* currentTurn() const =0;
 
    /// \return the GameMap of the current game.
