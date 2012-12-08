@@ -24,6 +24,7 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef FILTERBYTERRITORYOWNER_H
 #define FILTERBYTERRITORYOWNER_H
 
+#include <string>
 #include "territoryoperation.h"
 
 /**
