@@ -137,7 +137,7 @@ Unit::actionContainer DefaultPlayer::actions(TerritoryOperation * op) //const gi
 }
 
 //Mutator
-/// \post moves to the next phase, if the last phase is reached
+/// \details moves to the next phase, if the last phase is reached
 ///       reset to the first phase
 bool DefaultPlayer::nextPhase()
 {
