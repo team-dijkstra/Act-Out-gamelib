@@ -35,6 +35,12 @@ class Player;
 template<typename T = int>
 class TakeOver : public TerritoryOperation {
   public:
+
+   //constructors
+
+   /// \param c -- player to take over the Territory
+   ///
+   /// sets conquerer to c
    TakeOver(Player * c) : conquerer(c) {}
 
    /// sets the owner of t to conquerer

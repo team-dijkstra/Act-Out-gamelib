@@ -84,7 +84,7 @@ struct GameContainer {
 };
 
 //method declarations
-void preamble(); //< displays a welcome message
+void preamble(); ///< displays a welcome message
 void init_help(GameContainer&); //< initializes commands and help variables
 void init_game(GameContainer&); //< initializes commands and help variables
 void show_help(const ComHelp&); //< prints the help info
@@ -106,6 +106,8 @@ void show_adjacencies(const GameContainer&, const Territory *); //< displays adj
 void do_action(GameContainer&, Unit::actionContainer &, Territory * ); //< execute the action
 
 //method definitions
+
+/// Main function that runs the game
 int main()
 {
    preamble();
@@ -754,6 +756,7 @@ bool is_adjacent(GameContainer& g, Territory * from, Territory * to)
 
 /// @copydoc init_help
 /// \param acts -- the container consisting of one Action to be executed
+/// \param from -- the Territory that is performing the Action
 void do_action(GameContainer& g, Unit::actionContainer & acts, Territory * from)
 {
    Unit::actionContainer::iterator it = acts.begin();
