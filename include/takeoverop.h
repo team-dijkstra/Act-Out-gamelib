@@ -18,6 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * \file takeoverop.h
+ */
+
 #ifndef TAKEOVER_H
 #define TAKEOVER_H
 
@@ -31,8 +35,17 @@ class Player;
 template<typename T = int>
 class TakeOver : public TerritoryOperation {
   public:
+
+   //constructors
+
+   /// \param c -- player to take over the Territory
+   ///
+   /// sets conquerer to c
    TakeOver(Player * c) : conquerer(c) {}
 
+   /// sets the owner of t to conquerer
+   /// \param t -- the Territory whose owner is set to the conquerer
+   /// \return always false
    bool operator()(Territory * t) {
       t->owner(conquerer);
 
@@ -40,7 +53,7 @@ class TakeOver : public TerritoryOperation {
    }
 
   private:
-   Player * conquerer;
+   Player * conquerer; ///< the Player that is the conquerer
 };
 
 #endif /* TAKEOVER_H */

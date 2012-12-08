@@ -50,36 +50,41 @@ along with Act-Out!.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std;
 
 //globals
-typedef map< string, int > commands;
-typedef map< string, string > helps;
+typedef map< string, int > commands; ///< map of strings and integers used for the commands
+typedef map< string, string > helps; ///< map of strings for help messages
 
 //globals
-const int INT_MAX = std::numeric_limits<int>::max();
-const int DISTRIBUTE_TERRITORIES = 1;
-const int SPECIAL_FORCES = 3;
-const int INIT_TERRITORIES = 1;
+const int INT_MAX = std::numeric_limits<int>::max(); ///< global constant of the maximum number stored by and int
+const int DISTRIBUTE_TERRITORIES = 1; ///< global constant of the number of territorries to distribute to each player upon GameMap setup
+const int SPECIAL_FORCES = 3; ///< global constant of the number of traditional armies each Player receives at the start of their turn
+const int INIT_TERRITORIES = 1; ///< global constant of the number of territorries to distribute to each player at the start of their turn
 
 //helper classes and structs
+
+/// Stores commands and help info
 struct ComHelp{
-   commands c;
-   helps h;
+   commands c; ///< map of valid commands
+   helps h; ///< map of help messages
 };
 
+/// Stores some global driver level checks
 struct Parametrics {
+   /// sets seen_marshal to false
    Parametrics(): seen_marshal(false)
-   {}
-   bool seen_marshal;
+   {} 
+   bool seen_marshal; ///< whether the Marshal Phase has been executed
 };
 
+/// Stores the Game state
 struct GameContainer {
-   AltDefaultGame game;
-   ComHelp coms;
-   Player * currentTurn;
-   Parametrics checks;
+   AltDefaultGame game; ///< current Game
+   ComHelp coms; ///< help messages and commands
+   Player * currentTurn; ///< the Player whose turn it is.
+   Parametrics checks; ///< the Parametrics object for checking
 };
 
 //method declarations
-void preamble(); //< displays a basic overview of the game
+void preamble(); ///< displays a welcome message
 void init_help(GameContainer&); //< initializes commands and help variables
 void init_game(GameContainer&); //< initializes commands and help variables
 void show_help(const ComHelp&); //< prints the help info
@@ -100,33 +105,9 @@ void choose_actions(GameContainer&,string);  //< pick and execute from the avail
 void show_adjacencies(const GameContainer&, const Territory *); //< displays adjacent territory names
 void do_action(GameContainer&, Unit::actionContainer &, Territory * ); //< execute the action
 
-// void shutup_cppcheck(GameContainer& g)
-// {
-//    //Player * p = g.currentTurn;
-
-//    //Game::playerlist sysPlayers = g.game.systemPlayers();
-//  //   Player * p = g.currentTurn;
-// //    GameMap* gMap = g.game.currentGame();
-//    TakeOver<int> op2(p);
-//    gMap->traverse(&op2, NULL);
-//    TerritoryOperation * op1 = new FilterByTerritoryOwner(p->name());
-//    Unit::actionContainer acts = p->actions(op1);
-//    Unit::actionContainer::iterator it = acts.begin();
-//    cout << "cppcheck!" <<endl;
-//    if (it != acts.end())
-//    {      
-//       (*it)->source()->name();
-//       (*it)->unit()->name();
-      
-//       // cout << ">>>>>>>>>>>>>>>>>>>>>>inside_ccpcheck<<<<<<<<<<<<<<<<<<<<!" <<endl;
-//       // cout << (*it)->source()->name()<<endl;
-//       // cout << (*it)->unit()->name()<<endl;
-//    }
-// //    delete op1;
-   
-// // }
-
 //method definitions
+
+/// Main function that runs the game
 int main()
 {
    preamble();
@@ -165,6 +146,7 @@ void preamble()
    cout << "Welcome to the game."<<endl;
 }
 
+/// \param g -- the GameContainer passed by reference to permit access to required Game information
 void init_help(GameContainer& g)
 {
    //setup commands and help info
@@ -199,6 +181,7 @@ void init_help(GameContainer& g)
    return ;
 }
 
+/// @copydoc init_help
 void init_game(GameContainer& g)
 {
    vector<Game::PlayerName> players, territories;
@@ -211,8 +194,6 @@ void init_game(GameContainer& g)
 	 cout << "You can't play with yourself!!!! Enter more players." << endl;
    }
    
-   /// \todo add check to see if they have enough players entered
-
    cout << "Enter territory names, 1 per line: (push Ctrl+d when done)"<<endl;
    while(territories.size() < (players.size()*3) )
    {
@@ -240,6 +221,7 @@ void init_game(GameContainer& g)
       setup_marshal(g,INIT_TERRITORIES,(*it) );
 }
 
+/// \param namelist -- list of strings to be set as the names of the players
 void get_names(vector<Game::PlayerName>& namelist)
 {
    string name;
@@ -257,6 +239,7 @@ void get_names(vector<Game::PlayerName>& namelist)
    cin.clear();
 }
 
+/// \param coms -- the ComHelp passed by reference to permit access to required help screen information
 void show_help(const ComHelp& coms) 
 {
    cout << "--------------------:Help Screen:--------------------" <<endl;
@@ -268,6 +251,7 @@ void show_help(const ComHelp& coms)
    cout << endl;
 }
 
+/// @copydoc init_help
 void player_order(const GameContainer& g) 
 {
    cout << "The players' turn order is: " <<endl;
@@ -279,6 +263,8 @@ void player_order(const GameContainer& g)
    cout << endl;
 }
 
+/// @copydoc init_help
+/// \return whether the Game continues
 bool play_game(GameContainer& g)
 {
    //perform manditory phase setups & checks
@@ -340,6 +326,7 @@ bool play_game(GameContainer& g)
    return true;
 }
 
+/// @copydoc init_help
 void show_territories(const GameContainer& g)
 {
    // create 
@@ -385,6 +372,7 @@ void show_territories(const GameContainer& g)
    //delete op;
 }
 
+/// @copydoc init_help
 void play_phase(GameContainer& g)
 {
    //check phase
@@ -417,6 +405,7 @@ void play_phase(GameContainer& g)
    
 }
 
+/// @copydoc init_help
 void next_phase(GameContainer& g)
 {
    cout << endl << "next phase" << endl;
@@ -444,6 +433,7 @@ void next_phase(GameContainer& g)
    }
 }
 
+/// @copydoc init_help
 void player_quits(GameContainer& g)
 {
    Player * sysp = g.game.systemPlayers()[0];
@@ -455,6 +445,7 @@ void player_quits(GameContainer& g)
       (*it)->owner(sysp);
 }
 
+/// @copydoc init_help
 void manditory_phase_setup(GameContainer& g)
 {
    //check phase
@@ -493,6 +484,9 @@ void manditory_phase_setup(GameContainer& g)
    }
 }
 
+/// @copydoc init_help
+/// \param n -- the number of territories assigned to each Player at the beginning of each turn
+/// \param p -- the Player whose turn it is
 void setup_marshal(GameContainer& g, int n, Player * p)
 {
    //cout << "Setting up the "<<phase::MARSHAL<< " phase:"<<endl;
@@ -533,6 +527,7 @@ void setup_marshal(GameContainer& g, int n, Player * p)
    //g.currentTurn->name();
 }
 
+/// @copydoc init_help
 void do_marshal(GameContainer& g)
 {
    
@@ -549,6 +544,7 @@ void do_marshal(GameContainer& g)
    }
 }
 
+/// @copydoc init_help
 void do_attack(GameContainer& g)
 {
 
@@ -576,6 +572,7 @@ void do_attack(GameContainer& g)
    }
 }
 
+/// @copydoc init_help
 void do_redeploy(GameContainer& g)
 {
    
@@ -602,6 +599,8 @@ void do_redeploy(GameContainer& g)
    }
 }
 
+/// @copydoc init_help
+/// \param cPhase -- the name of the current Phase
 void display_actions(GameContainer& g, string cPhase)
 {
    //display actions:
@@ -640,6 +639,8 @@ void display_actions(GameContainer& g, string cPhase)
    cout << "------------------:End Action Screen:------------------"<<endl;
 }
 
+/// @copydoc init_help
+/// \param t - the Territory for which to show adjacencies
 void show_adjacencies(const GameContainer& g, const Territory * t )
 {
    GameMap * gm = g.game.currentGame();
@@ -652,6 +653,10 @@ void show_adjacencies(const GameContainer& g, const Territory * t )
    
 }
 
+/// \param check -- the current Phase name
+/// \param p -- the Player which is compared to the owner of t
+/// \param t -- the Territory whose owner is compared to p
+/// \return whether the comparison passed
 bool check_owner(string check, Player * p , Territory * t)
 {
    //Phase* currPhase = p->remainingPhases()[0]; //get the current phase
@@ -675,6 +680,11 @@ bool check_owner(string check, Player * p , Territory * t)
    return false;
 }
 
+/// @copydoc init_help
+/// \param message -- the output displayed to request the name of a Territory
+/// \param acts -- the container of actions to display after applying the filter
+/// \param check -- comparison string to be passed to the check_owner function
+/// \return the Territory to either execute or receive an Action
 Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer & acts, string check)
 {
     Player * p = g.currentTurn;
@@ -717,6 +727,8 @@ Territory* ask_territory(GameContainer& g, string message, Unit::actionContainer
    return *lit;
 }
 
+/// @copydoc init_help
+/// \param message -- the string passed to the ask_territory function
 void choose_actions(GameContainer& g, string message)
 {
 
@@ -729,6 +741,10 @@ void choose_actions(GameContainer& g, string message)
    
 }
 
+/// @copydoc init_help
+/// \param from -- the Territory from which to find 'to' as an adjacent Territory
+/// \param to -- the Territory for which to be found as an adjacent Territory ofthe from Territory
+/// \return whether 'to' is adjacent to from
 bool is_adjacent(GameContainer& g, Territory * from, Territory * to)
 {
    GameMap * gMap = g.game.currentGame();
@@ -738,6 +754,9 @@ bool is_adjacent(GameContainer& g, Territory * from, Territory * to)
    return (it != adjs.end() );
 }
 
+/// @copydoc init_help
+/// \param acts -- the container consisting of one Action to be executed
+/// \param from -- the Territory that is performing the Action
 void do_action(GameContainer& g, Unit::actionContainer & acts, Territory * from)
 {
    Unit::actionContainer::iterator it = acts.begin();
