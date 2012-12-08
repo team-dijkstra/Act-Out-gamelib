@@ -14,6 +14,7 @@ BINDIR := bin
 DOCDIR := doc
 MSDIR := .msdir
 LOGDIR := log
+DIRECTORIES := $(OBJDIR) $(BINDIR) $(DOCDIR) $(MSDIR) $(LOGDIR)
 # defines what <error> severity attibutes will trigger a build error.
 CPPCHECK_SEVERITY_ERR := error warning style
 
@@ -101,6 +102,9 @@ endef
 
 # automagically install git-hooks.
 $(call create-links,hooks,.git/hooks)
+
+# automatically create required build directories
+$(foreach d,$(filter-out $(wildcard $(DIRECTORIES)),$(DIRECTORIES)),$(shell mkdir $d))
 
 # the library path searched by the compiler
 cclibpath := $(patsubst =%,%,$(word 6,$(shell $(CXX) -print-search-dirs)))
